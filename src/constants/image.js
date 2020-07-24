@@ -14,5 +14,10 @@ const IMAGE = {
     ICON_TAG_FRIEND: require('../images/person.png'),
     ICON_HAPPY_IMOGI: require('../images/emoji.png'),
     ICON_SAVE_POST: require('../images/correct.png'),
+    ICON_BELL_WHITE: require('../images/bell.png'),
+    ICON_BELL_BLACK: require('../images/bell_black.png'),
+    ICON_USER_BLACK: require('../images/usr_black.png'),
+    ICON_USER_WHITE: require('../images/user_white.png'),
+    ICON_PROFILE: require('../images/profile.png'),
 }
 export { IMAGE }

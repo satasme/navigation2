@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 
 import ImagePicker from 'react-native-image-picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const options = {
     title: 'Select Avatar',
@@ -37,6 +38,8 @@ export class NewPost extends Component {
         this.state = {
             TextInputPost: '',
             imageSource: null,
+
+            memberName: '',
         }
 
     }
@@ -51,7 +54,7 @@ export class NewPost extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                member_name: "Test user",
+                member_name: this.state.memberName,
                 title: TextInputPost,
 
             })
@@ -86,7 +89,17 @@ export class NewPost extends Component {
             }
         });
     };
+    componentDidMount() {
+        AsyncStorage.getItem('memberNames').then((mamberN) => {
+            if (mamberN) {
+                this.setState({ memberName: mamberN });
+                console.log(this.state.memberName);
+            }
+        });
+    }
+
     render() {
+
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -101,7 +114,8 @@ export class NewPost extends Component {
                     </View>
 
                     <View style={{ flex: 2, justifyContent: 'center', paddingTop: 10, paddingEnd: 10 }}>
-                        <Text style={{ fontWeight: "bold" }}>Chamil Pathirana</Text>
+
+                        <Text style={{ fontWeight: "bold" }}>{this.state.memberName}</Text>
 
                         {/* underlineColorAndroid='transparent' */}
                     </View>
@@ -112,9 +126,9 @@ export class NewPost extends Component {
                         placeholder="What's Your mind" style={styles.TextInputStyleClass} onPress={() => this.props.navigation.navigate('NewPost')}>
                         <Text style={{ padding: 8, paddingStart: 20, color: 'grey', fontSize: 25 }}> </Text>
                     </TextInput>
-                    <Image
+                    {/* <Image
                         source={this.state.imageSource!=null?this.state.imageSource:require('../images/back.png')}
-                    />
+                    /> */}
                     <TouchableOpacity style={{ flexDirection: 'row', height: 50, paddingBottom: 10, borderColor: '#cccccc', borderWidth: 0.5 }} onPress={this.selectPhoto.bind(this)} >
                         <View style={{ height: 50, paddingTop: 10, paddingLeft: 12, paddingEnd: 12 }}>
                             <Image source={IMAGE.ICON_CAMERA}
@@ -163,7 +177,7 @@ export class NewPost extends Component {
                     >
 
                         <Text >
-                            Sign infsdfsdf
+                            POST
   </Text>
 
                     </TouchableOpacity>

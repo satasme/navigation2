@@ -4,6 +4,7 @@ import { Dropdown } from 'react-native-material-dropdown-v2';
 import LinearGradient from 'react-native-linear-gradient';
 import { TextInput } from 'react-native-paper';
 import *as Animatable from 'react-native-animatable';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 import { CustomHeader } from '../index';
@@ -107,6 +108,7 @@ export class RegisterScreen extends Component {
       })
     }).then((response) => response.json())
       .then((responseJson) => {
+        AsyncStorage.setItem('memberNames', TextInputName);
         Alert.alert(responseJson);
         this.props.navigation.navigate('HomeApp');
         Alert.alert(this.state.PickerValueHolder);
@@ -191,7 +193,7 @@ export class RegisterScreen extends Component {
               <TextInput onChangeText={TextInputValue => this.setState({ TextInputName: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 0 }} label="User Name" />
               <TextInput onChangeText={TextInputValue => this.setState({ TextInputEmail: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 10 }} label="Email address" />
               <TextInput onChangeText={TextInputValue => this.setState({ TextInputPhoneNumber: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 10 }} label="Mobil number" />
-              <TextInput onChangeText={TextInputValue => this.setState({ TextInputpassword: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 10, }} label="Password" />
+              <TextInput secureTextEntry={true} onChangeText={TextInputValue => this.setState({ TextInputpassword: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 10, }} label="Password" />
               <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('HomeApp')} onPress={this.InputUsers}>
                 {/* <View style={{
                 backgroundColor: '#ff9100', alignItems: 'center',

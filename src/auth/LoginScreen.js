@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, Image, View, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, ScrollView, Image, View, SafeAreaView, TouchableOpacity, StyleSheet,TouchableHighlight } from 'react-native';
 import { IMAGE } from '../constants/image';
 import LinearGradient from 'react-native-linear-gradient';
+
+import { Button } from 'react-native-elements';
 
 
 export class LoginScreen extends Component {
@@ -19,7 +21,7 @@ export class LoginScreen extends Component {
             </Text>
             <Text style={{fontSize:14}}>Enjoy the experience</Text>
          
-            <Image style={{ width: 210, height: 320, marginLeft: 0 }}
+            <Image style={{ width: 210, height: 310, marginLeft: 0 }}
               source={IMAGE.ICON_LOGIN}
               resizeMode="contain"
 
@@ -32,7 +34,7 @@ export class LoginScreen extends Component {
               <Text>Login</Text>
             </TouchableOpacity> */}
 
-            <TouchableOpacity style={{ marginTop: 20 }}
+            <TouchableOpacity style={{ marginTop: 0 }}
               onPress={() => this.props.navigation.navigate('Login2')}
 
             >
@@ -48,10 +50,23 @@ export class LoginScreen extends Component {
   </Text>
               </LinearGradient>
             </TouchableOpacity>
+            <Text style={{marginTop:10}}>Don't have account? <Text   style={{color:'#ff9100'}}>create new Account</Text> </Text>
+            <Button
+              title="Sign Up"
+              type="outline"
+              buttonStyle={styles.submitText,{borderRadius:5,borderColor:'#f78a2c',marginTop:10,color:'#ccc',width: 280,borderWidth: 1,}}
+              onPress={() => this.props.navigation.navigate('Register')}
+              
+            />
+            {/* <TouchableHighlight
+                style={styles.submit}
+                // onPress={() => this.submitSuggestion(this.props)}
+                underlayColor='#fff'>
+                  <Text style={styles.submitText}>Submit</Text>
+              </TouchableHighlight>
+             */}
 
-            
-
-            <Text style={{marginTop:20}}>Don't have account? <Text  onPress={() => this.props.navigation.navigate('Register')} style={{color:'#ff9100'}}>create new Account</Text> </Text>
+           
 
             {/* <TouchableOpacity style={{ marginTop: 20 }}
               onPress={() => this.props.navigation.navigate('Register')}
@@ -98,5 +113,19 @@ const styles = StyleSheet.create({
     margin: 1,
     backgroundColor: "white",
     borderRadius: 5
-  },
+  },submit:{
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
+},
+submitText:{
+    paddingTop:20,
+    paddingBottom:20,
+    color:'#fff',
+    textAlign:'center',
+    backgroundColor:'#fff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc'
+},
 });

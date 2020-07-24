@@ -12,6 +12,7 @@ export class HomeScreen extends Component {
     return (
    
       <SafeAreaView style={{ flex: 1 }}>
+        
         <CustomHeader bgcolor='white' title="Home" isHome={true} navigation={this.props.navigation}   bdcolor='#f2f2f2'/>
 
        

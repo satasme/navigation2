@@ -103,6 +103,8 @@ export class CreatePost extends Component {
             <View>
                 <Text>asdasdas{item.id}</Text>
                 <Text>{item.title}</Text>
+                <Text>{item.post_image}</Text>
+                <Text>{item.member_name}</Text>
             </View>
         </View>
 
@@ -153,8 +155,9 @@ export class CreatePost extends Component {
                     </View>
                     <Text >{item.title}</Text>
                     <Text >{item.id}</Text>
+                    {/* <Text>{item.post_image}</Text> */}
                     <CardImage style={styles.itemImage}
-                        source={{ uri: item.url }}
+                        source={{ uri: item.post_image }}
                     />
                     {/* <Image source={{uri:item.url}} style={styles.itemImage}/> */}
 

@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { CustomHeader, CustomDrawerContent } from './src';
-import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail,CreatePost,NewPost } from './src/tab';
+import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile } from './src/tab';
 import { NotificationsScreen } from './src/drawer';
 import { RegisterScreen, LoginScreen, Login2Screen } from './src/auth';
 import { FlatList } from 'react-native-gesture-handler';
@@ -50,7 +50,7 @@ function HomeScreen4() {
 
         <Text>Home!xx</Text>
         <TouchableOpacity style={{ marginTop: 20 }}
-          onPress={() =>this.props.navigation.navigate('SettingsScreen')}
+          onPress={() => this.props.navigation.navigate('SettingsScreen')}
         >
           <Text>Go Home Details</Text>
         </TouchableOpacity>
@@ -138,12 +138,12 @@ function TabNavigator() {
         component={CreatePost}
 
 
-        options={navOptionHandler,{
+        options={navOptionHandler, {
           tabBarLabel: ({ focused, color, size }) => {
 
             iconName = focused
-              ? IMAGE.ICON_HOME
-              : IMAGE.ICON_HOME_BLACK;
+              ? IMAGE.ICON_HOME_BLACK
+              : IMAGE.ICON_HOME;
 
             return <Image source={iconName} style={{ width: 20, height: 20 }} resizeMode="contain" />;
           }
@@ -156,14 +156,48 @@ function TabNavigator() {
           tabBarLabel: ({ focused, color, size }) => {
 
             iconName = focused
-              ? IMAGE.ICON_SETTING
-              : IMAGE.ICON_SETTING_BLACK;
+              ? IMAGE.ICON_SETTING_BLACK
+              : IMAGE.ICON_SETTING;
 
             return <Image source={iconName} style={{ width: 20, height: 20 }} resizeMode="contain" />;
           }
         }}
 
       />
+
+      <Tab.Screen
+        name="Notification"
+        component={NotificationScreen}
+
+
+        options={navOptionHandler, {
+          tabBarLabel: ({ focused, color, size }) => {
+
+            iconName = focused
+              ? IMAGE.ICON_BELL_BLACK
+              : IMAGE.ICON_BELL_WHITE;
+
+            return <Image source={iconName} style={{ width: 20, height: 20 }} resizeMode="contain" />;
+          }
+        }}
+      />
+      <Tab.Screen
+        name="member"
+        component={MemberProfile}
+        options={{
+          tabBarLabel: ({ focused, color, size }) => {
+
+            iconName = focused
+              ? IMAGE.ICON_USER_BLACK
+              : IMAGE.ICON_USER_WHITE;
+
+            return <Image source={iconName} style={{ width: 20, height: 20 }} resizeMode="contain" />;
+          }
+        }}
+
+      />
+
+
     </Tab.Navigator>
     // {/* // </NavigationContainer> */}
   )
@@ -224,6 +258,7 @@ export default function App() {
         <StackApp.Screen name="Login2" component={Login2Screen} options={navOptionHandler} />
         <StackApp.Screen name="Register" component={RegisterScreen} options={navOptionHandler} />
         <StackApp.Screen name="NewPost" component={NewPost} options={navOptionHandler} />
+        {/* <StackApp.Screen name="NotificationScreen" component={NotificationScreen} options={navOptionHandler} /> */}
       </StackApp.Navigator>
     </NavigationContainer>
   );

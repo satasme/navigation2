@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, SafeAreaView, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
+import { Text, StatusBar,View, Image, SafeAreaView, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
 import { CustomHeader } from '../index';
 import { IMAGE } from '../constants/image';
 import LinearGradient from 'react-native-linear-gradient';
@@ -110,6 +110,7 @@ export class Login2Screen extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
+                   <StatusBar barStyle = "dark-content" hidden = {false} backgroundColor = "#fff" />
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     style={styles.scrollView}>
@@ -127,8 +128,8 @@ export class Login2Screen extends Component {
                             />
                         </View>
                         <Animatable.View animation="fadeInUp">
-                            <TextInput onChangeText={TextInputValue => this.setState({ TextInputName: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 0 }} label="Email" />
-                            <TextInput onChangeText={TextInputValue => this.setState({ TextInputpassword: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 15 }} label="Password" />
+                            <TextInput onChangeText={TextInputValue => this.setState({ TextInputName: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 0 }} label="Username" />
+                            <TextInput secureTextEntry={true}  onChangeText={TextInputValue => this.setState({ TextInputpassword: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 15 }} label="Password" />
 
                             <TouchableOpacity style={{ marginTop: 60 }} onPress={this.InputUsers}>
 
@@ -146,13 +147,13 @@ export class Login2Screen extends Component {
                             </TouchableOpacity>
 
                         </Animatable.View>
-                        <Text>Login2!</Text>
+                        {/* <Text>Login2!</Text>
                         <TouchableOpacity style={{ marginTop: 20 }}
                             onPress={() => this.props.navigation.navigate('HomeApp')}
 
                         >
                             <Text>Home</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
 
 
