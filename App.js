@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { CustomHeader, CustomDrawerContent } from './src';
-import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile } from './src/tab';
+import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen } from './src/tab';
 import { NotificationsScreen } from './src/drawer';
 import { RegisterScreen, LoginScreen, Login2Screen } from './src/auth';
 import { FlatList } from 'react-native-gesture-handler';
@@ -190,6 +190,21 @@ function TabNavigator() {
             iconName = focused
               ? IMAGE.ICON_USER_BLACK
               : IMAGE.ICON_USER_WHITE;
+
+            return <Image source={iconName} style={{ width: 20, height: 20 }} resizeMode="contain" />;
+          }
+        }}
+
+      />
+       <Tab.Screen
+        name="menu"
+        component={MenuScreen}
+        options={{
+          tabBarLabel: ({ focused, color, size }) => {
+
+            iconName = focused
+              ? IMAGE.ICON_MENU_ORRANGE
+              : IMAGE.ICON_MENU;
 
             return <Image source={iconName} style={{ width: 20, height: 20 }} resizeMode="contain" />;
           }

@@ -19,5 +19,14 @@ const IMAGE = {
     ICON_USER_BLACK: require('../images/usr_black.png'),
     ICON_USER_WHITE: require('../images/user_white.png'),
     ICON_PROFILE: require('../images/profile.png'),
+    ICON_MENU_BLACK: require('../images/menu.png'),
+    ICON_MENU_ORRANGE: require('../images/menu_or.png'),
+    ICON_MENU_PERIOD: require('../images/grace-period.png'),
+    ICON_MENU_PERIOD1: require('../images/calendar.png'),
+    ICON_MENU_METER: require('../images/speed.png'),
+    ICON_MENU_METER1: require('../images/speed1.png'),
+    ICON_MENU_METER2: require('../images/performance.png'),
+    
 }
+
 export { IMAGE }

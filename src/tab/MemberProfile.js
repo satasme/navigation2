@@ -34,7 +34,9 @@ export class MemberProfile extends Component {
       TextInputAddress: '',
       memberNames: '',
       imageSource: null,
-      dataa: null
+      dataa: null,
+      abc:null,
+    
     }
   }
 
@@ -87,6 +89,7 @@ export class MemberProfile extends Component {
         member_mobilenumber = "";
         member_password = "";
         member_address = "";
+        abc = "";
 
         for (var i = 0; i < responseJson.length; i++) {
 
@@ -97,8 +100,12 @@ export class MemberProfile extends Component {
           member_password = responseJson[i].member_password
 
           member_address = responseJson[i].member_address
+          // member_image = responseJson[i].member_image
+
+          abc =  responseJson[i].member_image;
 
         }
+        console.log('source eke value eka vvvvvvvvvvvvvvvvvvvvvv  : '+abc);
         this.setState({
           dataSource: responseJson,
           TextInputID: id,
@@ -107,7 +114,12 @@ export class MemberProfile extends Component {
           TextInputPhoneNumber: member_mobilenumber,
           TextInputpassword: member_password,
           TextInputAddress: member_address,
+          abc: abc,
+         
+          // imageSource: source,
+       
         }, function () { })
+       
       }).catch((error) => {
         console.error(error)
       })
@@ -124,6 +136,8 @@ export class MemberProfile extends Component {
         const source = { uri: response.uri };
         const imdata = response.data;
 
+        
+
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
@@ -132,7 +146,7 @@ export class MemberProfile extends Component {
           dataa: imdata
 
         });
-        // console.log('image source  = ', this.state.dataa);
+        console.log('image source  = ', this.state.abc);
 
         // uploadPhoto();
       }
@@ -185,10 +199,12 @@ export class MemberProfile extends Component {
                   size={70}
                 /> */}
               <Avatar
+              
                 rounded
                 showEditButton
                 size={130}
-                source={this.state.imageSource != null ? this.state.imageSource : require('../images/bell.png')}
+               
+                source={this.state.imageSource != null ? this.state.imageSource : require('../images/person.png')}
 
                 // https://cdn.pixabay.com/photo/2018/10/30/16/06/water-lily-3784022__340.jpg
                 // title='Grace'
