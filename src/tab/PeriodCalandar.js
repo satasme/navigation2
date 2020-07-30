@@ -10,6 +10,8 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { TextInput } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 
+import Database from '../Database';
+
 
 
 const _format = 'YYYY-MM-DD'
@@ -20,6 +22,8 @@ const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
 const massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
 const workout = { key: 'workout', color: 'green' };
 
+
+const db = new Database();
 export class PeriodCalandar extends Component {
 
 
@@ -33,9 +37,61 @@ export class PeriodCalandar extends Component {
         this.state = {
             _markedDates: this.initialState,
 
-            abc: '',
+            // abc: '',
+
+
+            pId: '',
+            pName: '',
+            isLoading: false,
         }
     }
+    componentDidMount() {
+        db.loadDB();
+    }
+    savePeriod() {
+        this.setState({
+            isLoading: true,
+        });
+        let data = {
+            pId: this.state.pId,
+            pName: this.state.pName,
+        }
+        db.adderiod(data).then((result) => {
+            console.log(result);
+            this.setState({
+                isLoading: false,
+            });
+            //   this.props.navigation.state.params.onNavigateBack;
+            //   this.props.navigation.goBack();
+        }).catch((err) => {
+            console.log(err);
+            this.setState({
+                isLoading: false,
+            });
+        })
+    }
+    updateTextInput = (text, field) => {
+        const state = this.state
+        state[field] = text;
+        this.setState(state);
+    }
+    geteriods() {
+        // console.log("lllllllllllllllllllllllllllllllll...");
+        let products = [];
+        db.listProduct().then((data) => {
+          products = data;
+          console.log("period tttttrrrrrrrrrrrrrrrrrrrrrrrrrrrr :  "+data);
+          this.setState({
+            products,
+            isLoading: false,
+          });
+        }).catch((err) => {
+          console.log(err);
+          this.setState = {
+            isLoading: false
+          }
+        })
+      }
 
     onDaySelect = (day) => {
         this.RBSheet.open();
@@ -59,7 +115,7 @@ export class PeriodCalandar extends Component {
         // Triggers component to render again, picking up the new state
         this.setState({
             _markedDates: updatedMarkedDates,
-            abc: _selectedDay
+            pName: _selectedDay
         });
 
     }
@@ -69,7 +125,7 @@ export class PeriodCalandar extends Component {
 
     renderHeader = () => { }
     render() {
-        console.log("set sate eke value eka  : " + this.state.abc);
+        console.log("set sate eke value eka  : " + this.state.pName);
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#fce4ec' }}>
                 <CustomHeader bgcolor='white' title="Home detail" navigation={this.props.navigation} bdcolor='#f2f2f2' />
@@ -97,6 +153,14 @@ export class PeriodCalandar extends Component {
                         <Text style={{ color: 'grey' }}>Period</Text>
                         <Text style={{ fontSize: 40, }}>3 Days left</Text>
                         <Text style={{ color: 'grey' }}>Ovulation 12 days left</Text>
+
+
+                        <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('TestScreeen')} >
+                            <Text>dsdsdsd</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('ProductScreen2')} >
+                            <Text>View</Text>
+                        </TouchableOpacity>
                     </View>
 
 
@@ -119,18 +183,29 @@ export class PeriodCalandar extends Component {
                         <View style={{ flex: 1 }}>
 
                             <Text >  </Text>
-                            <TouchableOpacity onPress={() => alert('Hello, world!')} style={styles.button}>
+                            {/* onPress={() => alert('Hello, world!')} */}
+                            <TouchableOpacity     onPress={() => this.savePeriod()}  style={styles.button}>
                                 <Text style={styles.buttonText}>Pick a photo</Text>
+
+
                             </TouchableOpacity>
-                           
+                            <TouchableOpacity     onPress={() => this.geteriods()}  style={styles.button}>
+                                <Text style={styles.buttonText}>Pick a photo</Text>
+
+
+                            </TouchableOpacity>
+                            
 
                             {/* <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 24 }}>
 
 
                             </View> */}
 
+                            <TextInput value={this.state.pId} onChangeText={(text) => this.updateTextInput(text, 'pId')} style={{ height: 50, width: 250 }} />
 
-                            <TextInput value={this.state.abc} style={{ height: 50, width: 250 }} />
+                            <TextInput value={this.state.pName} onChangeText={(text) => this.updateTextInput(text, 'pName')} style={{ height: 50, width: 250 }} />
+
+
                         </View>
                     </RBSheet>
                 </View>
