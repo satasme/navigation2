@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Dimensions,Image } from 'react-native';
+import { Text, ScrollView, View, SafeAreaView, StyleSheet, TouchableOpacity, Alert, Dimensions, Image } from 'react-native';
 import { Avatar, Caption, Title, Paragraph } from 'react-native-paper';
 import { FlatList } from 'react-native-gesture-handler';
 import { List, ListItem, Left, Body, Right } from 'native-base';
@@ -13,7 +13,16 @@ import { CardViewWithIcon } from "react-native-simple-card-view";
 
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import { IMAGE } from '../constants/image';
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import moment from 'moment' // 2.20.1
 
+
+
+
+
+const _format = 'YYYY-MM-DD'
+const _today = moment().format(_format)
+const _maxDate = moment().add(31, 'days').format(_format)
 
 const styles = StyleSheet.create({
     overview: {
@@ -38,7 +47,8 @@ const styles = StyleSheet.create({
     // }
     card: {
         height: 120,
-        width: "50%",
+        width: (Dimensions.get("window").width / 2) - 20,
+        // width: "50%",
         backgroundColor: "white",
         borderRadius: 15,
         padding: 10,
@@ -48,6 +58,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 5,
         alignItems: 'center',
+
 
         margin: 5
     }, scrollContainer: {
@@ -62,11 +73,50 @@ const styles = StyleSheet.create({
     }
 });
 
+
+const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
+const massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
+const workout = { key: 'workout', color: 'green' };
 export class MenuScreen extends Component {
+
+    initialState = {
+        [_today]: { disabled: false }
+    }
+
+    constructor() {
+        super();
+
+        this.state = {
+            _markedDates: this.initialState
+        }
+    }
+
+    onDaySelect = (day) => {
+
+        const _selectedDay = moment(day.dateString).format(_format);
+        console.log("ssssssssssssssssss : " + _selectedDay);
+
+        let marked = true;
+        let markedDates = {}
+        if (this.state._markedDates[_selectedDay]) {
+            // Already in marked dates, so reverse current marked state
+            marked = !this.state._markedDates[_selectedDay].marked;
+            markedDates = this.state._markedDates[_selectedDay];
+        }
+
+        markedDates = { ...markedDates, ...{ marked } };
+
+        // Create a new object using object property spread since it should be immutable
+        // Reading: https://davidwalsh.name/merge-objects
+        const updatedMarkedDates = { ...this.state._markedDates, ...{ [_selectedDay]: markedDates } }
+
+        // Triggers component to render again, picking up the new state
+        this.setState({ _markedDates: updatedMarkedDates });
+    }
 
     render() {
         const miniCardStyle = {
-            shadowColor: '#000000', shadowOffsetWidth: 2, shadowOffsetHeight: 2, shadowOpacity: 0.1, hadowRadius: 5, bgColor: '#ffffff', padding: 5, margin: 5, borderRadius: 3, elevation: 3, width: (Dimensions.get("window").width / 2) - 10
+            padding: 5, margin: 5, elevation: 3,
         };
         return (
 
@@ -76,37 +126,55 @@ export class MenuScreen extends Component {
                         <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Menu</Text>
 
                         <View style={styles.container}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
+                                <Card style={styles.card} >
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_MENU_PERIOD1}
+                                                style={{ height: 55, width: 55 }}
+                                            >
+                                            </Image>
+                                        </View>
 
-                            <Card style={styles.card}>
-                                <View style={{ alignItems: "center"}}>
-                                    <View style={{ height: 70, padding: 10 }}>
-                                        <Image source={IMAGE.ICON_MENU_PERIOD1}
-                                            style={{ height: 55, width: 55}}
-                                        >
-                                        </Image>
+                                        <Text style={{ marginTop: 5 }}>Calandar</Text>
+
                                     </View>
-                                   
-                                    <Text style={{marginTop:5}}>Calandar</Text>
-                                </View>
-                            </Card>
-                            <Card style={styles.card}>
+
+                                </Card>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
+                                <Card style={styles.card} >
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_MENU_METER}
+                                                style={{ height: 55, width: 55 }}
+                                            >
+                                            </Image>
+                                        </View>
+                                        <Text style={{ marginTop: 5 }}>Period Meter</Text>
+
+                                    </View>
+
+                                </Card>
+                            </TouchableOpacity>
+                            {/* <Card style={styles.card}>
                                 <View >
-                                <View style={{ height: 70, padding: 10 }}>
+                                    <View style={{ height: 70, padding: 10 }}>
                                         <Image source={IMAGE.ICON_MENU_METER}
-                                            style={{ height: 55, width: 55}}
+                                            style={{ height: 55, width: 55 }}
                                         >
                                         </Image>
                                     </View>
-                                    <Text style={{marginTop:5}}>Period Meter</Text>
+                                    <Text style={{ marginTop: 5 }}>Period Meter</Text>
                                 </View>
-                            </Card>
+                            </Card> */}
 
                         </View>
                         <View style={styles.container}>
 
                             <Card style={styles.card}>
                                 <View >
-                                <View style={{ height: 70, padding: 10 }}>
+                                    <View style={{ height: 70, padding: 10 }}>
                                         {/* <Image source={IMAGE.ICON_MENU_METER}
                                             style={{ height: 55, width: 55}}
                                         >
@@ -117,7 +185,7 @@ export class MenuScreen extends Component {
                             </Card>
                             <Card style={styles.card}>
                                 <View >
-                                <View style={{ height: 70, padding: 10 }}>
+                                    <View style={{ height: 70, padding: 10 }}>
                                         {/* <Image source={IMAGE.ICON_MENU_METER1}
                                             style={{ height: 55, width: 55}}
                                         >
@@ -172,10 +240,31 @@ export class MenuScreen extends Component {
 
 
                     </View>
+
+
+                    <View style={{ flex: 1 }}>
+                        <Calendar
+                            theme={{
+                                dotColor: 'pink',
+                            }}
+
+                            // we use moment.js to give the minimum and maximum dates.
+                            minDate={_today}
+                            // maxDate={_maxDate}
+
+                            // hideArrows={true}
+
+                            onDayPress={this.onDaySelect}
+                            markedDates={this.state._markedDates}
+                        />
+                       
+                    </View>
                 </ScrollView>
 
 
             </SafeAreaView>
+
+
         );
     }
 }

@@ -128,8 +128,8 @@ export class Login2Screen extends Component {
                             />
                         </View>
                         <Animatable.View animation="fadeInUp">
-                            <TextInput onChangeText={TextInputValue => this.setState({ TextInputName: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 0 }} label="Username" />
-                            <TextInput secureTextEntry={true}  onChangeText={TextInputValue => this.setState({ TextInputpassword: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 15 }} label="Password" />
+                            <TextInput  onChangeText={TextInputValue => this.setState({ TextInputName: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 0 }} label="Username" />
+                            <TextInput  secureTextEntry={true}  onChangeText={TextInputValue => this.setState({ TextInputpassword: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 15 }} label="Password" />
 
                             <TouchableOpacity style={{ marginTop: 60 }} onPress={this.InputUsers}>
 

@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { CustomHeader, CustomDrawerContent } from './src';
-import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen } from './src/tab';
+import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar } from './src/tab';
 import { NotificationsScreen } from './src/drawer';
 import { RegisterScreen, LoginScreen, Login2Screen } from './src/auth';
 import { FlatList } from 'react-native-gesture-handler';
@@ -273,7 +273,7 @@ export default function App() {
         <StackApp.Screen name="Login2" component={Login2Screen} options={navOptionHandler} />
         <StackApp.Screen name="Register" component={RegisterScreen} options={navOptionHandler} />
         <StackApp.Screen name="NewPost" component={NewPost} options={navOptionHandler} />
-        {/* <StackApp.Screen name="NotificationScreen" component={NotificationScreen} options={navOptionHandler} /> */}
+        <StackApp.Screen name="PeriodCalandar" component={PeriodCalandar} options={navOptionHandler} />
       </StackApp.Navigator>
     </NavigationContainer>
   );
