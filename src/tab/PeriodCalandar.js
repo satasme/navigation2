@@ -43,14 +43,17 @@ export class PeriodCalandar extends Component {
             // abc: '',
 
 
-            pId: '',
+            // pId: '',
             pName: '',
             isLoading: false,
+            ovulation_date: '',
+            next_period_date:'',
         }
     }
     componentDidMount() {
         db.loadDB();
-
+        let _ovfdate = "";
+        let _next_p_date="";
         let selected = true;
         let markedDates = {}
 
@@ -64,7 +67,8 @@ export class PeriodCalandar extends Component {
                     markedDates = this.state._markedDates[_pdate];
                 }
                 if (_pdate.substring(0, 7) == _today.substring(0, 7)) {
-
+                    _ovfdate = moment(_pdate).add(14, 'day').format('YYYY-MM-DD');
+                    _next_p_date= moment(_pdate).add(28, 'day').format('YYYY-MM-DD');
                 }
 
                 markedDates = { ...markedDates, ...{ selected }, selectedColor: "red" };
@@ -74,32 +78,39 @@ export class PeriodCalandar extends Component {
                     isLoading: false,
 
                     _markedDates: updatedMarkedDates,
-                    pName: _pdate
+                    pName: _pdate,
+                    ovulation_date: _ovfdate,
+                    next_period_date: _next_p_date,
                 });
             }
+            markedDates = { ...markedDates, ...{ selected }, selectedColor: "green" };
+            updatedMarkedDates = { ...this.state._markedDates, ...{ [this.state.ovulation_date]: markedDates } }
+
+            markedDates = { ...markedDates, ...{ selected }, selectedColor: "pink" };
+            updatedMarkedDates2 = { ...this.state._markedDates, ...{ [this.state.next_period_date]: markedDates } }
+            this.setState({
+                _markedDates: updatedMarkedDates,
+                _markedDates: updatedMarkedDates2,
+                
+            });
+            console.log(">>>>>>>>>>>>>>>>>>>>> : "+this.state.ovulation_date);
+            console.log("<<<<<<<<<<<<<<<<<<<<< : "+this.state.next_period_date);
         }).catch((err) => {
             console.log(err);
             this.setState = {
                 isLoading: false
             }
         })
-        const difdate = "2020-08-22";
-
-        markedDates = { ...markedDates, ...{ selected }, selectedColor: "green" };
-        updatedMarkedDates = { ...this.state._markedDates, ...{ [difdate]: markedDates } }
-      
-        this.setState({
-            _markedDates: updatedMarkedDates,
-        });
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>> ?>>>.s : " + difdate);
-
     }
     savePeriod() {
+        this.RBSheet.close();
         this.setState({
             isLoading: true,
+
+          
         });
         let data = {
-            pId: this.state.pId,
+            // pId: this.state.pId,
             pName: this.state.pName,
         }
         db.adderiod(data).then((result) => {
@@ -238,19 +249,18 @@ export class PeriodCalandar extends Component {
 
                         >
                             <View style={{ flex: 1 }}>
-
-                                <Text >  </Text>
+                                {/* <TextInput value={this.state.pName} onChangeText={(text) => this.updateTextInput(text, 'pName')} style={{ height: 50, width: 250 }} /> */}
                                 {/* onPress={() => alert('Hello, world!')} */}
                                 <TouchableOpacity onPress={() => this.savePeriod()} style={styles.button}>
-                                    <Text style={styles.buttonText}>Pick a photo</Text>
+                                    <Text style={styles.buttonText}>Period Start ?</Text>
 
 
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => this.geteriods()} style={styles.button}>
+                                {/* <TouchableOpacity onPress={() => this.geteriods()} style={styles.button}>
                                     <Text style={styles.buttonText}>view period</Text>
 
 
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
 
                                 {/* <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 24 }}>
@@ -258,9 +268,9 @@ export class PeriodCalandar extends Component {
 
                             </View> */}
 
-                                <TextInput value={this.state.pId} onChangeText={(text) => this.updateTextInput(text, 'pId')} style={{ height: 50, width: 250 }} />
+                                {/* <TextInput value={this.state.pId} onChangeText={(text) => this.updateTextInput(text, 'pId')} style={{ height: 50, width: 250 }} /> */}
 
-                                <TextInput value={this.state.pName} onChangeText={(text) => this.updateTextInput(text, 'pName')} style={{ height: 50, width: 250 }} />
+
 
 
                             </View>
@@ -279,9 +289,13 @@ export class PeriodCalandar extends Component {
 const styles = StyleSheet.create({
 
     button: {
-        backgroundColor: "pink",
+        backgroundColor: "red",
         padding: 12,
         borderRadius: 25,
+        // width:'200',
+        width:300,
+
+        marginTop:20
     },
     buttonText: {
         fontSize: 15,
