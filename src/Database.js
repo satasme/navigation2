@@ -10,6 +10,7 @@ const database_size = 2000;
 export default class Database {
 
     initDB() {
+
         let db;
         return new Promise((resolve) => {
             console.log("Plugin integrity check ...");
@@ -33,7 +34,9 @@ export default class Database {
                                 console.log("Database not yet ready ... populating data");
                                 db.transaction((tx) => {
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL)');
+                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(50) NULL, [hStatus] NVARCHAR(50) NULL)');
                                     // tx.executeSql('CREATE TABLE IF NOT EXISTS Product (prodId, prodName, prodDesc)');
+
                                 }).then(() => {
                                     console.log("Table created successfully");
                                 }).catch(error => {
@@ -50,6 +53,7 @@ export default class Database {
                     console.log("echoTest failed - plugin not functional");
                 });
         });
+
     };
 
     closeDatabase(db) {
@@ -66,8 +70,8 @@ export default class Database {
             console.log("Database was not OPENED");
         }
     };
-    loadDB(){
-        this.initDB(); 
+    loadDB() {
+        this.initDB();
     }
     // listProduct() {
     //     return new Promise((resolve) => {
@@ -127,7 +131,7 @@ export default class Database {
 
     // addProduct(prod) {
     //     return new Promise((resolve) => {
-         
+
     //         this.initDB().then((db) => {
     //             db.transaction((tx) => {
     //                 tx.executeSql('INSERT INTO Product VALUES (?, ?, ?)', [prod.prodId, prod.prodName, prod.prodDesc]).then(([tx, results]) => {
@@ -182,13 +186,13 @@ export default class Database {
     // }
 
     //////////////for period//////////
-    
+
     adderiod(pd) {
         return new Promise((resolve) => {
-         
+
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO Period VALUES (?, ?)', [ null,pd.pName]).then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO Period VALUES (?, ?)', [null, pd.pName]).then(([tx, results]) => {
                         resolve(results);
                     });
                 }).then((result) => {
@@ -235,6 +239,109 @@ export default class Database {
         });
     }
 
+    abv() {
+        return new Promise((resolve) => {
+
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT h.hName FROM Hospitalbagmother h', []).then(([tx, results]) => {
+                        console.log("@@@@@@@@@@@@@@@@@@@@@@@ Query completed");
+                        var len = results.rows.length;
+                        console.log("$$$$$$$$$$$$$$$$$$$$$ Query completed" + len);
+                        // for (let i = 0; i < len; i++) {
+                        //     let row = results.rows.item(i);
+                        //     console.log(`$$$$$$$$$$$$$$$$$$$$$$$$$$ Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
+
+                        // }
+
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        }),
+            console.log("bag full tttttttttttttttttttttttttttt  ))))))) : ");
+    }
+    listBag() {
+        return new Promise((resolve) => {
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT h.hId, h.hName FROM Hospitalbagmother h', []).then(([tx, results]) => {
+                        var len = results.rows.length;
+                        if (len == 0) {
+                
+                            console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ athule ");
+                        }
+                        resolve(len);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+
+    listMotherBagItems() {
+        return new Promise((resolve) => {
+            const mother_bag = [];
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT h.hId, h.hName, h.hStatus FROM Hospitalbagmother h', []).then(([tx, results]) => {
+                        console.log("Query completed");
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
+                            const { hId, hName,hStatus } = row;
+                            mother_bag.push({
+                                hId,
+                                hName,
+                                hStatus,
+
+                            });
+                        }
+                        console.log(mother_bag);
+                        resolve(mother_bag);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    addItemOfMother_bag() {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO Hospitalbagmother (hName,hStatus) VALUES ("Wearing cloths 05 with bed jacket 04","true"),'
+                    +'("Shopping bag 04 (clean)","false"),("Bed sheet 01 (pillow)","true"),("Blade-01 or a bottle of anima","false"),("A pair of rubber slippers","true")').then(([tx, results]) => {
+                        resolve(results);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
 
 
 }

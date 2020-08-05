@@ -26,6 +26,7 @@ const IMAGE = {
     ICON_MENU_METER: require('../images/speed.png'),
     ICON_MENU_METER1: require('../images/speed1.png'),
     ICON_MENU_METER2: require('../images/performance.png'),
+    ICON_HOSPITAL_BAG: require('../images/backpack.png'),
     
 }
 

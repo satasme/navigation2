@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     // }
     card: {
         height: 120,
-        width: (Dimensions.get("window").width / 2) - 20,
-        // width: "50%",
+        // width: (Dimensions.get("window").width / 2) - 20,
+        // width: "45%",
         backgroundColor: "white",
         borderRadius: 15,
         padding: 10,
@@ -126,8 +126,9 @@ export class MenuScreen extends Component {
                         <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Menu</Text>
 
                         <View style={styles.container}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
-                                <Card style={styles.card} >
+
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_MENU_PERIOD1}
@@ -139,11 +140,12 @@ export class MenuScreen extends Component {
                                         <Text style={{ marginTop: 5 }}>Calandar</Text>
 
                                     </View>
+                                </TouchableOpacity>
+                            </Card>
 
-                                </Card>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
-                                <Card style={styles.card} >
+
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_MENU_METER}
@@ -154,34 +156,27 @@ export class MenuScreen extends Component {
                                         <Text style={{ marginTop: 5 }}>Period Meter</Text>
 
                                     </View>
+                                </TouchableOpacity>
+                            </Card>
 
-                                </Card>
-                            </TouchableOpacity>
-                            {/* <Card style={styles.card}>
-                                <View >
-                                    <View style={{ height: 70, padding: 10 }}>
-                                        <Image source={IMAGE.ICON_MENU_METER}
-                                            style={{ height: 55, width: 55 }}
-                                        >
-                                        </Image>
-                                    </View>
-                                    <Text style={{ marginTop: 5 }}>Period Meter</Text>
-                                </View>
-                            </Card> */}
+                        
 
                         </View>
                         <View style={styles.container}>
 
-                            <Card style={styles.card}>
-                                <View >
-                                    <View style={{ height: 70, padding: 10 }}>
-                                        {/* <Image source={IMAGE.ICON_MENU_METER}
-                                            style={{ height: 55, width: 55}}
-                                        >
-                                        </Image> */}
+                        <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('HospitalBag')}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_HOSPITAL_BAG}
+                                                style={{ height: 55, width: 55 }}
+                                            >
+                                            </Image>
+                                        </View>
+                                        <Text style={{ marginTop: 5 }}>Hospital bag</Text>
+
                                     </View>
-                                    <Text >gg</Text>
-                                </View>
+                                </TouchableOpacity>
                             </Card>
                             <Card style={styles.card}>
                                 <View >
@@ -242,7 +237,7 @@ export class MenuScreen extends Component {
                     </View>
 
 
-                    <View style={{ flex: 1 }}>
+                    {/* <View style={{ flex: 1 }}>
                         <Calendar
                             theme={{
                                 dotColor: 'pink',
@@ -258,7 +253,7 @@ export class MenuScreen extends Component {
                             markedDates={this.state._markedDates}
                         />
                        
-                    </View>
+                    </View> */}
                 </ScrollView>
 
 

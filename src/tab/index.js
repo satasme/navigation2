@@ -11,3 +11,4 @@ export * from './MenuScreen';
 export * from './PeriodCalandar';
 export * from './TestScreeen';
 export * from './ProductScreen2';
+export * from './HospitalBag';
