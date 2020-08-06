@@ -145,7 +145,7 @@ export class MenuScreen extends Component {
 
 
                             <Card style={styles.card} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('BMICalculator')}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_MENU_METER}

@@ -16,7 +16,7 @@ import Database from '../Database';
 
 const db = new Database();
 
-export class HospitalBag extends Component {
+export class HospitalBagBaby extends Component {
 
 
     constructor(props) {
@@ -25,7 +25,7 @@ export class HospitalBag extends Component {
         this.state = {
             dataSource: [],
             isLoading: true,
-            _mother_bag: [],
+            _baby_bag: [],
             notFound: 'mother bag not found.\nPlease click (+) button to add it.',
             switchValue: '',
             date: '',
@@ -53,8 +53,8 @@ export class HospitalBag extends Component {
     getData = (value, value2) => {
 
         let data = {
-            hStatus: value2,
-            hId: value,
+            bStatus: value2,
+            bId: value,
             date: this.state.date,
         }
 
@@ -62,7 +62,7 @@ export class HospitalBag extends Component {
         let int;
         let result;
         if (value != null) {
-            db.updateStatus(data).then((result) => {
+            db.updateStatusBaby(data).then((result) => {
                 console.log(result);
                 this.setState({
                     // isLoading: false,
@@ -92,16 +92,16 @@ export class HospitalBag extends Component {
         })
     }
     viewListData() {
-        let mother_bag = [];
+        let baby_bag = [];
 
-        db.listMotherBagItems().then((data) => {
+        db.listBabyBagItems().then((data) => {
 
 
             if (data != null) {
-                mother_bag = data;
+                baby_bag = data;
              
                 this.setState({
-                    _mother_bag: mother_bag,
+                    _baby_bag: baby_bag,
                     isLoading: false,
                 });
 
@@ -147,25 +147,18 @@ export class HospitalBag extends Component {
                     </TouchableOpacity> */}
                 </View>
                 <Animatable.View style={styles.footer} animation="fadeInUpBig">
-
-
-                   
-                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('HospitalBagBaby')}>
-                        <Text style={styles.buttonText}>Prepare baby bag</Text>
-
-
-                    </TouchableOpacity>
+                    <Text style={{marginHorizontal:20,fontSize:18,fontWeight:"bold"}}>Prepare a bag for baby</Text>
                     <FlatList
 
 
                         keyExtractor={this.keyExtractor}
-                        data={this.state._mother_bag}
+                        data={this.state._baby_bag}
                         // renderItem={this.renderItem}
 
                         renderItem={({ item }) => <ListItem
-                            style={{ height: 60, paddingTop: 30 }}
+                            style={{ height: 60, paddingTop: 20 }}
                             onPress={() => {
-                                this.getData(item.hId, item.hStatus);
+                                this.getData(item.bId, item.bStatus);
                                 // this.props.navigation.navigate('ProductDetails', {
                                 //   prodId: `${item.hId}`,
                                 // });
@@ -174,13 +167,13 @@ export class HospitalBag extends Component {
 
                             <Body>
 
-                                <Text>{item.hName}</Text>
-                                <Text style={styles.dateText}>{item.hDate}</Text>
+                                <Text>{item.bName}</Text>
+                                <Text style={styles.dateText}>{item.bDate}</Text>
                             </Body>
                             <Right>
 
                                 <Switch
-                                    value={item.hStatus == "true" ? true : false}
+                                    value={item.bStatus == "true" ? true : false}
                                 />
 
                             </Right>
@@ -246,7 +239,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        // paddingVertical: 30,
+
+        paddingVertical: 20,
         //  paddingHorizontal: 20
     }, header: {
         flex: 1,
