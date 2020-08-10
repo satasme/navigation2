@@ -53,9 +53,9 @@ export class CustomHeader extends Component {
 
 
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <Text style={{ textAlign: 'left' }}>{title}</Text>
+          <Text style={{ textAlign: 'center' }}>{title}</Text>
         </View>
-        <View style={{ flex: 0, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           {
             isPost ? <TouchableOpacity onPress={() => navigation.openDrawer()}>
               <Image style={{ width: 20, height: 20, marginRight: 10 }}

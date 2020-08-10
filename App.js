@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { CustomHeader, CustomDrawerContent } from './src';
-import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator } from './src/tab';
+import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator, BMIMeter } from './src/tab';
 import { NotificationsScreen } from './src/drawer';
 import { RegisterScreen, LoginScreen, Login2Screen } from './src/auth';
 import { FlatList } from 'react-native-gesture-handler';
@@ -279,6 +279,7 @@ export default function App() {
         <StackApp.Screen name="HospitalBag" component={HospitalBag} options={navOptionHandler} />
         <StackApp.Screen name="HospitalBagBaby" component={HospitalBagBaby} options={navOptionHandler} />
         <StackApp.Screen name="BMICalculator" component={BMICalculator} options={navOptionHandler} />
+        <StackApp.Screen name="BMIMeter" component={BMIMeter} options={navOptionHandler} />
       </StackApp.Navigator>
     </NavigationContainer>
   );

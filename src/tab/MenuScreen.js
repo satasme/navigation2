@@ -94,7 +94,7 @@ export class MenuScreen extends Component {
     onDaySelect = (day) => {
 
         const _selectedDay = moment(day.dateString).format(_format);
-        console.log("ssssssssssssssssss : " + _selectedDay);
+ 
 
         let marked = true;
         let markedDates = {}
@@ -153,7 +153,7 @@ export class MenuScreen extends Component {
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>Period Meter</Text>
+                                        <Text style={{ marginTop: 5 }}>BMI Calculator</Text>
 
                                     </View>
                                 </TouchableOpacity>

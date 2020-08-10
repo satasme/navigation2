@@ -14,3 +14,4 @@ export * from './ProductScreen2';
 export * from './HospitalBag';
 export * from './HospitalBagBaby';
 export * from './BMICalculator';
+export * from './BMIMeter';
