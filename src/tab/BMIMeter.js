@@ -16,6 +16,8 @@ import *as Animatable from 'react-native-animatable';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import * as Progress from 'react-native-progress';
 // import FusionCharts from "react-native-fusioncharts";
+import Speedometer from 'react-native-speedometer-chart';
+import { color } from 'react-native-reanimated';
 
 export class BMIMeter extends Component {
     state = {
@@ -68,14 +70,30 @@ export class BMIMeter extends Component {
                                     <Text style={{ color: 'grey' }}>Weight:25.25</Text>
                                 </View>
                                 {/* </View> */}
-                                <Text>Perfect weigth  </Text>
-                                <Progress.Bar style={{ marginTop: 5 }} progress={0.9} height={18} color={'#00796b'} borderRadius={20} width={250} />
+                                {/* <Text>Perfect weigth  </Text> */}
+                                <Progress.Bar style={{ marginTop: 15 }} progress={this.state._bmiVal / 40} height={10} color={'grey'} borderRadius={0} width={300} />
+                                <View style={{ flexDirection: "row",marginBottom:15 }}>
+                                    <View style={styles.innerCircle5} >
+                                        <Text style={{ color: '#000', fontSize: 9 }}>0-18.5</Text>
+                                    </View>
+                                    <View style={styles.innerCircle6} >
+                                        <Text style={{ color: '#fff', fontSize: 9 }}>18.5-25</Text>
+                                    </View>
+                                    <View style={styles.innerCircle7} >
+                                        <Text style={{ color: '#fff', fontSize: 9 }}>25-30</Text>
+                                    </View>
+                                    <View style={styles.innerCircle8} >
+                                        <Text style={{ color: '#fff', fontSize: 9 }}> >30 </Text>
+                                    </View>
+                                </View>
                             </View>
                         </Card>
+
+
                         {/* </View> */}
 
                         {/* <TextInput placeholder="Speedometer Value" style={styles.textInput} onChangeText={this.onChange} /> */}
-                        <RNSpeedometer
+                        {/* <RNSpeedometer
                             value={Number.parseInt(this.state._bmiVal)}
                             //value for Speedometer
                             size={300}
@@ -83,11 +101,16 @@ export class BMIMeter extends Component {
                             minValue={0}
                             //Min value for Speedometer
                             maxValue={40}
+                            
                             //Max value for Speedometer
-                            // allowedDecimals={0}
+                            allowedDecimals={0}
                             //Decimals value allowed or not
                             labels={[
                                 {
+                                    // minValue:0,
+                                    minValue:0,
+                                
+                                    maxValue:2,
                                     name: 'Low Risk',
                                     labelColor: '#ff2900',
                                     activeBarColor: '#ffd600',
@@ -95,16 +118,22 @@ export class BMIMeter extends Component {
                                     
                                 },
                                 {
+                                    minValue:2,
+                                    maxValue:15,
                                     name: 'Medium Risk',
                                     labelColor: '#f4ab44',
                                     activeBarColor: '#1faa00',
                                 },
                                 {
+                                    minValue:15,
+                                    maxValue:35,
                                     name: 'High Risk',
                                     labelColor: '#00ff6b',
                                     activeBarColor: '#ff6d00',
                                 },
                                 {
+                                    minValue:35,
+                                    maxValue:40,
                                     name: 'Observe Risk',
                                     labelColor: '#00ff6b',
                                     activeBarColor: '#d50000',
@@ -112,9 +141,9 @@ export class BMIMeter extends Component {
                                 },
                             ]}
                         //Labels for the different steps of Speedometer
-                        />
+                        /> */}
                         <View style={{ marginTop: 40, padding: 10 }}>
-                           
+
 
                         </View>
                     </ScrollView>
@@ -191,5 +220,43 @@ const styles = StyleSheet.create({
 
 
         margin: 20
-    }
+    }, innerCircle5: {
+        //  borderRadius: 35,
+        width: 138.75,
+        height: 30,
+        //  marginLeft: 215,
+        backgroundColor: '#ffd600',
+        justifyContent: 'center',
+        alignItems: 'center'
+
+        //  position: 'absolute',
+    }, innerCircle6: {
+        //  borderRadius: 35,
+        width: 48.75,
+        height: 30,
+        //  marginLeft: 215,
+        backgroundColor: '#1faa00',
+        justifyContent: 'center',
+        alignItems: 'center'
+        // position: 'absolute',
+    },
+    innerCircle7: {
+        //  borderRadius: 35,
+        width: 37.5,
+        height: 30,
+        //  marginLeft: 215,
+        backgroundColor: '#ff6d00',
+        justifyContent: 'center',
+        alignItems: 'center'
+        // position: 'absolute',
+    }, innerCircle8: {
+        //  borderRadius: 35,
+        width: 75,
+        height: 30,
+        //  marginLeft: 215,
+        backgroundColor: '#d50000',
+        justifyContent: 'center',
+        alignItems: 'center'
+        // position: 'absolute',
+    },
 });
