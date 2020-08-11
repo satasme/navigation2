@@ -22,18 +22,34 @@ import { color } from 'react-native-reanimated';
 export class BMIMeter extends Component {
     state = {
         value: 0,
-        _bmiVal: 0
+        _bmiVal: 0,
+        _height: 0,
+        _weight: 0,
+        _colorPrograssbar: ''
     };
     // componentDidMount = () => AsyncStorage.getItem('name').then((value) => this.setState({ 'name': value }))
     componentDidMount = async () => {
-
+        const bmiValue = await AsyncStorage.getItem('bmi_value');
+        let colorval;
+        if (bmiValue < 18.5) {
+            colorval = "#ffab00"
+        } else if (18.5 < bmiValue && bmiValue < 25) {
+            colorval = "#009624"
+        } else if (25 < bmiValue && bmiValue < 30) {
+            colorval = "#ff6d00"
+        } else if (bmiValue > 30) {
+            colorval = "red"
+        }
         this.setState({
             value: 20,
             _bmiVal: await AsyncStorage.getItem('bmi_value'),
+            _height: await AsyncStorage.getItem('height'),
+            _weight: await AsyncStorage.getItem('weight'),
+            _colorPrograssbar: colorval
         });
 
 
-        // console.log("<<<<<<<<<<<< >>>>>>>>>>>>>>>  : " + this.state._bmiVal);
+
     }
 
     // onChange = (value) => this.setState({ value: 20});
@@ -66,13 +82,13 @@ export class BMIMeter extends Component {
                                 {/* <View style={{ }}> */}
                                 <Text style={{ fontSize: 70, fontWeight: "bold", marginTop: -10, }}>{this.state._bmiVal}</Text>
                                 <View style={{ flexDirection: "row", justifyContent: 'space-between', marginTop: -10 }}>
-                                    <Text style={{ paddingEnd: 20, color: 'grey' }}>Height:25.25</Text>
-                                    <Text style={{ color: 'grey' }}>Weight:25.25</Text>
+                                    <Text style={{ paddingEnd: 20, color: 'grey' }}>Height: {this.state._height} m</Text>
+                                    <Text style={{ color: 'grey' }}>Weight: {this.state._weight} kg</Text>
                                 </View>
                                 {/* </View> */}
                                 {/* <Text>Perfect weigth  </Text> */}
-                                <Progress.Bar style={{ marginTop: 15 }} progress={this.state._bmiVal / 40} height={10} color={'grey'} borderRadius={0} width={300} />
-                                <View style={{ flexDirection: "row",marginBottom:15 }}>
+                                <Progress.Bar style={{ marginTop: 15 }} progress={this.state._bmiVal / 40} height={10} color={this.state._colorPrograssbar} borderRadius={0} width={300} />
+                                <View style={{ flexDirection: "row", marginBottom: 15 }}>
                                     <View style={styles.innerCircle5} >
                                         <Text style={{ color: '#000', fontSize: 9 }}>0-18.5</Text>
                                     </View>
@@ -217,46 +233,31 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 5,
         alignItems: 'center',
-
-
         margin: 20
     }, innerCircle5: {
-        //  borderRadius: 35,
         width: 138.75,
         height: 30,
-        //  marginLeft: 215,
         backgroundColor: '#ffd600',
         justifyContent: 'center',
         alignItems: 'center'
-
-        //  position: 'absolute',
     }, innerCircle6: {
-        //  borderRadius: 35,
         width: 48.75,
         height: 30,
-        //  marginLeft: 215,
         backgroundColor: '#1faa00',
         justifyContent: 'center',
         alignItems: 'center'
-        // position: 'absolute',
     },
     innerCircle7: {
-        //  borderRadius: 35,
         width: 37.5,
         height: 30,
-        //  marginLeft: 215,
         backgroundColor: '#ff6d00',
         justifyContent: 'center',
         alignItems: 'center'
-        // position: 'absolute',
     }, innerCircle8: {
-        //  borderRadius: 35,
         width: 75,
         height: 30,
-        //  marginLeft: 215,
         backgroundColor: '#d50000',
         justifyContent: 'center',
         alignItems: 'center'
-        // position: 'absolute',
     },
 });

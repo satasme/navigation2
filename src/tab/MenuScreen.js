@@ -61,6 +61,24 @@ const styles = StyleSheet.create({
 
 
         margin: 5
+    }, cardHorizontal: {
+        height: 150,
+        backgroundColor: 'white',
+        // width: 300,
+        width: (Dimensions.get("window").width) - 55,
+        // width: "90%",
+        // backgroundColor: "white",
+        borderRadius: 15,
+        padding: 10,
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.7,
+        shadowRadius: 8,
+        // alignItems: 'center',
+
+
+        margin: 5
     }, scrollContainer: {
         flex: 1,
     }, container: {
@@ -94,7 +112,7 @@ export class MenuScreen extends Component {
     onDaySelect = (day) => {
 
         const _selectedDay = moment(day.dateString).format(_format);
- 
+
 
         let marked = true;
         let markedDates = {}
@@ -123,8 +141,82 @@ export class MenuScreen extends Component {
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={styles.scrollContainer}>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
-                        <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Menu</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Recommended for you</Text>
 
+                        <ScrollView
+
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            <View style={styles.container}>
+                                <Card style={styles.cardHorizontal} >
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('')}>
+                                        <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
+                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                                <View style={{ flexDirection: 'column' }}>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Normal Healthy</Text>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Diet</Text>
+                                                    {/* <Text style={{ marginTop: 5, fontSize: 11,   }}>how to maintain foods</Text> */}
+                     
+                                                </View>
+                                                <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text>
+                                            </View>
+                                            <View style={{ height: 70, marginLeft: -20, paddingTop: 15 }}>
+                                                <Image source={IMAGE.ICON_DIET_PLAN}
+                                                    style={{ height: 120, width: 190 }}>
+                                                </Image>
+                                            </View>
+
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </Card>
+                                <Card style={styles.cardHorizontal} >
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('')}>
+                                        <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
+                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                                <View style={{ flexDirection: 'column' }}>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  }}>Identify Pregnancy</Text>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", marginTop: -3 }}></Text>
+                                                    
+                                                </View>
+                                                {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
+                                            </View>
+                                            <View style={{ height: 70, marginLeft: -50, paddingTop: 15 }}>
+                                                <Image source={IMAGE.ICON_IDENTY_PREGNANCY}
+                                                    style={{ height: 124, width: 185 }}>
+                                                </Image>
+                                            </View>
+
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </Card>
+                                <Card style={styles.cardHorizontal} >
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('')}>
+                                        <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
+                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                                <View style={{ flexDirection: 'column' }}>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Regular Mensturation</Text>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Period</Text>
+                                                    
+                                                </View>
+                                                {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
+                                            </View>
+                                            <View style={{ height: 70, marginLeft: -50, paddingTop: 15 }}>
+                                                <Image source={IMAGE.ICON_MENSTRUAION}
+                                                    style={{ height: 124, width: 185 }}>
+                                                </Image>
+                                            </View>
+
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </Card>
+                                
+                            </View>
+                        </ScrollView>
+                        <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Menu</Text>
                         <View style={styles.container}>
 
                             <Card style={styles.card} >
@@ -159,12 +251,12 @@ export class MenuScreen extends Component {
                                 </TouchableOpacity>
                             </Card>
 
-                        
+
 
                         </View>
                         <View style={styles.container}>
 
-                        <Card style={styles.card} >
+                            <Card style={styles.card} >
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate('HospitalBag')}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>

@@ -243,6 +243,7 @@ export class MemberProfile extends Component {
 
         </View>
         <ScrollView
+        showsVerticalScrollIndicator={false}
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
         >

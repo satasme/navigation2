@@ -68,10 +68,8 @@ export class BMICalculator extends Component {
     const _Bmi_val = (weight / (height * height)).toFixed(2);
     // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + _Bmi_val);
     try {
-      await AsyncStorage.setItem(
-        'bmi_value',
-        _Bmi_val
-      );
+      const items = [['bmi_value', _Bmi_val], ['height', ""+height.toFixed(2)], ['weight', ""+weight.toFixed(2)]]
+      await AsyncStorage.multiSet(items, () => { });
     } catch (error) {
       // Error saving data
     }

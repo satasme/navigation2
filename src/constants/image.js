@@ -29,6 +29,9 @@ const IMAGE = {
     ICON_HOSPITAL_BAG: require('../images/backpack.png'),
     ICON_HOSPITAL_MOM_BAG: require('../images/2663507.png'),
     ICON_FEMALE: require('../images/female2.png'),
+    ICON_DIET_PLAN: require('../images/diet_plan3.png'),
+    ICON_MENSTRUAION: require('../images/menstuationperiod.png'),
+    ICON_IDENTY_PREGNANCY: require('../images/identypregnant.png'),
     
 }
 
