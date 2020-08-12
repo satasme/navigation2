@@ -213,7 +213,28 @@ export class MenuScreen extends Component {
 
                                     </TouchableOpacity>
                                 </Card>
-                                
+                                <Card style={styles.cardHorizontal} >
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('BloodPresure')}>
+                                        <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
+                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                                <View style={{ flexDirection: 'column' }}>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Investigation</Text>
+                                                    {/* <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Period</Text> */}
+                                                    
+                                                </View>
+                                                {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
+                                            </View>
+                                            <View style={{ height: 100, marginLeft: 20, paddingTop: 0 }}>
+                                                <Image source={IMAGE.ICON_INVESTIGATION}
+                                                    style={{ height: 134, width: 169 }}
+                                                    >
+                                                </Image>
+                                            </View>
+
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </Card>
                             </View>
                         </ScrollView>
                        

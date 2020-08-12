@@ -38,6 +38,11 @@ const IMAGE = {
     ICON_MONOPAUSE: require('../images/Menopause.png'),
     ICON_HORMONAL: require('../images/hormonal.png'),
     ICON_PREGNANCY: require('../images/pregnancy.png'),
+    ICON_MORNING_SICK: require('../images/mornngsick.png'),
+    ICON_URINE_TEST: require('../images/urinetest.png'),
+    ICON_SERUM_TEST: require('../images/serumTest.png'),
+    ICON_SCANING: require('../images/scan.png'),
+    ICON_INVESTIGATION: require('../images/investigation.png'),
     
 }
 

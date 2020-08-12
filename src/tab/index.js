@@ -17,3 +17,4 @@ export * from './BMICalculator';
 export * from './BMIMeter';
 export *from './IdentifyPregnancy';
 export *from './RegularMenstruation';
+export *from './BloodPresure';

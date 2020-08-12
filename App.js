@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { CustomHeader, CustomDrawerContent } from './src';
-import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator, BMIMeter, IdentifyPregnancy,RegularMenstruation } from './src/tab';
+import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator, BMIMeter, IdentifyPregnancy,RegularMenstruation, BloodPresure } from './src/tab';
 import { NotificationsScreen } from './src/drawer';
 import { RegisterScreen, LoginScreen, Login2Screen } from './src/auth';
 import { FlatList } from 'react-native-gesture-handler';
@@ -282,6 +282,7 @@ export default function App() {
         <StackApp.Screen name="BMIMeter" component={BMIMeter} options={navOptionHandler} />
         <StackApp.Screen name="IdentifyPregnancy" component={IdentifyPregnancy} options={navOptionHandler} />
         <StackApp.Screen name="RegularMenstruation" component={RegularMenstruation} options={navOptionHandler} />
+        <StackApp.Screen name="BloodPresure" component={BloodPresure} options={navOptionHandler} />
       </StackApp.Navigator>
     </NavigationContainer>
   );

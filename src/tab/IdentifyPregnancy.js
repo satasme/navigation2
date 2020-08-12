@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, Image, View, SafeAreaView,ScrollView,Icon, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, Image, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { IMAGE } from '../constants/image';
 import *as Animatable from 'react-native-animatable';
 import { CustomHeader } from '../index';
-
+import Icon from 'react-native-vector-icons/Fontisto';
 export class IdentifyPregnancy extends Component {
     render() {
         return (
@@ -17,7 +17,7 @@ export class IdentifyPregnancy extends Component {
 
                 </View>
                 <View style={styles.footer}>
-                    <Text style={styles.cardHeading}>Why amenorrhea (absence of menstrual flow) </Text>
+                    <Text style={styles.cardHeading}> How to identify the pregnancy?</Text>
 
                     <ScrollView
                         showsVerticalScrollIndicator={false}
@@ -29,8 +29,8 @@ export class IdentifyPregnancy extends Component {
                                 <View style={styles.cardHeaderContainer}>
                                 </View>
                                 <View style={styles.cardBody}>
-                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_MONOPAUSE} />
-                                    <Text style={styles.cardName}>Menopause</Text>
+                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_MORNING_SICK} />
+                                    <Text style={styles.cardName}>Morning sickness with nausea and vomiting</Text>
                                     <View style={styles.iconMore}>
                                         <Icon name="angle-right" color="gray" />
                                     </View>
@@ -40,8 +40,8 @@ export class IdentifyPregnancy extends Component {
                                 <View style={styles.cardHeaderContainer}>
                                 </View>
                                 <View style={styles.cardBody}>
-                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_EXCERSIZE} />
-                                    <Text style={styles.cardName}>Excessive exercise or inadequate nutrition</Text>
+                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_URINE_TEST} />
+                                    <Text style={styles.cardName}>Urine test</Text>
                                     <View style={styles.iconMore}>
                                         <Icon name="angle-right" color="gray" />
                                     </View>
@@ -51,8 +51,8 @@ export class IdentifyPregnancy extends Component {
                                 <View style={styles.cardHeaderContainer}>
                                 </View>
                                 <View style={styles.cardBody}>
-                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_HORMONAL} />
-                                    <Text style={styles.cardName}>Hormonal causes</Text>
+                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_SERUM_TEST} />
+                                    <Text style={styles.cardName}>Serum test (identify HCG level)</Text>
                                     <View style={styles.iconMore}>
                                         <Icon name="angle-right" color="gray" />
                                     </View>
@@ -62,15 +62,14 @@ export class IdentifyPregnancy extends Component {
                                 <View style={styles.cardHeaderContainer}>
                                 </View>
                                 <View style={styles.cardBody}>
-                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_PREGNANCY} />
-                                    <Text style={styles.cardName}>Pregnancy or Lactation Period</Text>
+                                    <Image style={styles.cardAvatar} source={IMAGE.ICON_SCANING} />
+                                    <Text style={styles.cardName}>Scanning (identify gestation age)</Text>
                                     <View style={styles.iconMore}>
                                         <Icon name="angle-right" color="gray" />
                                     </View>
                                 </View>
                             </View>
-                            <Text style={{ paddingTop: 20 }}>If you have irregular menstruation flow you should meet doctor.
-</Text>
+
                         </View>
                     </ScrollView>
 
@@ -88,8 +87,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        // paddingVertical: 30,
-        //  paddingHorizontal: 20
+        paddingVertical: 10,
+        paddingHorizontal: 20
     }, header: {
         flex: 1,
         backgroundColor: '#ffcce8'
@@ -112,23 +111,24 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10
+        padding: 10,
+        
     }, cardAvatar: {
-        height: 42,
-        width: 42,
-        backgroundColor: '#ffe0b2',
+        height: 50,
+        width: 50,
+        backgroundColor: '#ffcce8',
         borderRadius: 60,
     }, cardBody: {
         padding: 5,
         flexDirection: "row",
-        marginTop: 8,
+        marginTop: 10,
         borderRadius: 10,
         backgroundColor: '#fff',
         elevation: 2,
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        paddingBottom: 5,
+        paddingBottom: 10,
     },
     iconMore: {
         position: 'absolute',
