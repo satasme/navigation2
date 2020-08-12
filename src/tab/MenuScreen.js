@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     //     elevation: 11,
     // }
     card: {
-        height: 120,
+        height: 115,
         // width: (Dimensions.get("window").width / 2) - 20,
         // width: "45%",
         backgroundColor: "white",
@@ -142,7 +142,7 @@ export class MenuScreen extends Component {
                 <ScrollView style={styles.scrollContainer}>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Recommended for you</Text>
-
+                        <View style={{borderTopWidth:6,borderTopColor:"#f78a2c",borderRadius:3,marginHorizontal:16,width:45,marginTop:8}}></View>
                         <ScrollView
 
                             horizontal={true}
@@ -172,7 +172,7 @@ export class MenuScreen extends Component {
                                     </TouchableOpacity>
                                 </Card>
                                 <Card style={styles.cardHorizontal} >
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('')}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('IdentifyPregnancy')}>
                                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
                                             <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
                                                 <View style={{ flexDirection: 'column' }}>
@@ -193,7 +193,7 @@ export class MenuScreen extends Component {
                                     </TouchableOpacity>
                                 </Card>
                                 <Card style={styles.cardHorizontal} >
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('')}>
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('RegularMenstruation')}>
                                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
                                             <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
                                                 <View style={{ flexDirection: 'column' }}>
@@ -216,7 +216,9 @@ export class MenuScreen extends Component {
                                 
                             </View>
                         </ScrollView>
+                       
                         <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Menu</Text>
+                        {/* <View style={{borderTopWidth:6,borderTopColor:"#f78a2c",borderRadius:3,marginHorizontal:16,width:45,marginTop:8}}></View> */}
                         <View style={styles.container}>
 
                             <Card style={styles.card} >

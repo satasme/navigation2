@@ -32,6 +32,12 @@ const IMAGE = {
     ICON_DIET_PLAN: require('../images/diet_plan3.png'),
     ICON_MENSTRUAION: require('../images/menstuationperiod.png'),
     ICON_IDENTY_PREGNANCY: require('../images/identypregnant.png'),
+    ICON_IDENTY_PREGNANCY_BACK: require('../images/identifyPregnancyBack.png'),
+    ICON_REGULAR_MENSTRUATION_BACK: require('../images/regularmenstruationback.png'),
+    ICON_EXCERSIZE: require('../images/excersize2.png'),
+    ICON_MONOPAUSE: require('../images/Menopause.png'),
+    ICON_HORMONAL: require('../images/hormonal.png'),
+    ICON_PREGNANCY: require('../images/pregnancy.png'),
     
 }
 

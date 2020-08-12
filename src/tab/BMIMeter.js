@@ -99,7 +99,7 @@ export class BMIMeter extends Component {
                                         <Text style={{ color: '#fff', fontSize: 9 }}>25-30</Text>
                                     </View>
                                     <View style={styles.innerCircle8} >
-                                        <Text style={{ color: '#fff', fontSize: 9 }}> >30 </Text>
+                                        <Text style={{ color: '#fff', fontSize: 9 }}> {'>'}30 </Text>
                                     </View>
                                 </View>
                             </View>

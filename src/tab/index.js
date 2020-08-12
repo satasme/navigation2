@@ -15,3 +15,5 @@ export * from './HospitalBag';
 export * from './HospitalBagBaby';
 export * from './BMICalculator';
 export * from './BMIMeter';
+export *from './IdentifyPregnancy';
+export *from './RegularMenstruation';
