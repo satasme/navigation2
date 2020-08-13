@@ -36,6 +36,7 @@ export default class Database {
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
+                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] NVARCHAR(10) NULL)');
 
                                 }).then(() => {
                                     //console.log("Table created successfully");
@@ -427,7 +428,60 @@ export default class Database {
             });
         });
     }
-    
+    addItemOfBloodPresure() {
+        return new Promise((resolve) => {
 
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue) VALUES (2020-08-13","79.5"),'
+                        + '("2020-08-14","81.5"),("2020-08-16","90.45")').then(([tx, results]) => {
+                            resolve(results);
+                        });
+                        
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    listMotherBloodPresure() {
+        return new Promise((resolve) => {
+            const blood_presure = [];
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT b.bpId, b.bpDate, b.bpValue FROM BloodPresure b', []).then(([tx, results]) => {
+
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
+                            const {  bpId, bpDate,bpValue } = row;
+                            blood_presure.push({
+                                bpId,
+                                bpDate,
+                                bpValue,
+                              
+
+                            });
+                        }
+                        // console.log(mother_bag);
+                        resolve(blood_presure);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                  //  console.log(err);
+                });
+
+            }).catch((err) => {
+              //  console.log(err);
+            });
+        });
+    }
 
 }

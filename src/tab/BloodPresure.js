@@ -1,14 +1,21 @@
 import React,{Component} from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Text,LogBox, View, SafeAreaView, TouchableOpacity } from 'react-native';
 import PureChart from 'react-native-pure-chart';
 import {CustomHeader} from '../index';
+// console.disableYellowBox=true;
+LogBox.ignoreAllLogs(true);
  
 export class BloodPresure extends Component{
+    componentDidUpdate(){
+       
+    }
     render(){
         let sampleData = [
             {
               seriesName: 'series1',
               data: [
+
+               
                 {x: '2018-02-01', y: 30},
                 {x: '2018-02-02', y: 200},
                 {x: '2018-02-03', y: 170},
@@ -17,17 +24,17 @@ export class BloodPresure extends Component{
               ],
               color: '#297AB1'
             },
-            {
-              seriesName: 'series2',
-              data: [
-                {x: '2018-02-01', y: 20},
-                {x: '2018-02-02', y: 100},
-                {x: '2018-02-03', y: 140},
-                {x: '2018-02-04', y: 550},
-                {x: '2018-02-05', y: 40}
-              ],
-              color: 'red'
-            }
+            // {
+            //   seriesName: 'series2',
+            //   data: [
+            //     {x: '2018-02-01', y: 20},
+            //     {x: '2018-02-02', y: 100},
+            //     {x: '2018-02-03', y: 140},
+            //     {x: '2018-02-04', y: 550},
+            //     {x: '2018-02-05', y: 40}
+            //   ],
+            //   color: 'red'
+            // }
           ]
         return (
             <SafeAreaView style={{ flex: 1 }}>
