@@ -293,16 +293,20 @@ export class MenuScreen extends Component {
                                     </View>
                                 </TouchableOpacity>
                             </Card>
-                            <Card style={styles.card}>
-                                <View >
-                                    <View style={{ height: 70, padding: 10 }}>
-                                        {/* <Image source={IMAGE.ICON_MENU_METER1}
-                                            style={{ height: 55, width: 55}}
-                                        >
-                                        </Image> */}
+                         
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('MatirializeDialog')}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_HOSPITAL_BAG}
+                                                style={{ height: 55, width: 55 }}
+                                            >
+                                            </Image>
+                                        </View>
+                                        <Text style={{ marginTop: 5 }}>werwer bag</Text>
+
                                     </View>
-                                    <Text >gg</Text>
-                                </View>
+                                </TouchableOpacity>
                             </Card>
 
                         </View>

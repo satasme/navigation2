@@ -18,3 +18,4 @@ export * from './BMIMeter';
 export *from './IdentifyPregnancy';
 export *from './RegularMenstruation';
 export *from './BloodPresure';
+export *from './MatirializeDialog';
