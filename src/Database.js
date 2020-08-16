@@ -36,7 +36,7 @@ export default class Database {
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL)');
+                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL, [bpmin] INTEGER NOT NULL, [bpmax] INTEGER NOT NULL)');
 
                                 }).then(() => {
                                     //console.log("Table created successfully");
@@ -206,7 +206,7 @@ export default class Database {
             });
         });
     }
-
+   
     listProduct() {
         return new Promise((resolve) => {
             const products = [];
@@ -433,7 +433,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue) VALUES ("2020-08-13",79),("2020-08-14",20),("2020-08-16",40)').then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES ("2020-08-13",79,80,120),("2020-08-14",20,80,120),("2020-08-16",40,80,120)').then(([tx, results]) => {
                             resolve(results);
                         });
                         
@@ -454,18 +454,20 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('SELECT b.bpId, b.bpDate, b.bpValue FROM BloodPresure b', []).then(([tx, results]) => {
+                    tx.executeSql('SELECT b.bpId, b.bpDate, b.bpValue,b.bpmin,b.bpmax FROM BloodPresure b ORDER BY b.bpId DESC LIMIT 8 ', []).then(([tx, results]) => {
 
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
-                            const {  bpId, bpDate,bpValue } = row;
+                            const {  bpId, bpDate,bpValue,bpmin,bpmax } = row;
                             blood_presure.push({
                              
                                 bpId,
                                 bpDate,
                                 bpValue,
+                                bpmin,
+                                bpmax,
                               
 
                             });
@@ -484,5 +486,25 @@ export default class Database {
             });
         });
     }
+     addPBvalue(pb) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES (?,?,?,?)', [pb.bpDate,pb.bpValue,80,120]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+                    console.log("resultsss >>>>>>>>>>>>>>>>>>> : "+pb.bpValue);
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    
 
 }

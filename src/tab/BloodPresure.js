@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, LogBox, View, SafeAreaView, Button, ScrollView, TouchableOpacity, Dimensions, StyleSheet, Alert } from 'react-native';
+import { Text, LogBox, View, SafeAreaView, Button, ScrollView, TouchableOpacity, Dimensions, StyleSheet, Alert, FlatList } from 'react-native';
 import PureChart from 'react-native-pure-chart';
 import { CustomHeader } from '../index';
 import LinearGradient from 'react-native-linear-gradient';
@@ -7,20 +7,17 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 // console.disableYellowBox=true;
 LogBox.ignoreAllLogs(true);
 
+import { List, ListItem, Left, Body, Right } from 'native-base';
+
 import { LineChart, } from "react-native-chart-kit";
 import Database from '../Database';
 import ActionButton from 'react-native-action-button';
 
-import DialogInput from 'react-native-dialog-input';
-import Modal, { ModalFooter, ModalButton, ModalContent } from 'react-native-modals';
+import RBSheet from "react-native-raw-bottom-sheet";
 
-// import DateTimePicker from '@react-native-community/datetimepicker';
-
-import {
-  MaterialDialog,
-  MultiPickerMaterialDialog,
-  SinglePickerMaterialDialog
-} from "react-native-material-dialog";
+import CalendarStrip from 'react-native-slideable-calendar-strip';
+import { TextInput } from 'react-native-paper';
+import moment from 'moment' // 2.20.1
 
 const db = new Database();
 
@@ -55,8 +52,11 @@ export class BloodPresure extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      basicOkCancelVisible: false,
+      _list_bpData: [],
+      selectedDate: new Date(),
 
+      basicOkCancelVisible: false,
+      TextInpuPbValue: '',
 
       visible: true,
       isLoading: true,
@@ -68,14 +68,14 @@ export class BloodPresure extends Component {
           {
             data: [1],
             strokeWidth: 2,
-            color: (opacity = 1) => `rgba(255,0,0,${opacity})`, // optional
+            color: (opacity = 1) => `rgba(230,230,230,${opacity})`, // optional
           },
           {
-            data: [80, 80, 80],
+            data: [1],
             strokeWidth: 2,
-            color: (opacity = 1) => `rgba(0,0,102, ${opacity})`, // optional
+            color: (opacity = 1) => `rgba(255,0,0, ${opacity})`, // optional
           }, {
-            data: [120, 120, 120],
+            data: [1],
             strokeWidth: 2,
             color: (opacity = 1) => `rgba(0,0,102, ${opacity})`, // optional
           },
@@ -144,14 +144,15 @@ export class BloodPresure extends Component {
         //  const dataClone = {...self.state.data}
 
 
-
         console.log(">>>>k : " + data);
         var temp2 = [];
         var temp3 = [];
         var temp4 = [];
+        var temp5 = [];
+        var _monthDate;
         const dataClone = { ...self.state.data }
         for (var i = 0; i < result.length; i++) {
-
+          _monthDate = result[i].bpDate.substring(5, 10);
           // dataClone.datasets[0].data = result[i].bpValue;
           // const values = responseJson.map(value =>result[i].bpValue);
 
@@ -166,8 +167,9 @@ export class BloodPresure extends Component {
           // console.log(">>>>((((())))) ### : " + this.state.data)
 
           temp2.push([result[i].bpValue]);
-          temp3.push([result[i].bpDate]);
-          temp4.push([result[i].bpId]);
+          temp3.push([_monthDate]);
+          temp4.push([result[i].bpmin]);
+          temp5.push([result[i].bpmax]);
 
           // temp2.push("{" + result[i].x + ":'" + result[i].bpDate + "'," + result[i].y + ":" + result[i].bpValue + "}")
 
@@ -180,10 +182,12 @@ export class BloodPresure extends Component {
         dataClone.labels = temp3;
         dataClone.datasets[0].data = temp2;
         dataClone.datasets[1].data = temp4;
+        dataClone.datasets[2].data = temp5;
 
         self.setState({
           isLoading: false,
           data: dataClone,
+          _list_bpData: data,
         });
 
         console.log("$$$$ : " + temp3);
@@ -197,8 +201,39 @@ export class BloodPresure extends Component {
   }
 
 
+  saveData() {
+    this.RBSheet.close();
+    const _format = 'YYYY-MM-DD'
+    const _selectedDay = moment(this.state.selectedDate).format(_format);
+
+    console.log("selected date >>>>>>>>>>> " + this.state.TextInpuPbValue);
 
 
+    this.setState({
+      isLoading: true,
+
+
+    });
+    let data = {
+      // pId: this.state.pId,
+      bpDate: _selectedDay.toString(),
+      bpValue: parseInt(this.state.TextInpuPbValue)
+    }
+    db.addPBvalue(data).then((result) => {
+      console.log(result);
+      this.setState({
+        isLoading: false,
+      });
+      //   this.props.navigation.state.params.onNavigateBack;
+      //   this.props.navigation.goBack();
+    }).catch((err) => {
+      console.log(err);
+      this.setState({
+        isLoading: false,
+      });
+    })
+  }
+  keyExtractor = (item, index) => index.toString()
   render() {
     const data = {
       labels: ["feasdasdasdasdb"],
@@ -238,188 +273,150 @@ export class BloodPresure extends Component {
     // ]
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <CustomHeader bgcolor='white' title="Home detail" navigation={this.props.navigation} bdcolor='white' />
+        <CustomHeader bgcolor='white' title="Home detail" navigation={this.props.navigation} bdcolor='white' />
+
+        <View style={styles.header}>
+
+          <Card style={styles.cardHorizontal} >
+            {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('')}> */}
+            <LineChart
+              data={this.state.data}
+              width={Dimensions.get("window").width - 20}
+              // yAxisLabel={"$"}
+              height={175}
+              bezier
+              verticalLabelRotation={-10}
+              chartConfig={chartConfig}
+              style={{
+                marginVertical: 0,
+                borderRadius: 16
+              }}
+            />
+
+            {/* </TouchableOpacity> */}
+          </Card>
+
+        </View>
+
+        <View style={{flex:2}}>
 
 
-          {/* <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.linerGradient}
-          colors={['#fff', '#fff', '#fff']}
-        >
-          <View style={styles.line}></View>
-          <View style={[styles.line,{top:120,left:-100}]}></View>
-          <View style={[styles.line,{top:140,left:0}]}></View>
-        </LinearGradient> */}
-
-
-          {/* <CustomHeader bgcolor='white' title="Settinfgs" isHome={true} navigation={this.props.navigation}  bdcolor='#f2f2f2'/> */}
-
-
-          <View style={{ flex: 1, }}>
-
-
-            <Card style={styles.cardHorizontal} >
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('')}>
-                <LineChart
-                  data={this.state.data}
-                  width={Dimensions.get("window").width - 20}
-                  // yAxisLabel={"$"}
-                  height={175}
-                  bezier
-                  verticalLabelRotation={-10}
-                  chartConfig={chartConfig}
-                  style={{
-                    marginVertical: 0,
-                    borderRadius: 16
-                  }}
-                />
-
-              </TouchableOpacity>
-            </Card>
-
-            {/* <PureChart
-              data={[
-                {
-                  x: '2020-07-25',
-                  y: 50
-                }
-              ]}
-
-              type='line' width={'100%'} height={200} /> */}
-            {/* <PureChart data={sampleData} type="line" /> */}
-
-            {/* 
-          <Text>Setting!</Text>
-          <TouchableOpacity style={{ marginTop: 20 }}
-            onPress={() => this.props.navigation.navigate('SettingDetail')}
-
-          >
-            <Text>Go Settings Details</Text>
-          </TouchableOpacity> */}
-            <Text>Previous data</Text>
-            <Card style={styles.cardHorizontal1} >
+        <Text>Previous data</Text>
+          {/* <Card style={styles.cardHorizontal1} >
               <Text>dasdasda</Text>
-            </Card>
-
-          </View>
 
 
+            </Card> */}
+          <FlatList
+
+
+            keyExtractor={this.keyExtractor}
+            data={this.state._list_bpData}
+            // renderItem={this.renderItem}
+
+            renderItem={({ item }) => <ListItem
+              style={{ height: 20, paddingTop: 30 }}
+
+            >
+
+              <Body>
+
+                <Text>{item.bpDate}</Text>
+                {/* <Text style={styles.dateText}>{item.hDate}</Text> */}
+              </Body>
+              <Right>
+
+
+
+              </Right>
+            </ListItem>
+
+
+
+            } />
+
+
+        </View>
+
+       
+
+
+
+
+   
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        </ScrollView>
         <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
           {/* Rest of the app comes ABOVE the action button component !*/}
           <ActionButton buttonColor="#f78a2c" onPress={() =>
-            this.setState({ basicOkCancelVisible: true, })
+            this.RBSheet.open()
           }>
             {/* <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
             <Icon name="md-create" style={styles.actionButtonIcon} />
           </ActionButton.Item> */}
 
           </ActionButton>
-          {/* <DialogInput
-          dialogIsVisible={this.state.dialogIsVisible}
-          closeDialogInput={() => this.setState({ dialogIsVisible: false })}
-          submitInput={(textValue) => console.warn(textValue)}
-          outerContainerStyle={{ backgroundColor: 'rgba(0,0,0, 0.75)' }}
-          containerStyle={{ backgroundColor: 'rgba(255,0,0, 0.2)', borderColor: 'red', borderWidth: 5 }}
-          titleStyle={{ color: 'white' }}
-          title="This is the title"
-          subTitleStyle={{ color: 'white' }}
-          subtitle="This is the subtitle"
-          placeholderInput="This is the text inside placeholder..."
-          placeholderTextColor="black"
-          textInputStyle={{ borderColor: 'black', borderWidth: 2 }}
-          secureTextEntry={false}
-          buttonsStyle={{ borderColor: 'white' }}
-          textCancelStyle={{ color: 'white' }}
-          submitTextStyle={{ color: 'white', fontStyle: 'italic' }}
-          cancelButtonText="CANCEL"
-          submitButtonText="CONFIRM" */}
-          {/* /> */}
-
-          {/* <MaterialDialog
-            title="Use Google's Location Service?"
-            visible={this.state.visible}
-            onOk={() => this.setState({ visible: false })}
-            onCancel={() => this.setState({ visible: false })}>
-   
-          </MaterialDialog>; */}
-
-          {/* 
-<Modal
-    visible={this.state.visible}
-    swipeDirection={['up', 'down']} // can be string or an array
-    swipeThreshold={200} // default 100
-    onSwipeOut={(event) => {
-      this.setState({ visible: false });
-    }}
-  >
-    <ModalContent>
-     <Text>sdfsdfsdf
-
-     </Text>
-    </ModalContent>
-  </Modal> */}
-
-
-
-          <MaterialDialog
-            title={"Use Google's Location Service?"}
-            visible={this.state.basicOkCancelVisible}
-            onOk={() => {
-              this.setState({ basicOkCancelVisible: false });
-            }}
-            onCancel={() => {
-              this.setState({ basicOkCancelVisible: false });
-            }}
-          >
-            <Text >
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-          </Text>
-          </MaterialDialog>
-
 
         </View>
 
-        {/* <View>
-          <View>
-            <Button onPress={showDatepicker} title="Show date picker!" />
-          </View>
-          <View>
-            <Button onPress={showTimepicker} title="Show time picker!" />
-          </View>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-            />
-          )}
-        </View> */}
+
+
+        <RBSheet
+          ref={ref => {
+            this.RBSheet = ref;
+          }}
+          closeOnDragDown={true}
+          // closeOnPressMask={false}
+          height={300}
+          openDuration={250}
+          customStyles={{
+            container: {
+              justifyContent: "center",
+              alignItems: "center",
+              borderTopRightRadius: 20,
+              borderTopLeftRadius: 20
+            }
+          }}
+
+        >
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}>
+            <View style={{ flex: 1 }}>
+              <CalendarStrip
+
+                selectedDate={this.state.selectedDate}
+                onPressDate={(date) => {
+                  this.setState({ selectedDate: date });
+
+                }}
+                onPressGoToday={(today) => {
+                  this.setState({ selectedDate: today });
+                }}
+                onSwipeDown={() => {
+                  // alert('onSwipeDown');
+                }}
+                markedDate={['2020-08-04', '2018-05-15', '2018-06-04', '2018-05-01',]}
+              />
+
+
+              <Text>ssfsfsdxxxx</Text>
+              {/* <TextInput /> */}
+              <TextInput onChangeText={TextInputValue => this.setState({ TextInpuPbValue: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 0 }} label="PB value" />
+              <TouchableOpacity onPress={() => this.saveData()} style={styles.button}>
+                <Text style={styles.buttonText}>Period Start ?</Text>
+
+
+              </TouchableOpacity>
+
+            </View>
+          </ScrollView>
+        </RBSheet>
+
       </SafeAreaView>
 
 
@@ -427,29 +424,6 @@ export class BloodPresure extends Component {
   }
 }
 
-
-const LONG_LIST = [
-  "List element 1",
-  "List element 2",
-  "List element 3",
-  "List element 4",
-  "List element 5",
-  "List element 6",
-  "List element 7",
-  "List element 8",
-  "List element 9",
-  "List element 10",
-  "List element 12",
-  "List element 13",
-  "List element 14",
-  "List element 15",
-  "List element 16",
-  "List element 17",
-  "List element 18",
-  "List element 19"
-];
-
-const SHORT_LIST = ["List element 1", "List element 2", "List element 3"];
 const styles = StyleSheet.create({
   linerGradient: {
     height: (screenWidth * 3) / 8,
@@ -469,10 +443,6 @@ const styles = StyleSheet.create({
       }
     ],
     borderRadius: 60
-  }, header: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   }, cardHorizontal: {
     height: 175,
     backgroundColor: 'white',
@@ -505,6 +475,32 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     // alignItems: 'center',
     marginHorizontal: 10
+  }, button: {
+    backgroundColor: "red",
+    padding: 12,
+    borderRadius: 25,
+    // width:'200',
+    width: 300,
+
+    marginTop: 20
+  },
+  buttonText: {
+    fontSize: 15,
+    color: '#fff',
+  }, header: {
+    justifyContent: 'center',
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+    backgroundColor: '#fff',
+    height: 180
+  }, footer: {
+    flex: 2,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+
+    paddingVertical: 20,
+    //  paddingHorizontal: 20
   },
 
 });
