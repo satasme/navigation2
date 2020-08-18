@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text, LogBox, View, SafeAreaView, Button, ScrollView, TouchableOpacity, Dimensions, StyleSheet, Alert, FlatList } from 'react-native';
+import {
+  Text, LogBox, View, SafeAreaView, Button, ScrollView, TouchableOpacity, Dimensions, StyleSheet, Alert, FlatList, Image
+} from 'react-native';
 import PureChart from 'react-native-pure-chart';
 import { CustomHeader } from '../index';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,6 +20,9 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import CalendarStrip from 'react-native-slideable-calendar-strip';
 import { TextInput } from 'react-native-paper';
 import moment from 'moment' // 2.20.1
+import { IMAGE } from '../constants/image';
+import Icon from 'react-native-vector-icons/Fontisto';
+
 
 const db = new Database();
 
@@ -62,7 +67,7 @@ export class BloodPresure extends Component {
       isLoading: true,
       dataSource: 10,
       data: {
-        labels: ["january", "feb"],
+        labels: ["j"],
 
         datasets: [
           {
@@ -131,20 +136,13 @@ export class BloodPresure extends Component {
   getData() {
     const self = this;
     db.listBloodPresure().then((data) => {
-      console.log(">>>> : " + data);
       result = data;
       if (result == 0) {
         db.addItemOfBloodPresure().then((result) => {
-          // console.log(">>>> : " + data);
-
         }).catch((err) => {
           console.log(err);
         })
       } else {
-        //  const dataClone = {...self.state.data}
-
-
-        console.log(">>>>k : " + data);
         var temp2 = [];
         var temp3 = [];
         var temp4 = [];
@@ -153,31 +151,12 @@ export class BloodPresure extends Component {
         const dataClone = { ...self.state.data }
         for (var i = 0; i < result.length; i++) {
           _monthDate = result[i].bpDate.substring(5, 10);
-          // dataClone.datasets[0].data = result[i].bpValue;
-          // const values = responseJson.map(value =>result[i].bpValue);
-
-          //  dataClone.datasets[0].data = parseInt(result[i].bpValue);
-          // console.log(">>>> ()()() ### : " + result[i].bpValue)
-          // {
-          //   x: xValue,
-          //   y: yValue1
-          // }
-
-
-          // console.log(">>>>((((())))) ### : " + this.state.data)
-
+        
           temp2.push([result[i].bpValue]);
           temp3.push([_monthDate]);
           temp4.push([result[i].bpmin]);
           temp5.push([result[i].bpmax]);
 
-          // temp2.push("{" + result[i].x + ":'" + result[i].bpDate + "'," + result[i].y + ":" + result[i].bpValue + "}")
-
-          // this.setState({
-          //   dataSource: temp2,
-          //   //  data: dataClone.datasets[0].data,
-          // })
-          // console.log("@@@@ : " + result[i].x);
         }
         dataClone.labels = temp3;
         dataClone.datasets[0].data = temp2;
@@ -190,10 +169,6 @@ export class BloodPresure extends Component {
           _list_bpData: data,
         });
 
-        console.log("$$$$ : " + temp3);
-        // console.log("@@@@ >>>> dasdadasdasd:fff " + this.state.dataSource);
-
-        //  this.viewListData();
       }
     }).catch((err) => {
       console.log(err);
@@ -205,9 +180,6 @@ export class BloodPresure extends Component {
     this.RBSheet.close();
     const _format = 'YYYY-MM-DD'
     const _selectedDay = moment(this.state.selectedDate).format(_format);
-
-    console.log("selected date >>>>>>>>>>> " + this.state.TextInpuPbValue);
-
 
     this.setState({
       isLoading: true,
@@ -236,7 +208,7 @@ export class BloodPresure extends Component {
   keyExtractor = (item, index) => index.toString()
   render() {
     const data = {
-      labels: ["feasdasdasdasdb"],
+      labels: ["s"],
       datasets: [
         {
           data: [50],
@@ -298,57 +270,53 @@ export class BloodPresure extends Component {
 
         </View>
 
-        <View style={{flex:2}}>
+        <View style={{ flex: 4, marginTop: 10, }}>
 
 
-        <Text>Previous data</Text>
+          <Text style={{ paddingLeft: 10 }}>Previous data</Text>
           {/* <Card style={styles.cardHorizontal1} >
               <Text>dasdasda</Text>
 
 
             </Card> */}
-          <FlatList
+          {/* <Card>
+            <View > */}
+              <View style={{padding: 10,}} >
+
+                <FlatList
+
+                  style={{ backgroundColor: 'white' }}
+                  keyExtractor={this.keyExtractor}
+                  data={this.state._list_bpData}
+                  // renderItem={this.renderItem}
+
+                  renderItem={({ item }) => <ListItem
+                    style={{ height: 50, paddingTop: 15 }}
+
+                  >
+                    <Left>
+                      <Image style={styles.cardAvatar} source={IMAGE.ICON_HEART} />
+                    </Left>
+                    <Body style={{ marginLeft: -150 }}>
+                      <Text style={{ color: 'gray', fontSize: 12 }}>{item.bpDate}</Text>
+                      <Text style={styles.dateText}>{item.bpValue} mm hg</Text>
+                    </Body>
+                    <Right>
+                      <View style={styles.iconMore}>
+                        <Icon name="trash" color="gray" />
+                      </View>
+                    </Right>
+                  </ListItem>
+                  }
+                />
+
+              </View>
 
 
-            keyExtractor={this.keyExtractor}
-            data={this.state._list_bpData}
-            // renderItem={this.renderItem}
-
-            renderItem={({ item }) => <ListItem
-              style={{ height: 20, paddingTop: 30 }}
-
-            >
-
-              <Body>
-
-                <Text>{item.bpDate}</Text>
-                {/* <Text style={styles.dateText}>{item.hDate}</Text> */}
-              </Body>
-              <Right>
-
-
-
-              </Right>
-            </ListItem>
-
-
-
-            } />
-
+            {/* </View>
+          </Card> */}
 
         </View>
-
-       
-
-
-
-
-   
-
-
-
-
-
         <View style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
           {/* Rest of the app comes ABOVE the action button component !*/}
           <ActionButton buttonColor="#f78a2c" onPress={() =>
@@ -501,6 +469,11 @@ const styles = StyleSheet.create({
 
     paddingVertical: 20,
     //  paddingHorizontal: 20
-  },
+  }, cardAvatar: {
+    height: 30,
+    width: 30,
+    // backgroundColor: '#ffcce8',
+    borderRadius: 60,
+  }
 
 });

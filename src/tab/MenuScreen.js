@@ -19,7 +19,6 @@ import moment from 'moment' // 2.20.1
 
 
 
-
 const _format = 'YYYY-MM-DD'
 const _today = moment().format(_format)
 const _maxDate = moment().add(31, 'days').format(_format)
@@ -142,24 +141,31 @@ export class MenuScreen extends Component {
                 <ScrollView style={styles.scrollContainer}>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Recommended for you</Text>
-                        <View style={{borderTopWidth:6,borderTopColor:"#f78a2c",borderRadius:3,marginHorizontal:16,width:45,marginTop:8}}></View>
+                        <View style={{ borderTopWidth: 6, borderTopColor: "#f78a2c", borderRadius: 3, marginHorizontal: 16, width: 45, marginTop: 8 }}></View>
                         <ScrollView
 
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
                             <View style={styles.container}>
-                                <Card style={styles.cardHorizontal} >
+                                {/* <Card > */}
+                                <LinearGradient style={styles.cardHorizontal} colors={['#fbb146', '#f78a2c']}
+                                    start={{ x: 0, y: 1 }}
+                                    end={{ x: 1, y: 0.9 }}
+                                //  locations={[0.3, 0.6,1]} 
+                                >
+
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('')}>
+
                                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
-                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
                                                 <View style={{ flexDirection: 'column' }}>
                                                     <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Normal Healthy</Text>
-                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Diet</Text>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", marginTop: -3 }}>Diet</Text>
                                                     {/* <Text style={{ marginTop: 5, fontSize: 11,   }}>how to maintain foods</Text> */}
-                     
+
                                                 </View>
-                                                <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text>
+                                                <Text style={{ paddingTop: 65, fontSize: 12 }}>Food piramid</Text>
                                             </View>
                                             <View style={{ height: 70, marginLeft: -20, paddingTop: 15 }}>
                                                 <Image source={IMAGE.ICON_DIET_PLAN}
@@ -170,15 +176,21 @@ export class MenuScreen extends Component {
                                         </View>
 
                                     </TouchableOpacity>
-                                </Card>
-                                <Card style={styles.cardHorizontal} >
+                                </LinearGradient>
+                                {/* </Card> */}
+                                {/* <Card  > */}
+                                <LinearGradient style={styles.cardHorizontal} colors={['#FDAD94', '#FC8386']}
+                                    start={{ x: 0, y: 1 }}
+                                    end={{ x: 1, y: 0.9 }}
+                                //  locations={[0.3, 0.6,1]} 
+                                >
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('IdentifyPregnancy')}>
                                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
-                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
                                                 <View style={{ flexDirection: 'column' }}>
-                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  }}>Identify Pregnancy</Text>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Identify Pregnancy</Text>
                                                     <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", marginTop: -3 }}></Text>
-                                                    
+
                                                 </View>
                                                 {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
                                             </View>
@@ -191,15 +203,21 @@ export class MenuScreen extends Component {
                                         </View>
 
                                     </TouchableOpacity>
-                                </Card>
-                                <Card style={styles.cardHorizontal} >
+                                </LinearGradient>
+                                {/* </Card> */}
+                                {/* <Card style={styles.cardHorizontal} > */}
+                                <LinearGradient style={styles.cardHorizontal} colors={['#FD88AC', '#FD598B']}
+                                    start={{ x: 0, y: 1 }}
+                                    end={{ x: 1, y: 0.9 }}
+                                //  locations={[0.3, 0.6,1]} 
+                                >
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('RegularMenstruation')}>
                                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
-                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
                                                 <View style={{ flexDirection: 'column' }}>
                                                     <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Regular Mensturation</Text>
-                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Period</Text>
-                                                    
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", marginTop: -3 }}>Period</Text>
+
                                                 </View>
                                                 {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
                                             </View>
@@ -212,33 +230,68 @@ export class MenuScreen extends Component {
                                         </View>
 
                                     </TouchableOpacity>
-                                </Card>
-                                <Card style={styles.cardHorizontal} >
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('BloodPresure')}>
+                                </LinearGradient>
+                                {/* </Card> */}
+                                <LinearGradient style={styles.cardHorizontal} colors={['#b6fb96', '#71f3da']}
+                                    start={{ x: 0, y: 1 }}
+                                    end={{ x: 1, y: 0.9 }}
+                                //  locations={[0.3, 0.6,1]} 
+                                >
+                                    {/* <Card style={styles.cardHorizontal} > */}
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Investigation')}>
                                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
-                                            <View style={{ flexDirection: 'column',justifyContent:'space-between'}}>
+                                            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
                                                 <View style={{ flexDirection: 'column' }}>
                                                     <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Investigation</Text>
                                                     {/* <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Period</Text> */}
-                                                    
+
                                                 </View>
                                                 {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
                                             </View>
                                             <View style={{ height: 100, marginLeft: 20, paddingTop: 0 }}>
                                                 <Image source={IMAGE.ICON_INVESTIGATION}
                                                     style={{ height: 134, width: 169 }}
-                                                    >
+                                                >
                                                 </Image>
                                             </View>
 
                                         </View>
 
                                     </TouchableOpacity>
-                                </Card>
+                                </LinearGradient>
+                                <LinearGradient style={styles.cardHorizontal} colors={['#fde8b1', '#fbbe91']}
+                                    start={{ x: 0, y: 1 }}
+                                    end={{ x: 1, y: 0.9 }}
+                           
+                                >
+                               
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Excercise')}>
+                                        <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
+                                            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                                                <View style={{ flexDirection: 'column' }}>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Investigation</Text>
+                                                    {/* <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Period</Text> */}
+
+                                                </View>
+                                                {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
+                                            </View>
+                                            <View style={{ height: 100, marginLeft: 20, paddingTop: 0 }}>
+                                                <Image source={IMAGE.ICON_INVESTIGATION}
+                                                    style={{ height: 134, width: 169 }}
+                                                >
+                                                </Image>
+                                            </View>
+
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </LinearGradient>
+
+                           
                             </View>
                         </ScrollView>
-                       
-                        <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 15 }}>Menu</Text>
+                        <View style={{ borderBottomWidth: 0.4, borderBottomColor: 'gray', margin: 12 }}></View>
+                        <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 0 }}>Menu</Text>
                         {/* <View style={{borderTopWidth:6,borderTopColor:"#f78a2c",borderRadius:3,marginHorizontal:16,width:45,marginTop:8}}></View> */}
                         <View style={styles.container}>
 
@@ -293,17 +346,17 @@ export class MenuScreen extends Component {
                                     </View>
                                 </TouchableOpacity>
                             </Card>
-                         
+
                             <Card style={styles.card} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('MatirializeDialog')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('BloodPresure')}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
-                                            <Image source={IMAGE.ICON_HOSPITAL_BAG}
+                                            <Image source={IMAGE.ICON_RED_HEART}
                                                 style={{ height: 55, width: 55 }}
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>werwer bag</Text>
+                                        <Text style={{ marginTop: 5 }}>Blood presure</Text>
 
                                     </View>
                                 </TouchableOpacity>
@@ -373,10 +426,10 @@ export class MenuScreen extends Component {
                         />
                        
                     </View> */}
-                </ScrollView>
+                </ScrollView >
 
 
-            </SafeAreaView>
+            </SafeAreaView >
 
 
         );

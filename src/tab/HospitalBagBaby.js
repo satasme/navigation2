@@ -105,6 +105,8 @@ export class HospitalBagBaby extends Component {
                     isLoading: false,
                 });
 
+                
+
             }
 
 

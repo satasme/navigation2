@@ -218,5 +218,5 @@ const styles = StyleSheet.create({
     marginTop: 90,
     backgroundColor: '#c8e6c9',
     position: 'absolute',
-  }
+  },
 })

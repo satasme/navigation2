@@ -19,3 +19,5 @@ export *from './IdentifyPregnancy';
 export *from './RegularMenstruation';
 export *from './BloodPresure';
 export *from './MatirializeDialog';
+export *from './Investigation';
+export *from './Excercise';

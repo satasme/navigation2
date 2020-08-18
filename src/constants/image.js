@@ -43,7 +43,16 @@ const IMAGE = {
     ICON_SERUM_TEST: require('../images/serumTest.png'),
     ICON_SCANING: require('../images/scan.png'),
     ICON_INVESTIGATION: require('../images/investigation.png'),
-    
+    ICON_RED_HEART: require('../images/heart.png'),
+    ICON_HEART: require('../images/life.png'),
+    ICON_TRASH: require('../images/trash.png'),
+    ICON_EXCERCISE: require('../images/excercise3.png'),
+    ICON_EX_IMG1: require('../images/ex1.png'),
+    ICON_EX_IMG2: require('../images/ex2.png'),
+    ICON_EX_IMG3: require('../images/ex3.png'),
+    ICON_EX_IMG4: require('../images/ex4.png'),
+    ICON_EX_IMG5: require('../images/ex5.png'),
+    ICON_EX_IMG6: require('../images/ex6.png'),
 }
 
 export { IMAGE }
