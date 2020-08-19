@@ -262,9 +262,9 @@ export class MenuScreen extends Component {
                                 <LinearGradient style={styles.cardHorizontal} colors={['#fde8b1', '#fbbe91']}
                                     start={{ x: 0, y: 1 }}
                                     end={{ x: 1, y: 0.9 }}
-                           
+
                                 >
-                               
+
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Excercise')}>
                                         <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
                                             <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -286,8 +286,34 @@ export class MenuScreen extends Component {
 
                                     </TouchableOpacity>
                                 </LinearGradient>
+                                <LinearGradient style={styles.cardHorizontal} colors={['#fde8b1', '#fbbe91']}
+                                    start={{ x: 0, y: 1 }}
+                                    end={{ x: 1, y: 0.9 }}
 
-                           
+                                >
+
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('DitHelthyMother')}>
+                                        <View style={{ flexDirection: "row", justifyContent: 'space-between' }} >
+                                            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                                                <View style={{ flexDirection: 'column' }}>
+                                                    <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold", }}>Investigation</Text>
+                                                    {/* <Text style={{ marginTop: 5, fontSize: 16, fontWeight: "bold",  marginTop: -3 }}>Period</Text> */}
+
+                                                </View>
+                                                {/* <Text style={{paddingTop:65,fontSize:12}}>Food piramid</Text> */}
+                                            </View>
+                                            <View style={{ height: 100, marginLeft: 20, paddingTop: 0 }}>
+                                                <Image source={IMAGE.ICON_INVESTIGATION}
+                                                    style={{ height: 134, width: 169 }}
+                                                >
+                                                </Image>
+                                            </View>
+
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </LinearGradient>
+
                             </View>
                         </ScrollView>
                         <View style={{ borderBottomWidth: 0.4, borderBottomColor: 'gray', margin: 12 }}></View>
@@ -342,6 +368,39 @@ export class MenuScreen extends Component {
                                             </Image>
                                         </View>
                                         <Text style={{ marginTop: 5 }}>Hospital bag</Text>
+
+                                    </View>
+                                </TouchableOpacity>
+                            </Card>
+
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('BloodPresure')}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_ECG}
+                                                style={{ height: 55, width: 55 }}
+                                            >
+                                            </Image>
+                                        </View>
+                                        <Text style={{ marginTop: 5 }}>Blood presure</Text>
+
+                                    </View>
+                                </TouchableOpacity>
+                            </Card>
+
+                        </View>
+                        <View style={styles.container}>
+
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('WeightGain')}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_WEIGHT_SCALE}
+                                                style={{ height: 55, width: 55 }}
+                                            >
+                                            </Image>
+                                        </View>
+                                        <Text style={{ marginTop: 5 }}>Weight Gain chart</Text>
 
                                     </View>
                                 </TouchableOpacity>

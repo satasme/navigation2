@@ -26,7 +26,7 @@ const IMAGE = {
     ICON_MENU_METER: require('../images/speed.png'),
     ICON_MENU_METER1: require('../images/speed1.png'),
     ICON_MENU_METER2: require('../images/performance.png'),
-    ICON_HOSPITAL_BAG: require('../images/backpack.png'),
+    ICON_HOSPITAL_BAG: require('../images/backpack5.png'),
     ICON_HOSPITAL_MOM_BAG: require('../images/2663507.png'),
     ICON_FEMALE: require('../images/female2.png'),
     ICON_DIET_PLAN: require('../images/diet_plan3.png'),
@@ -53,6 +53,9 @@ const IMAGE = {
     ICON_EX_IMG4: require('../images/ex4.png'),
     ICON_EX_IMG5: require('../images/ex5.png'),
     ICON_EX_IMG6: require('../images/ex6.png'),
+    ICON_DEIT_PREG: require('../images/dietPregancy.png'),
+    ICON_WEIGHT_SCALE: require('../images/weightscale.png'),
+    ICON_ECG: require('../images/ecg.png'),
 }
 
 export { IMAGE }

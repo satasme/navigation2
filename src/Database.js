@@ -37,6 +37,7 @@ export default class Database {
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL, [bpmin] INTEGER NOT NULL, [bpmax] INTEGER NOT NULL)');
+                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [WeightGain] ([wgId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [wgDate] NVARCHAR(25) NULL, [wgValue] INTEGER NOT NULL, [wgmin] INTEGER NOT NULL, [wgmax] INTEGER NOT NULL)');
 
                                 }).then(() => {
                                     //console.log("Table created successfully");
@@ -486,6 +487,66 @@ export default class Database {
             });
         });
     }
+    
+    listWeightGain() {
+        return new Promise((resolve) => {
+     
+            const weight_gain = [];
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT w.wgId, w.wgDate, w.wgValue,w.wgmin,w.wgmax FROM WeightGain w ORDER BY w.wgId DESC LIMIT 8 ', []).then(([tx, results]) => {
+
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
+                            const {  wgId, wgDate,wgValue,wgmin,wgmax } = row;
+                            weight_gain.push({
+                             
+                                wgId,
+                                wgDate,
+                                wgValue,
+                                wgmin,
+                                wgmax,
+                              
+
+                            });
+                        }
+                        // console.log(mother_bag);
+                        resolve(weight_gain);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                  //  console.log(err);
+                });
+
+            }).catch((err) => {
+              //  console.log(err);
+            });
+        });
+    }
+    addItemOfWeightGain() {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO WeightGain (wgDate,wgValue,wgmin,wgmax) VALUES ("2020-08-13",79,80,120),("2020-08-14",20,80,120),("2020-08-16",40,80,120)').then(([tx, results]) => {
+                            resolve(results);
+                        });
+                        
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+
      addPBvalue(pb) {
         return new Promise((resolve) => {
 

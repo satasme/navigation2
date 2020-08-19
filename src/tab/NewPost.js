@@ -120,7 +120,7 @@ export class NewPost extends Component {
                         {/* underlineColorAndroid='transparent' */}
                     </View>
                 </View>
-                <View style={{ flex: 1, padding: 0, borderBottomColor: '#cccccc', borderBottomWidth: 1 }}>
+                <View style={{ flex: 1, padding: 0, borderBottomColor: '#ccc', borderBottomWidth: 1 }}>
                     <TextInput multiline={true} underlineColorAndroid="transparent"
                         onChangeText={TextInputValue => this.setState({ TextInputPost: TextInputValue })}
                         placeholder="What's Your mind" style={styles.TextInputStyleClass} onPress={() => this.props.navigation.navigate('NewPost')}>
@@ -172,34 +172,17 @@ export class NewPost extends Component {
                         </View>
                     </View>
                     <TouchableOpacity style={{ marginTop: 20 }}
-                        onPress={this.InputUsers}
+                        onPress={this.InputUsers }
 
-                    >
+                   >
 
                         <Text >
                             POST
-  </Text>
+                         </Text>
 
                     </TouchableOpacity>
 
                 </View>
-
-
-
-
-
-                {/* <View>
-                    {
-                        this.state.names.map((item, index) => (
-                            <ListItem
-                            roundAvatar
-                            title={item.name}
-                            subtitle={item.subtitle}
-                            avatar={{uri:item.avatar_url}}
-                          />
-                        ))
-                    }
-                </View> */}
 
             </SafeAreaView>
         );

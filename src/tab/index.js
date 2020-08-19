@@ -21,3 +21,6 @@ export *from './BloodPresure';
 export *from './MatirializeDialog';
 export *from './Investigation';
 export *from './Excercise';
+export *from './DitHelthyMother';
+export *from './WeightGain';
+export *from './AddWeight';

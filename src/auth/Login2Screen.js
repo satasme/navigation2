@@ -131,7 +131,7 @@ export class Login2Screen extends Component {
                             <TextInput  onChangeText={TextInputValue => this.setState({ TextInputName: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 0 }} label="Username" />
                             <TextInput  secureTextEntry={true}  onChangeText={TextInputValue => this.setState({ TextInputpassword: TextInputValue })} style={{ backgroundColor: '#f2f2f2', marginTop: 15 }} label="Password" />
 
-                            <TouchableOpacity style={{ marginTop: 60 }} onPress={this.InputUsers}>
+                            <TouchableOpacity  activeOpacity={1.0}  ref="touchableOpacity" style={{ marginTop: 60 }} onPress={this.InputUsers}>
 
                                 <LinearGradient colors={['#fbb146', '#f78a2c']}
                                     // '#ffd600',

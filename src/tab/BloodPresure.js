@@ -21,7 +21,7 @@ import CalendarStrip from 'react-native-slideable-calendar-strip';
 import { TextInput } from 'react-native-paper';
 import moment from 'moment' // 2.20.1
 import { IMAGE } from '../constants/image';
-import Icon from 'react-native-vector-icons/Fontisto';
+import { Icon } from 'react-native-elements'
 
 
 const db = new Database();
@@ -151,7 +151,7 @@ export class BloodPresure extends Component {
         const dataClone = { ...self.state.data }
         for (var i = 0; i < result.length; i++) {
           _monthDate = result[i].bpDate.substring(5, 10);
-        
+
           temp2.push([result[i].bpValue]);
           temp3.push([_monthDate]);
           temp4.push([result[i].bpmin]);
@@ -281,39 +281,47 @@ export class BloodPresure extends Component {
             </Card> */}
           {/* <Card>
             <View > */}
-              <View style={{padding: 10,}} >
+          <View style={{ padding: 10, }} >
 
-                <FlatList
+            <FlatList
 
-                  style={{ backgroundColor: 'white' }}
-                  keyExtractor={this.keyExtractor}
-                  data={this.state._list_bpData}
-                  // renderItem={this.renderItem}
+              style={{ backgroundColor: 'white' }}
+              keyExtractor={this.keyExtractor}
+              data={this.state._list_bpData}
+              // renderItem={this.renderItem}
 
-                  renderItem={({ item }) => <ListItem
-                    style={{ height: 50, paddingTop: 15 }}
+              renderItem={({ item }) => <ListItem
+                style={{ height: 50, paddingTop: 15 }}
 
-                  >
-                    <Left>
-                      <Image style={styles.cardAvatar} source={IMAGE.ICON_HEART} />
-                    </Left>
-                    <Body style={{ marginLeft: -150 }}>
-                      <Text style={{ color: 'gray', fontSize: 12 }}>{item.bpDate}</Text>
-                      <Text style={styles.dateText}>{item.bpValue} mm hg</Text>
-                    </Body>
-                    <Right>
-                      <View style={styles.iconMore}>
-                        <Icon name="trash" color="gray" />
-                      </View>
-                    </Right>
-                  </ListItem>
-                  }
-                />
+              >
+                <Left>
+                  <Icon
+                    name='heartbeat'
+                    type='font-awesome'
+                    color='red'
+                    onPress={() => console.log('hello')} />
+                </Left>
+                <Body style={{ marginLeft: -150 }}>
+                  <Text style={{ color: 'gray', fontSize: 12 }}>{item.bpDate}</Text>
+                  <Text style={styles.dateText}>{item.bpValue} mm hg</Text>
+                </Body>
+                <Right>
+                  <View style={styles.iconMore}>
+                  <Icon
+                    name='angle-right'
+                    type='font-awesome'
+                    color='gray'
+                    onPress={() => console.log('hello')} />
+                  </View>
+                </Right>
+              </ListItem>
+              }
+            />
 
-              </View>
+          </View>
 
 
-            {/* </View>
+          {/* </View>
           </Card> */}
 
         </View>

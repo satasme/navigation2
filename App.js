@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { CustomHeader, CustomDrawerContent } from './src';
-import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator, BMIMeter, IdentifyPregnancy,RegularMenstruation, BloodPresure, MatirializeDialog, Investigation, Excercise } from './src/tab';
+import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator, BMIMeter, IdentifyPregnancy,RegularMenstruation, BloodPresure, MatirializeDialog, Investigation, Excercise, DitHelthyMother, WeightGain, AddWeight } from './src/tab';
 import { NotificationsScreen } from './src/drawer';
 import { RegisterScreen, LoginScreen, Login2Screen } from './src/auth';
 import { FlatList } from 'react-native-gesture-handler';
@@ -262,9 +262,10 @@ function DrawerNavigator({ navigation }) {
 }
 
 const StackApp = createStackNavigator()
-
-
-export default function App() {
+// class SplashComponent extends React.Component
+export default class App extends React.Component {
+// export default function App() {
+  render() {
   return (
     <NavigationContainer>
       <StackApp.Navigator initialRouteName="Login">
@@ -286,7 +287,11 @@ export default function App() {
         <StackApp.Screen name="MatirializeDialog" component={MatirializeDialog} options={navOptionHandler} />
         <StackApp.Screen name="Investigation" component={Investigation} options={navOptionHandler} />
         <StackApp.Screen name="Excercise" component={Excercise} options={navOptionHandler} />
+        <StackApp.Screen name="DitHelthyMother" component={DitHelthyMother} options={navOptionHandler} />
+        <StackApp.Screen name="WeightGain" component={WeightGain} options={navOptionHandler} />
+        <StackApp.Screen name="AddWeight" component={AddWeight} options={navOptionHandler} />
       </StackApp.Navigator>
     </NavigationContainer>
   );
+  }
 }
