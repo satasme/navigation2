@@ -214,7 +214,7 @@ export class CreatePost extends Component {
     }
     render() {
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1,backgroundColor:'#f2f2f2' }}>
                 <View style={{ flexDirection: 'row', height: 60, borderBottomColor: '#cccccc', borderBottomWidth: 1, paddingBottom: 10 }} >
                     <View style={{ height: 50, padding: 12 }}>
                         <Image source={IMAGE.ICON_Profile}
@@ -233,14 +233,15 @@ export class CreatePost extends Component {
                 </View>
 
                 <FlatList
-                    // style={st}
-                    
+                  
+                    showsVerticalScrollIndicator={false}
                     data={this.state.data}
                     renderItem={this.renderRow}
                     keyExtractor={(item, index) => index.toString()}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={0}
                     ListFooterComponent={this.renderFooter}
+                  
                 />
                 {/* <FlatList
 

@@ -329,7 +329,9 @@ export class BloodPresure extends Component {
           {/* Rest of the app comes ABOVE the action button component !*/}
           <ActionButton buttonColor="#f78a2c" onPress={() =>
             this.RBSheet.open()
-          }>
+          }
+          style={{position:'absolute',zIndex:999}}
+          >
             {/* <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
             <Icon name="md-create" style={styles.actionButtonIcon} />
           </ActionButton.Item> */}

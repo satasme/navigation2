@@ -492,30 +492,60 @@ export default class Database {
         return new Promise((resolve) => {
      
             const weight_gain = [];
+        
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('SELECT w.wgId, w.wgDate, w.wgValue,w.wgmin,w.wgmax FROM WeightGain w ORDER BY w.wgId DESC LIMIT 8 ', []).then(([tx, results]) => {
-
+                    
+                    tx.executeSql('SELECT w.wgId, w.wgDate, w.wgValue,w.wgmin,w.wgmax FROM WeightGain w ORDER BY w.wgId ASC LIMIT 10 ', []).then(([tx, results]) => {
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
                             const {  wgId, wgDate,wgValue,wgmin,wgmax } = row;
                             weight_gain.push({
-                             
                                 wgId,
                                 wgDate,
                                 wgValue,
                                 wgmin,
                                 wgmax,
-                              
-
                             });
                         }
                         // console.log(mother_bag);
                         resolve(weight_gain);
-                    });
+                    }); 
+                    
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                  //  console.log(err);
+                });
+
+            }).catch((err) => {
+              //  console.log(err);
+            });
+        });
+    }
+    lastWeightGain() {
+        return new Promise((resolve) => {
+
+            var lastweight_gain = 0;
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    
+                    tx.executeSql('SELECT w.wgValue FROM WeightGain w ORDER BY w.wgId DESC LIMIT 1 ', []).then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
+                            const {  wgValue} = row;
+                            lastweight_gain=wgValue;
+                        }
+                        // console.log(mother_bag);
+                        resolve(lastweight_gain);
+                    }); 
+                    
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -532,7 +562,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO WeightGain (wgDate,wgValue,wgmin,wgmax) VALUES ("2020-08-13",79,80,120),("2020-08-14",20,80,120),("2020-08-16",40,80,120)').then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO WeightGain (wgDate,wgValue,wgmin,wgmax) VALUES ("2020-01-1",0,0,0)').then(([tx, results]) => {
                             resolve(results);
                         });
                         
@@ -555,7 +585,26 @@ export default class Database {
                     tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES (?,?,?,?)', [pb.bpDate,pb.bpValue,80,120]).then(([tx, results]) => {
                         resolve(results);
                     });
-                    console.log("resultsss >>>>>>>>>>>>>>>>>>> : "+pb.bpValue);
+                   
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    addWGvalue(wg) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO WeightGain (wgDate,wgValue,wgmin,wgmax) VALUES (?,?,?,?)', [wg.wgDate,wg.wgValue,80,120]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+                    console.log("resultsss >>>>>>>>>>>>>>>>>>> : "+wg.wgValue);
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {

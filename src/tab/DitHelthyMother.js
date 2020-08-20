@@ -4,7 +4,7 @@ import { IMAGE } from '../constants/image';
 
 import { CustomHeader } from '../index';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
-import CalendarStrip from 'react-native-slideable-calendar-strip';
+
 export class DitHelthyMother extends Component {
   render() {
     return (
