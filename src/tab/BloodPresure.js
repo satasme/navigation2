@@ -21,7 +21,7 @@ import CalendarStrip from 'react-native-slideable-calendar-strip';
 import { TextInput } from 'react-native-paper';
 import moment from 'moment' // 2.20.1
 import { IMAGE } from '../constants/image';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 
 
 const db = new Database();
@@ -138,10 +138,10 @@ export class BloodPresure extends Component {
     db.listBloodPresure().then((data) => {
       result = data;
       if (result == 0) {
-        db.addItemOfBloodPresure().then((result) => {
-        }).catch((err) => {
-          console.log(err);
-        })
+        // db.addItemOfBloodPresure().then((result) => {
+        // }).catch((err) => {
+        //   console.log(err);
+        // })
       } else {
         var temp2 = [];
         var temp3 = [];

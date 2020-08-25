@@ -26,33 +26,34 @@ export default class Database {
                     )
                         .then(DB => {
                             db = DB;
-                          // console.log("Database OPEN");
+                            // console.log("Database OPEN");
                             db.executeSql('SELECT 1 FROM Period LIMIT 1').then(() => {
-                              //  console.log("Database is ready ... executing query ...");
+                                //  console.log("Database is ready ... executing query ...");
                             }).catch((error) => {
-                              //  console.log("Received error: ", error);
-                              //  console.log("Database not yet ready ... populating data");
+                                //  console.log("Received error: ", error);
+                                //  console.log("Database not yet ready ... populating data");
                                 db.transaction((tx) => {
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL, [bpmin] INTEGER NOT NULL, [bpmax] INTEGER NOT NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [WeightGain] ([wgId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [wgDate] NVARCHAR(25) NULL, [wgValue] INTEGER NOT NULL, [wgmin] INTEGER NOT NULL, [wgmax] INTEGER NOT NULL)');
+                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [KickCount] ([kcId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [kcDate] NVARCHAR(25) NULL, [kcCount] INTEGER NOT NULL)');
 
                                 }).then(() => {
                                     //console.log("Table created successfully");
                                 }).catch(error => {
-                                   // console.log(error);
+                                    // console.log(error);
                                 });
                             });
                             resolve(db);
                         })
                         .catch(error => {
-                           // console.log(error);
+                            console.log(error);
                         });
                 })
                 .catch(error => {
-                  //  console.log("echoTest failed - plugin not functional");
+                     console.log("echoTest failed - plugin not functional");
                 });
         });
 
@@ -60,16 +61,16 @@ export default class Database {
 
     closeDatabase(db) {
         if (db) {
-          //  console.log("Closing DB");
+            //  console.log("Closing DB");
             db.close()
                 .then(status => {
-                //    console.log("Database CLOSED");
+                    //    console.log("Database CLOSED");
                 })
                 .catch(error => {
                     // this.errorCB(error);
                 });
         } else {
-           // console.log("Database was not OPENED");
+            // console.log("Database was not OPENED");
         }
     };
     loadDB() {
@@ -207,7 +208,7 @@ export default class Database {
             });
         });
     }
-   
+
     listProduct() {
         return new Promise((resolve) => {
             const products = [];
@@ -215,11 +216,11 @@ export default class Database {
             this.initDB().then((db) => {
                 db.transaction((tx) => {
                     tx.executeSql('SELECT p.pId, p.pName FROM Period p', []).then(([tx, results]) => {
-                        console.log("Query completed");
+                        // console.log("Query completed");
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
-                           // console.log(`Prr ID: ${row.pId}, Pr Name: ${row.pName}`)
+                            // console.log(`Prr ID: ${row.pId}, Pr Name: ${row.pName}`)
                             const { pId, pName } = row;
                             products.push({
                                 pId,
@@ -227,7 +228,7 @@ export default class Database {
 
                             });
                         }
-                       // console.log(products);
+                        // console.log(products);
                         resolve(products);
                     });
                 }).then((result) => {
@@ -257,10 +258,10 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                //    console.log(err);
+                    //    console.log(err);
                 });
             }).catch((err) => {
-              //  console.log(err);
+                //  console.log(err);
             });
         });
     }
@@ -279,10 +280,10 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                //    console.log(err);
+                    //    console.log(err);
                 });
             }).catch((err) => {
-              //  console.log(err);
+                //  console.log(err);
             });
         });
     }
@@ -298,7 +299,7 @@ export default class Database {
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
-                            const { bId, bName, bStatus,bDate } = row;
+                            const { bId, bName, bStatus, bDate } = row;
                             baby_bag.push({
                                 bId,
                                 bName,
@@ -313,11 +314,11 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                  //  console.log(err);
+                    //  console.log(err);
                 });
 
             }).catch((err) => {
-              //  console.log(err);
+                //  console.log(err);
             });
         });
     }
@@ -333,7 +334,7 @@ export default class Database {
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
-                            const { hId, hName, hStatus,hDate } = row;
+                            const { hId, hName, hStatus, hDate } = row;
                             mother_bag.push({
                                 hId,
                                 hName,
@@ -348,11 +349,11 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                  //  console.log(err);
+                    //  console.log(err);
                 });
 
             }).catch((err) => {
-              //  console.log(err);
+                //  console.log(err);
             });
         });
     }
@@ -364,20 +365,20 @@ export default class Database {
             } else {
                 status = "true";
             }
-          //  console.log(">>>>>>>>>>>>>>>>>>> date eka >>>>>>>>>>>> : "+data.date);
+            //  console.log(">>>>>>>>>>>>>>>>>>> date eka >>>>>>>>>>>> : "+data.date);
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('UPDATE Hospitalbagmother SET hStatus = ?,hDate=?    WHERE hId = ?', [status,data.date, data.hId]).then(([tx, results]) => {
+                    tx.executeSql('UPDATE Hospitalbagmother SET hStatus = ?,hDate=?    WHERE hId = ?', [status, data.date, data.hId]).then(([tx, results]) => {
                         resolve(results);
                     });
 
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                 //   console.log(err);
+                    //   console.log(err);
                 });
             }).catch((err) => {
-               // console.log(err);
+                console.log(err);
             });
         });
     }
@@ -389,20 +390,20 @@ export default class Database {
             } else {
                 status = "true";
             }
-          //  console.log(">>>>>>>>>>>>>>>>>>> date eka >>>>>>>>>>>> : "+data.date);
+            //  console.log(">>>>>>>>>>>>>>>>>>> date eka >>>>>>>>>>>> : "+data.date);
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('UPDATE Hospitalbagbaby SET bStatus = ?,bDate=?    WHERE bId = ?', [status,data.date, data.bId]).then(([tx, results]) => {
+                    tx.executeSql('UPDATE Hospitalbagbaby SET bStatus = ?,bDate=?    WHERE bId = ?', [status, data.date, data.bId]).then(([tx, results]) => {
                         resolve(results);
                     });
 
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                 //   console.log(err);
+                    //   console.log(err);
                 });
             }).catch((err) => {
-               // console.log(err);
+                // console.log(err);
             });
         });
     }
@@ -415,7 +416,7 @@ export default class Database {
                         + '("Shopping bag 04 (clean)","false"),("Bed sheet 01 (pillow)","false"),("Blade-01 or a bottle of anima","false"),("A pair of rubber slippers","false")').then(([tx, results]) => {
                             resolve(results);
                         });
-                        tx.executeSql('INSERT INTO Hospitalbagbaby (bName,bStatus) VALUES ("Small Cloths 10-12","false"),'
+                    tx.executeSql('INSERT INTO Hospitalbagbaby (bName,bStatus) VALUES ("Small Cloths 10-12","false"),'
                         + '("Napkin - 24","false"),("Panel cloths to wrap the baby -03 (length 36 width 36 inch)","false"),("Cotton cloths to wrap the baby -03 (length 36 width 36 inch)","false"),("Umbillical  card clip -01","false"),("Baby mosquito net","false"),("Small wash basin to wash baby 01","false"),("Rubber sheet -01","false"),("Socks, Caps, Jackets to warm baby","false")').then(([tx, results]) => {
                             resolve(results);
                         });
@@ -435,9 +436,9 @@ export default class Database {
             this.initDB().then((db) => {
                 db.transaction((tx) => {
                     tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES ("2020-08-13",79,80,120),("2020-08-14",20,80,120),("2020-08-16",40,80,120)').then(([tx, results]) => {
-                            resolve(results);
-                        });
-                        
+                        resolve(results);
+                    });
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -450,7 +451,7 @@ export default class Database {
     }
     listBloodPresure() {
         return new Promise((resolve) => {
-     
+
             const blood_presure = [];
 
             this.initDB().then((db) => {
@@ -461,15 +462,15 @@ export default class Database {
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
-                            const {  bpId, bpDate,bpValue,bpmin,bpmax } = row;
+                            const { bpId, bpDate, bpValue, bpmin, bpmax } = row;
                             blood_presure.push({
-                             
+
                                 bpId,
                                 bpDate,
                                 bpValue,
                                 bpmin,
                                 bpmax,
-                              
+
 
                             });
                         }
@@ -479,30 +480,30 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                  //  console.log(err);
+                     console.log(err);
                 });
 
             }).catch((err) => {
-              //  console.log(err);
+                 console.log(err);
             });
         });
     }
-    
+
     listWeightGain() {
         return new Promise((resolve) => {
-     
+
             const weight_gain = [];
-        
+
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    
+
                     tx.executeSql('SELECT w.wgId, w.wgDate, w.wgValue,w.wgmin,w.wgmax FROM WeightGain w ORDER BY w.wgId ASC LIMIT 10 ', []).then(([tx, results]) => {
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
-                            const {  wgId, wgDate,wgValue,wgmin,wgmax } = row;
+                            const { wgId, wgDate, wgValue, wgmin, wgmax } = row;
                             weight_gain.push({
                                 wgId,
                                 wgDate,
@@ -513,16 +514,16 @@ export default class Database {
                         }
                         // console.log(mother_bag);
                         resolve(weight_gain);
-                    }); 
-                    
+                    });
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                  //  console.log(err);
+                     console.log(err);
                 });
 
             }).catch((err) => {
-              //  console.log(err);
+                 console.log(err);
             });
         });
     }
@@ -533,27 +534,27 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    
+
                     tx.executeSql('SELECT w.wgValue FROM WeightGain w ORDER BY w.wgId DESC LIMIT 1 ', []).then(([tx, results]) => {
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
-                            const {  wgValue} = row;
-                            lastweight_gain=wgValue;
+                            const { wgValue } = row;
+                            lastweight_gain = wgValue;
                         }
                         // console.log(mother_bag);
                         resolve(lastweight_gain);
-                    }); 
-                    
+                    });
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                  //  console.log(err);
+                     console.log(err);
                 });
 
             }).catch((err) => {
-              //  console.log(err);
+                 console.log(err);
             });
         });
     }
@@ -563,9 +564,9 @@ export default class Database {
             this.initDB().then((db) => {
                 db.transaction((tx) => {
                     tx.executeSql('INSERT INTO WeightGain (wgDate,wgValue,wgmin,wgmax) VALUES ("2020-01-1",0,0,0)').then(([tx, results]) => {
-                            resolve(results);
-                        });
-                        
+                        resolve(results);
+                    });
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -577,15 +578,15 @@ export default class Database {
         });
     }
 
-     addPBvalue(pb) {
+    addPBvalue(pb) {
         return new Promise((resolve) => {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES (?,?,?,?)', [pb.bpDate,pb.bpValue,80,120]).then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES (?,?,?,?)', [pb.bpDate, pb.bpValue, 80, 120]).then(([tx, results]) => {
                         resolve(results);
                     });
-                   
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -601,10 +602,10 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO WeightGain (wgDate,wgValue,wgmin,wgmax) VALUES (?,?,?,?)', [wg.wgDate,wg.wgValue,80,120]).then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO WeightGain (wgDate,wgValue,wgmin,wgmax) VALUES (?,?,?,?)', [wg.wgDate, wg.wgValue, 80, 120]).then(([tx, results]) => {
                         resolve(results);
                     });
-                    console.log("resultsss >>>>>>>>>>>>>>>>>>> : "+wg.wgValue);
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -615,6 +616,103 @@ export default class Database {
             });
         });
     }
-    
+    addKickCount(kc) {
+        return new Promise((resolve) => {
 
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO KickCount (kcDate,kcCount) VALUES (?,?)', [kc.kcDate, kc.kcValue]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    listKickCount(data) {
+        return new Promise((resolve) => {
+            var kick_count = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM KickCount k WHERE kcDate=?', [data.kcDate]).then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { kcId, kcDate, kcCount } = row;
+                            kick_count.push({
+                                kcId,
+                                kcDate,
+                                kcCount,
+
+                            });
+                        }
+                        resolve(kick_count);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                     console.log(err);
+                });
+
+            }).catch((err) => {
+                 console.log(err);
+            });
+        });
+    }
+    updateClickCount(data) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('UPDATE KickCount SET kcCount = ?    WHERE kcDate = ?', [data.kcValue, data.kcDate]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+                 
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                      console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    listAllKickCount() {
+        return new Promise((resolve) => {
+            var kick_count = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM KickCount k').then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { kcId, kcDate, kcCount } = row;
+                            kick_count.push({
+                                kcId,
+                                kcDate,
+                                kcCount,
+
+                            });
+                        }
+                        resolve(kick_count);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                     console.log(err);
+                });
+
+            }).catch((err) => {
+                 console.log(err);
+            });
+        });
+    }
 }

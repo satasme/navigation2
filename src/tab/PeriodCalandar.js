@@ -47,13 +47,13 @@ export class PeriodCalandar extends Component {
             pName: '',
             isLoading: false,
             ovulation_date: '',
-            next_period_date:'',
+            next_period_date: '',
         }
     }
     componentDidMount() {
         db.loadDB();
         let _ovfdate = "";
-        let _next_p_date="";
+        let _next_p_date = "";
         let selected = true;
         let markedDates = {}
 
@@ -62,13 +62,15 @@ export class PeriodCalandar extends Component {
             products = data;
             for (var i = 0; i < products.length; i++) {
                 _pdate = products[i].pName
+             
                 if (this.state._markedDates[_pdate]) {
                     selected = !this.state._markedDates[_pdate].selected;
                     markedDates = this.state._markedDates[_pdate];
+                    console.log(">>>>>>>>>>>>>>>>>>>>>sdasd reverse  : " +this.state._markedDates[_pdate]);
                 }
                 if (_pdate.substring(0, 7) == _today.substring(0, 7)) {
                     _ovfdate = moment(_pdate).add(14, 'day').format('YYYY-MM-DD');
-                    _next_p_date= moment(_pdate).add(28, 'day').format('YYYY-MM-DD');
+                    _next_p_date = moment(_pdate).add(28, 'day').format('YYYY-MM-DD');
                 }
 
                 markedDates = { ...markedDates, ...{ selected }, selectedColor: "red" };
@@ -91,10 +93,10 @@ export class PeriodCalandar extends Component {
             this.setState({
                 _markedDates: updatedMarkedDates,
                 _markedDates: updatedMarkedDates2,
-                
+
             });
-            console.log(">>>>>>>>>>>>>>>>>>>>> : "+this.state.ovulation_date);
-            console.log("<<<<<<<<<<<<<<<<<<<<< : "+this.state.next_period_date);
+
+            console.log("<<<<<<<<<<<<<<<<<<<<< : " + this.state.next_period_date);
         }).catch((err) => {
             console.log(err);
             this.setState = {
@@ -107,7 +109,7 @@ export class PeriodCalandar extends Component {
         this.setState({
             isLoading: true,
 
-          
+
         });
         let data = {
             // pId: this.state.pId,
@@ -168,6 +170,9 @@ export class PeriodCalandar extends Component {
 
     renderHeader = () => { }
     render() {
+        const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
+        const massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
+        const workout = { key: 'workout', color: 'green' };
         console.log("set sate eke value eka  : " + this.state.pName);
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#fce4ec' }}>
@@ -216,7 +221,13 @@ export class PeriodCalandar extends Component {
                             </Card.Content>
 
                         </Card>
-
+                        <Calendar
+                            markedDates={{
+                                '2020-08-25': { dots: [vacation, massage, workout], selected: true, selectedColor: 'red' },
+                                '2020-08-26': { dots: [massage, workout], disabled: true }
+                            }}
+                            markingType={'multi-dot'}
+                        />
                         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
                             <Text style={{ color: 'grey' }}>Period</Text>
                             <Text style={{ fontSize: 40, }}>3 Days left</Text>
@@ -293,9 +304,9 @@ const styles = StyleSheet.create({
         padding: 12,
         borderRadius: 25,
         // width:'200',
-        width:300,
+        width: 300,
 
-        marginTop:20
+        marginTop: 20
     },
     buttonText: {
         fontSize: 15,

@@ -111,10 +111,11 @@ export class Login2Screen extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                    <StatusBar barStyle = "dark-content" hidden = {false} backgroundColor = "#fff" />
+                   <CustomHeader bgcolor='#f2f2f2' title="" navigation={this.props.navigation} bdcolor='#f2f2f2' />
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     style={styles.scrollView}>
-                    <CustomHeader bgcolor='#f2f2f2' title="" navigation={this.props.navigation} bdcolor='#f2f2f2' />
+                   
                     <View style={{
                         flex: 1, justifyContent: 'center', paddingHorizontal: 15,
                         paddingVertical: 0,

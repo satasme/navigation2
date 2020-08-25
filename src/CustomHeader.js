@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { Icon } from 'react-native-elements';
 import { IMAGE } from './constants/image';
 
 const styles = StyleSheet.create({
@@ -26,23 +26,39 @@ export class CustomHeader extends Component {
         <View style={{ flex: 1, justifyContent: 'center' }}>
           {
             isHome ?
-              <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                <Image style={{ width: 20, height: 20, marginLeft: 10 }}
+              <TouchableOpacity >
+                 <Icon
+                  // raised
+                  name='bars'
+                  type='font-awesome'
+                  color='black'
+                  iconStyle={{ fontSize: 30 ,}}
+                  onPress={() => navigation.openDrawer()}/>
+                {/* <Image style={{ width: 20, height: 20, marginLeft: 10 }}
                   source={IMAGE.ICON_MENU}
                   resizeMode="contain"
 
-                />
+                /> */}
               </TouchableOpacity>
 
               :
               <TouchableOpacity
-                style={{ flexDirection: 'row', alignItems: 'center' }}
+                style={{ flexDirection: 'row', alignItems: 'center',marginLeft:18 }}
                 onPress={() => this.props.navigation.goBack()}
               >
-                <Image style={{ width: 20, height: 20, marginLeft: 10 }}
+
+                <Icon
+                  // raised
+                  name='angle-left'
+                  type='font-awesome'
+                  color='black'
+                  iconStyle={{ fontSize: 30 ,}}
+                  onPress={() => this.props.navigation.goBack()}/>
+
+                {/* <Image style={{ width: 20, height: 20, marginLeft: 10 }}
                   source={IMAGE.ICON_BACK}
                   resizeMode="contain"
-                />
+                /> */}
                 {/* <Text>Back</Text> */}
               </TouchableOpacity>
 

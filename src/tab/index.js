@@ -24,3 +24,4 @@ export *from './Excercise';
 export *from './DitHelthyMother';
 export *from './WeightGain';
 export *from './AddWeight';
+export *from './KickCounter';

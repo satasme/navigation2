@@ -56,6 +56,10 @@ const IMAGE = {
     ICON_DEIT_PREG: require('../images/dietPregancy.png'),
     ICON_WEIGHT_SCALE: require('../images/weightscale.png'),
     ICON_ECG: require('../images/ecg.png'),
+    ICON_BABY_FOOT: require('../images/foot3.png'),
+    ICON_BABY_FOOT2: require('../images/foot5.png'),
+    ICON_BABY_KICK1: require('../images/babykick2.png'),
+    ICON_BABY_KICK2: require('../images/prenatal-kicks3.jpg'),
 }
 
 export { IMAGE }

@@ -316,7 +316,7 @@ export class MenuScreen extends Component {
 
                             </View>
                         </ScrollView>
-                        <View style={{ borderBottomWidth: 0.4, borderBottomColor: 'gray', margin: 12 }}></View>
+                        {/* <View style={{ borderBottomWidth: 0.4, borderBottomColor: 'gray', margin: 12 }}></View> */}
                         <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 0 }}>Menu</Text>
                         {/* <View style={{borderTopWidth:6,borderTopColor:"#f78a2c",borderRadius:3,marginHorizontal:16,width:45,marginTop:8}}></View> */}
                         <View style={styles.container}>
@@ -407,15 +407,15 @@ export class MenuScreen extends Component {
                             </Card>
 
                             <Card style={styles.card} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('BloodPresure')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('KickCounter')}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
-                                            <Image source={IMAGE.ICON_RED_HEART}
+                                            <Image source={IMAGE.ICON_BABY_FOOT}
                                                 style={{ height: 55, width: 55 }}
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>Blood presure</Text>
+                                        <Text style={{ marginTop: 5 }}>Kick Counter</Text>
 
                                     </View>
                                 </TouchableOpacity>

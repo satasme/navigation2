@@ -29,9 +29,9 @@ export class WeightGain extends Component {
     super(props);
     this.state = {
       _list_wgData: [],
-      _lastWeigtValue: "",
-      _min_weight: '',
-      _max_weight: '',
+      _lastWeigtValue:0,
+      _min_weight: 0,
+      _max_weight: 0,
       selectedDate: new Date(),
       visible: true,
       isLoading: true,
@@ -54,7 +54,7 @@ export class WeightGain extends Component {
             color: (opacity = 1) => `rgba(156,39,176, ${opacity})`, // optional
           },
           {
-            data: [1],
+            data: [2],
             strokeWidth: 2,
             color: (opacity = 1) => `rgba(232,30,99, ${opacity})`, // optional
           },
@@ -113,6 +113,7 @@ export class WeightGain extends Component {
           temp2.push([result[i].wgValue]);
           temp3.push([_monthDate]);
           if (tempMin != 0) {
+       
             minValue += (12 / 10);
             maxValue += (14 / 10);
             temppp = parseFloat(weight_firstMonth) + parseFloat(minValue.toFixed(2));
@@ -120,16 +121,18 @@ export class WeightGain extends Component {
 
             temp4.push(temppp);
             temp5.push(tempmax);
+         
           } else {
-
+          
             temppp = weight_firstMonth;
-
+            tempmax= weight_firstMonth;
             temp4.push(temppp);
-            temp5.push(temppp);
+            temp5.push(parseFloat(tempmax)+0.001);
+           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : "+temppp);
           }
 
           tempMin = [result[i].wgValue];
-
+       
         }
 
 
@@ -224,7 +227,7 @@ export class WeightGain extends Component {
               width={Dimensions.get("window").width - 20}
               // yAxisLabel={"$"}
               height={175}
-              bezier
+              // bezier
               verticalLabelRotation={-10}
               chartConfig={chartConfig}
               style={{
