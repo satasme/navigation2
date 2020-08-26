@@ -33,7 +33,7 @@ export default class Database {
                                 //  console.log("Received error: ", error);
                                 //  console.log("Database not yet ready ... populating data");
                                 db.transaction((tx) => {
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL)');
+                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL, [pCatId] INTEGER NOT NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
                                     tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL, [bpmin] INTEGER NOT NULL, [bpmax] INTEGER NOT NULL)');
@@ -53,7 +53,7 @@ export default class Database {
                         });
                 })
                 .catch(error => {
-                     console.log("echoTest failed - plugin not functional");
+                    console.log("echoTest failed - plugin not functional");
                 });
         });
 
@@ -195,7 +195,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO Period VALUES (?, ?)', [null, pd.pName]).then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO Period VALUES (?, ?,?)', [null, pd.pName, 1]).then(([tx, results]) => {
                         resolve(results);
                     });
                 }).then((result) => {
@@ -207,6 +207,45 @@ export default class Database {
                 console.log(err);
             });
         });
+    } 
+     deletePeriod(id) {
+        return new Promise((resolve) => {
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('DELETE FROM Period WHERE pId = ?', [id]).then(([tx, results]) => {
+                        console.log(results);
+                        resolve(results);
+                    });
+                    
+                    console.log("^^^^^^^^^^^^^^^^^^@@@@@@@@@@@@@@^^^^^^^^ deleted: " + id);
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    updateperiodCurentMonth(data) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('UPDATE Period SET pName = ?   WHERE pId = ?', [data.pName, data.pId]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+                    console.log("^^^^^^^^^^^^^^^^^^@@@@@@@@@@@@@@^^^^^^^^: " + data.pName);
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    //   console.log(err);
+                });
+            }).catch((err) => {
+                // console.log(err);
+            });
+        });
     }
 
     listProduct() {
@@ -215,16 +254,17 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('SELECT p.pId, p.pName FROM Period p', []).then(([tx, results]) => {
+                    tx.executeSql('SELECT p.pId, p.pName,p.pCatId FROM Period p', []).then(([tx, results]) => {
                         // console.log("Query completed");
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.pId}, Pr Name: ${row.pName}`)
-                            const { pId, pName } = row;
+                            const { pId, pName, pCatId } = row;
                             products.push({
                                 pId,
                                 pName,
+                                pCatId
 
                             });
                         }
@@ -241,7 +281,39 @@ export default class Database {
             });
         });
     }
+    listLastPeriodDate() {
+        return new Promise((resolve) => {
+            const products = [];
 
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM Period p  ORDER BY p.pId DESC LIMIT 1 ').then(([tx, results]) => {
+                        // console.log("Query completed");
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            // console.log(`Prr ID: ${row.pId}, Pr Name: ${row.pName}`)
+                            const { pId, pName, pCatId } = row;
+                            products.push({
+                                pId,
+                                pName,
+                                pCatId
+
+                            });
+                        }
+                        // console.log(products);
+                        resolve(products);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
 
     listBag() {
         return new Promise((resolve) => {
@@ -480,11 +552,11 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                     console.log(err);
+                    console.log(err);
                 });
 
             }).catch((err) => {
-                 console.log(err);
+                console.log(err);
             });
         });
     }
@@ -519,11 +591,11 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                     console.log(err);
+                    console.log(err);
                 });
 
             }).catch((err) => {
-                 console.log(err);
+                console.log(err);
             });
         });
     }
@@ -550,11 +622,11 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                     console.log(err);
+                    console.log(err);
                 });
 
             }).catch((err) => {
-                 console.log(err);
+                console.log(err);
             });
         });
     }
@@ -657,11 +729,11 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                     console.log(err);
+                    console.log(err);
                 });
 
             }).catch((err) => {
-                 console.log(err);
+                console.log(err);
             });
         });
     }
@@ -673,11 +745,11 @@ export default class Database {
                     tx.executeSql('UPDATE KickCount SET kcCount = ?    WHERE kcDate = ?', [data.kcValue, data.kcDate]).then(([tx, results]) => {
                         resolve(results);
                     });
-                 
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                      console.log(err);
+                    console.log(err);
                 });
             }).catch((err) => {
                 console.log(err);
@@ -707,11 +779,42 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                     console.log(err);
+                    console.log(err);
                 });
 
             }).catch((err) => {
-                 console.log(err);
+                console.log(err);
+            });
+        });
+    }
+    listGetCurrntMonthPeriod() {
+        return new Promise((resolve) => {
+            var kick_count = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM Period p WHERE p.pCatId=?', [1]).then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { pId, pName, } = row;
+                            kick_count.push({
+                                pId,
+                                pName,
+
+
+                            });
+                        }
+                        resolve(kick_count);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
             });
         });
     }

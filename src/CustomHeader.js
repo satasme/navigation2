@@ -52,7 +52,7 @@ export class CustomHeader extends Component {
                   name='angle-left'
                   type='font-awesome'
                   color='black'
-                  iconStyle={{ fontSize: 30 ,}}
+                  iconStyle={{ fontSize: 34 ,}}
                   onPress={() => this.props.navigation.goBack()}/>
 
                 {/* <Image style={{ width: 20, height: 20, marginLeft: 10 }}
