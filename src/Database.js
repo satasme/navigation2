@@ -216,8 +216,6 @@ export default class Database {
                         console.log(results);
                         resolve(results);
                     });
-                    
-                    console.log("^^^^^^^^^^^^^^^^^^@@@@@@@@@@@@@@^^^^^^^^ deleted: " + id);
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -236,7 +234,7 @@ export default class Database {
                     tx.executeSql('UPDATE Period SET pName = ?   WHERE pId = ?', [data.pName, data.pId]).then(([tx, results]) => {
                         resolve(results);
                     });
-                    console.log("^^^^^^^^^^^^^^^^^^@@@@@@@@@@@@@@^^^^^^^^: " + data.pName);
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -805,6 +803,55 @@ export default class Database {
                             });
                         }
                         resolve(kick_count);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    addEDD(pd) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO Period VALUES (?, ?,?)', [null, pd.pName, 2]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } 
+    getEddDate() {
+        return new Promise((resolve) => {
+            var edd_date = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM Period p WHERE p.pCatId=?', [2]).then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { pId, pName, } = row;
+                            edd_date.push({
+                                pId,
+                                pName,
+
+
+                            });
+                        }
+                        resolve(edd_date);
                     });
 
                 }).then((result) => {

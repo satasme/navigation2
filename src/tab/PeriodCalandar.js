@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { Modal, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { Modal, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, Image } from 'react-native';
 
 import { CustomHeader } from '../index';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from 'moment' // 2.20.1
-
+import { IMAGE } from '../constants/image';
 // import SwipeablePanel from 'rn-swipeable-panel';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { TextInput, Card, Title, Paragraph } from 'react-native-paper';
 import { Button } from 'react-native-elements';
-
+import { Icon } from 'react-native-elements';
 import Database from '../Database';
-
+// import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 
 
 const _format = 'YYYY-MM-DD'
@@ -21,28 +21,16 @@ const _maxDate = moment().add(31, 'days').format(_format)
 import { extendMoment } from 'moment-range';
 const moments = extendMoment(moment);
 
-// '2012-05-16': {selected: true, marked: true, selectedColor: 'blue'},
-// const vacation = { key: 'vacation', color: 'red', selectedColor: 'blue' };
-// const massage = { key: 'massage', color: 'blue', selectedColor: 'blue' };
-// const workout = { key: 'workout', color: 'green' };
-
-
-
 
 const db = new Database();
 
 let _next_pLast_date;
 export class PeriodCalandar extends Component {
-
-
     initialState = {
         [_today]: { disabled: false }
     }
-
     constructor(props) {
-
         super(props);
-
         this.state = {
             _markedDates: this.initialState,
             marked: null,
@@ -50,15 +38,11 @@ export class PeriodCalandar extends Component {
             isLoading: false,
             ovulation_date: '',
             next_period_date: '',
-            reacl_next_p_date: ''
+            reacl_next_p_date: '',
+            reacl_next_ov_date: ''
         }
-
-
     }
-
-
     componentDidMount() {
-
         /////////////////////////testing///////////////////
         // var arr = ["2020-08-01", "2020-08-03", "2020-08-05", "2020-08-08", "2020-08-10"];
         // var result = arr.reduce((a, c) => {
@@ -75,7 +59,6 @@ export class PeriodCalandar extends Component {
         db.loadDB();
         let _ovfdate = "";
         let _ovfLastdate;
-
         let _next_p_date = "";
         let selected = true;
         let markedDates = {}
@@ -85,27 +68,32 @@ export class PeriodCalandar extends Component {
         let _plastdate;
         let _plastcatId;
 
-
         db.listLastPeriodDate().then((datat) => {
             period = datat;
             for (var i = 0; i < period.length; i++) {
                 _plastdate = period[i].pName
                 _plastcatId = period[i].pCatId
-
                 _ovfLastdate = moment(_plastdate).add(14, 'day').format('YYYY-MM-DD');
                 _next_pLast_date = moment(_plastdate).add(28, 'day').format('YYYY-MM-DD');
-
-
             }
-            this.setState({
+            const start = moment(_today, 'YYYY-MM-DD');
+            const end = moment(_next_pLast_date, 'YYYY-MM-DD');
+            const range = moment.range(start, end);
+            const range2 = range.snapTo('day');
 
+            const end2 = moment(_ovfLastdate, 'YYYY-MM-DD');
+            const range3 = moment.range(start, end2);
+            const range4 = range3.snapTo('day');
+            this.setState({
                 ovulation_date: _ovfLastdate,
                 next_period_date: _next_pLast_date,
+                reacl_next_p_date: range2.diff('days'),
+                reacl_next_ov_date: range4.diff('days'),
             });
             this.tmpArray = [
 
-                { date: this.state.ovulation_date, age: 10, color: "green" },
-                { date: this.state.next_period_date, age: 10, color: "pink" },
+                { date: this.state.ovulation_date, age: 10, color: "#008e76" },
+                { date: this.state.next_period_date, age: 10, color: "#f06292" },
             ];
             {
                 this.tmpArray.map((item, key) => (
@@ -116,9 +104,9 @@ export class PeriodCalandar extends Component {
                     })
                 ))
             }
-           
+
         });
-        console.log("^^^^^^^^^^^^^^^^^^^^^^%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% : "+this.state.next_period_date);
+
         // .catch((err) => {
         //     console.log(err);
         //     this.setState = {
@@ -169,8 +157,6 @@ export class PeriodCalandar extends Component {
             // }
 
 
-
-
             // markedDates = { ...markedDates, ...{ selected }, selectedColor: "red" };
             // updatedMarkedDates = { ...this.state._markedDates, ...{ ["2020-09-11"]: markedDates } }
 
@@ -193,48 +179,12 @@ export class PeriodCalandar extends Component {
                 isLoading: false
             }
         })
-
-        this.countDate();
     }
-    countDate() {
-        const start = moment(_today, 'YYYY-MM-DD');
-        const end = moment(this.state.next_period_date, 'YYYY-MM-DD');
-        const range = moment.range(start, end);
-        const range2 = range.snapTo('day');
-        const dif =range2.diff('days');
-        // console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII > :" + range2.diff('days'));
 
-        // this.setState({
-        //         reacl_next_p_date: dif,
-        //     })
-    }
-    componentDidUpdate() {
-
-        // this.countDate();
-        // const start = moment(_today, 'YYYY-MM-DD');
-        // const end = moment(this.state.next_period_date, 'YYYY-MM-DD');
-        // const range = moment.range(start, end);
-        // const range2 = range.snapTo('day');
-        // console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII > :" + range2.diff('days'));
-        // this.setState({
-        //     reacl_next_p_date: range2.diff('days'),
-        // })
-        // const start = moment('2018-01-25 17:05:33');
-        // const end = moment('2018-01-28 06:10:00');
-
-        // const range1 = moment.range(start, end);
-        // const range2 = range1.snapTo('day'); // 2018-01-25T00:00:00 -> 2018-01-28T23:59:59
-
-        // range1.diff('days');
-        // console.log("left date >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>dddd>> : "+this.state.next_period_date);
-
-    }
     savePeriod() {
         this.RBSheet.close();
         this.setState({
             isLoading: true,
-
-
         });
         let data = {
             // pId: this.state.pId,
@@ -248,11 +198,10 @@ export class PeriodCalandar extends Component {
             result = datas;
             for (var i = 0; i < result.length; i++) {
                 pDateandMonth = result[i].pName
-                pDateandMonthId = result[i].pId
-                if (pDateandMonth == this.state.pName) {
-                    availabel = 1;
-                    console.log("assss >>>>>>>>>>>>>>>>>>>>>>>>>>>>> ???? ? ? : " + pDateandMonth);
 
+                if (pDateandMonth == this.state.pName) {
+                    pDateandMonthId = result[i].pId
+                    availabel = 1;
                 }
             }
             if (availabel == 1) {
@@ -265,8 +214,6 @@ export class PeriodCalandar extends Component {
 
                 }).catch((err) => {
                 })
-
-                console.log("assss update uba ............................" + pDateandMonthId);
                 availabel = 0;
             } else {
                 db.adderiod(data).then((result) => {
@@ -280,12 +227,53 @@ export class PeriodCalandar extends Component {
                         isLoading: false,
                     });
                 })
-                console.log("assss add unnnnnnn uba ............................");
+
             }
             availabel = 0;
         })
 
         // availabel = 0;
+    }
+    addEDD() {
+        this.RBSheet.close();
+        // this.setState({
+        //     isLoading: true,
+        // });
+        // let data = {
+        //     pName: this.state.pName,
+        // }
+        // let result = [];
+        // let _eddIdId;
+        // let availabeledd = 0;
+
+        // db.getEddDate().then((datas) => {
+        //     result = datas;
+        //     for (var i = 0; i < result.length; i++) {
+        //         _eddIdId = result[i].pId
+        //         availabeledd = 1;
+        //         console.log("value ekak tiyenava : %%%%%%%%%%%%%%%%%%%%%%%%%%%% : " + _eddIdId);
+        //     }
+        //     if (availabeledd == 1) {
+
+        //         availabeledd = 0;
+        //     } else {
+        //         db.addEDD(data).then((result) => {
+        //             this.setState({
+        //                 isLoading: false,
+        //             });
+        //         }).catch((err) => {
+        //             console.log(err);
+        //             this.setState({
+        //                 isLoading: false,
+        //             });
+        //         })
+
+        //     }
+        //     availabeledd = 0;
+        // })
+
+
+
 
 
     }
@@ -297,12 +285,9 @@ export class PeriodCalandar extends Component {
     geteriods() {
 
     }
-
     onDaySelect = (day) => {
         this.RBSheet.open();
         const _selectedDay = moment(day.dateString).format(_format);
-
-
         // let marked = true;
         // let markedDates = {}
         if (this.state._markedDates[_selectedDay]) {
@@ -322,10 +307,7 @@ export class PeriodCalandar extends Component {
             // _markedDates: updatedMarkedDates,
             pName: _selectedDay
         });
-
     }
-
-
     // renderContent = () => { }
 
     renderHeader = () => { }
@@ -381,22 +363,57 @@ export class PeriodCalandar extends Component {
                             </Card.Content>
 
                         </Card>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                            <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                <View style={[styles.squrecolor, {
+                                    backgroundColor: 'red'
+                                }]} />
+                                <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Period</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                <View style={[styles.squrecolor, {
+                                    backgroundColor: '#008e76'
+
+                                }]} />
+                                <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Ovulation</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                <View style={[styles.squrecolor, {
+                                    backgroundColor: '#f06292'
+                                }]} />
+                                <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Next period</Text>
+                            </View>
+                        </View>
                         {/* <Calendar
                             markedDates={this.state.marked}
                         // markingType={'multi-dot'}
                         /> */}
                         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
                             <Text style={{ color: 'grey' }}>Period</Text>
-                            <Text style={{ fontSize: 40, }}>{this.state.reacl_next_p_date} Days left</Text>
-                            <Text style={{ color: 'grey' }}>Ovulation 12 days left</Text>
+                            {
+                                this.state.reacl_next_p_date ?
+                                    <Text style={{ fontSize: 40, }}>{this.state.reacl_next_p_date} Days left</Text>
+
+                                    :
+                                    <Text ></Text>
+
+                            }
+                            {
+                                this.state.reacl_next_ov_date ?
+                                    <Text style={{ color: 'grey' }}> Ovulation {this.state.reacl_next_ov_date} days left</Text>
+                                    :
+                                    <Text ></Text>
+                            }
 
 
-                            <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('TestScreeen')} >
+
+
+                            {/* <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('TestScreeen')} >
                                 <Text>dsdsdsd</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('ProductScreen2')} >
                                 <Text>View</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
 
 
@@ -404,6 +421,7 @@ export class PeriodCalandar extends Component {
                             ref={ref => {
                                 this.RBSheet = ref;
                             }}
+                            closeOnDragDown={true}
                             height={300}
                             openDuration={250}
                             customStyles={{
@@ -413,35 +431,81 @@ export class PeriodCalandar extends Component {
                                     borderTopRightRadius: 20,
                                     borderTopLeftRadius: 20
                                 }
-                            }}
-
-                        >
+                            }}>
                             <View style={{ flex: 1 }}>
-                                {/* <TextInput value={this.state.pName} onChangeText={(text) => this.updateTextInput(text, 'pName')} style={{ height: 50, width: 250 }} /> */}
-                                {/* onPress={() => alert('Hello, world!')} */}
-                                <TouchableOpacity onPress={() => this.savePeriod()} style={styles.button}>
-                                    <Text style={styles.buttonText}>Period Start ?</Text>
+                                <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: -13 }}>
+                                    <Text style={{ color: 'gray', fontSize: 12 }}>2020-08-26</Text>
+                                    <TouchableOpacity onPress={() => this.savePeriod()} style={styles.button}>
+                                        <Text style={styles.buttonText}>Period Start ?</Text>
+                                    </TouchableOpacity>
+                                </View>
 
+                                <View style={styles.container}>
+                                    <Card style={styles.card} >
+                                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('EDDCalculator'); this.addEDD(); }}>
+                                            <View style={{ alignItems: "center" }} >
+                                                <View style={{ height: 40, padding: 0 }}>
+                                                    {/* <Icon
+                                                        name='baby'
+                                                        type='font-awesome'
+                                                        color='gray'
+                                                        onPress={() => console.log('hello')} /> */}
+                                                    <Image source={IMAGE.ICON_FETUS}
+                                                        style={{ height: 45, width: 45 }}
+                                                    >
+                                                    </Image>
+                                                </View>
+                                                <Text style={{ marginTop: 5 }}> EDD</Text>
 
-                                </TouchableOpacity>
-                                {/* <TouchableOpacity onPress={() => this.geteriods()} style={styles.button}>
-                                    <Text style={styles.buttonText}>view period</Text>
+                                            </View>
+                                        </TouchableOpacity>
 
+                                    </Card>
+                                    <Card style={styles.card} >
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BMICalculator')}>
+                                            <View style={{ alignItems: "center" }} >
+                                                <View style={{ height: 40, padding: 0 }}>
+                                                    <Image source={IMAGE.ICON_MENU_METER}
+                                                        style={{ height: 35, width: 35 }}
+                                                    >
+                                                    </Image>
+                                                </View>
+                                                <Text style={{ marginTop: 5 }}> Calc</Text>
 
-                                </TouchableOpacity> */}
+                                            </View>
+                                        </TouchableOpacity>
+                                    </Card>
+                                    <Card style={styles.card} >
+                                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('BMICalculator'); this.RBSheet.close() }}>
+                                            <View style={{ alignItems: "center" }} >
+                                                <View style={{ height: 40, padding: 0 }}>
+                                                    <Image source={IMAGE.ICON_MENU_METER}
+                                                        style={{ height: 35, width: 35 }}
+                                                    >
+                                                    </Image>
+                                                </View>
+                                                <Text style={{ marginTop: 5 }}>BMI </Text>
 
+                                            </View>
+                                        </TouchableOpacity>
+                                    </Card>
+                                    <Card style={styles.card} >
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BMICalculator')}>
+                                            <View style={{ alignItems: "center" }} >
+                                                <View style={{ height: 40, padding: 0 }}>
+                                                    <Image source={IMAGE.ICON_MENU_METER}
+                                                        style={{ height: 35, width: 35 }}
+                                                    >
+                                                    </Image>
+                                                </View>
+                                                <Text style={{ marginTop: 5 }}>BMI </Text>
 
-                                {/* <View style={{ flex: 1, justifyContent: 'space-evenly', alignItems: 'center', marginVertical: 24 }}>
-
-
-                            </View> */}
-
-                                {/* <TextInput value={this.state.pId} onChangeText={(text) => this.updateTextInput(text, 'pId')} style={{ height: 50, width: 250 }} /> */}
-
-
-
-
+                                            </View>
+                                        </TouchableOpacity>
+                                    </Card>
+                                </View>
                             </View>
+
                         </RBSheet>
                     </View>
 
@@ -450,7 +514,7 @@ export class PeriodCalandar extends Component {
 
                     </View>
                 </ScrollView>
-            </SafeAreaView>
+            </SafeAreaView >
         );
     }
 }
@@ -463,10 +527,40 @@ const styles = StyleSheet.create({
         // width:'200',
         width: 300,
 
-        marginTop: 20
+        marginTop: 5
     },
     buttonText: {
         fontSize: 15,
         color: '#fff',
-    },
+    }, squrecolor: {
+        width: 13, height: 13, elevation: 2,
+        borderRadius: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.7,
+    }, container: {
+        flex: 1,
+        marginTop: 20,
+        flexDirection: 'row',
+        // flexWrap: 'wrap',
+        // paddingTop: 5,
+        // paddingLeft: 10,
+        // paddingRight: 10
+    }, card: {
+        height: 85,
+        // width: (Dimensions.get("window").width / 2) - 20,
+        width: "22%",
+        backgroundColor: "white",
+        borderRadius: 15,
+        padding: 10,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        alignItems: 'center',
+
+
+        margin: 5
+    }
 });

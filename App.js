@@ -8,7 +8,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { CustomHeader, CustomDrawerContent } from './src';
-import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator, BMIMeter, IdentifyPregnancy,RegularMenstruation, BloodPresure, MatirializeDialog, Investigation, Excercise, DitHelthyMother, WeightGain, AddWeight, KickCounter } from './src/tab';
+import { HomeScreen, HomeScreenDetail, SettingsScreen, SettingsScreenDetail, CreatePost, NewPost, NotificationScreen,MemberProfile,MenuScreen,PeriodCalandar,TestScreeen,ProductScreen2,HospitalBag,HospitalBagBaby,BMICalculator, BMIMeter, IdentifyPregnancy,RegularMenstruation, BloodPresure, MatirializeDialog, Investigation, Excercise, DitHelthyMother, WeightGain, AddWeight, KickCounter, EDDCalculator } from './src/tab';
 import { NotificationsScreen } from './src/drawer';
 import { RegisterScreen, LoginScreen, Login2Screen } from './src/auth';
 import { FlatList } from 'react-native-gesture-handler';
@@ -291,6 +291,7 @@ export default class App extends React.Component {
         <StackApp.Screen name="WeightGain" component={WeightGain} options={navOptionHandler} />
         <StackApp.Screen name="AddWeight" component={AddWeight} options={navOptionHandler} />
         <StackApp.Screen name="KickCounter" component={KickCounter} options={navOptionHandler} />
+        <StackApp.Screen name="EDDCalculator" component={EDDCalculator} options={navOptionHandler} />
       </StackApp.Navigator>
     </NavigationContainer>
   );

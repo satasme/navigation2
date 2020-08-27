@@ -72,22 +72,6 @@ export class WeightGain extends Component {
 
       result = data;
       if (result == 0) {
-        // var temp2 = [1];
-        // var temp3 = ['2020-01-01'];
-        // var temp4 = [0];
-        // const dataClone = { ...self.state.data }
-
-        // dataClone.labels = temp3;
-        // dataClone.datasets[0].data = temp2;
-        // // dataClone.datasets[1].data = temp4;
-        // // dataClone.datasets[2].data = temp5;
-
-        // self.setState({
-        //   isLoading: false,
-        //   data: dataClone,
-        //   _list_wgData: data,
-        // });
-
 
       } else {
 
@@ -128,7 +112,7 @@ export class WeightGain extends Component {
             tempmax= weight_firstMonth;
             temp4.push(temppp);
             temp5.push(parseFloat(tempmax)+0.001);
-           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : "+temppp);
+
           }
 
           tempMin = [result[i].wgValue];
@@ -151,7 +135,7 @@ export class WeightGain extends Component {
       }
     }).catch((err) => {
       console.log(err);
-    })
+    });
     db.lastWeightGain().then((data) => {
 
       result = data;

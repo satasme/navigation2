@@ -60,6 +60,7 @@ const IMAGE = {
     ICON_BABY_FOOT2: require('../images/foot5.png'),
     ICON_BABY_KICK1: require('../images/babykick2.png'),
     ICON_BABY_KICK2: require('../images/prenatal-kicks3.jpg'),
+    ICON_FETUS: require('../images/fetus.png'),
 }
 
 export { IMAGE }

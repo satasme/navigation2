@@ -66,6 +66,7 @@
     "react-native-speedometer": "^1.0.3",
     "react-native-speedometer-chart": "^0.7.5",
     "react-native-sqlite-storage": "^5.0.0",
+    "react-native-step-indicator": "^1.0.3",
     "react-native-svg": "^12.1.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-tab-view": "^2.14.4",
