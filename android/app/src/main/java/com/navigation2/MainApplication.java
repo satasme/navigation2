@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+// import com.dieam.reactnativepushnotification.ReactNativePushNotificationPacka;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -14,6 +15,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.pgsqlite.SQLitePluginPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+
+
 
 public class MainApplication extends Application implements ReactApplication {
 

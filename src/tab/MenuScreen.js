@@ -322,16 +322,18 @@ export class MenuScreen extends Component {
                         <View style={styles.container}>
 
                             <Card style={styles.card} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar', {
+                                    data: ''
+                                })}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_MENU_PERIOD1}
-                                                style={{ height: 55, width: 55 }}
+                                                style={{ height: 45, width: 45 }}
                                             >
                                             </Image>
                                         </View>
 
-                                        <Text style={{ marginTop: 5 }}>Calandar</Text>
+                                        <Text style={{ marginTop: 0 }}>Calandar</Text>
 
                                     </View>
                                 </TouchableOpacity>
@@ -343,11 +345,11 @@ export class MenuScreen extends Component {
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_MENU_METER}
-                                                style={{ height: 55, width: 55 }}
+                                                style={{ height: 45, width: 45 }}
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>BMI Calculator</Text>
+                                        <Text style={{ marginTop: 0 }}>BMI Calculator</Text>
 
                                     </View>
                                 </TouchableOpacity>
@@ -363,11 +365,11 @@ export class MenuScreen extends Component {
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_HOSPITAL_BAG}
-                                                style={{ height: 55, width: 55 }}
+                                                style={{ height: 45, width: 45 }}
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>Hospital bag</Text>
+                                        <Text style={{ marginTop: 0 }}>Hospital bag</Text>
 
                                     </View>
                                 </TouchableOpacity>
@@ -378,11 +380,11 @@ export class MenuScreen extends Component {
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_ECG}
-                                                style={{ height: 55, width: 55 }}
+                                                style={{ height: 45, width: 45 }}
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>Blood presure</Text>
+                                        <Text style={{ marginTop: 0 }}>Blood presure</Text>
 
                                     </View>
                                 </TouchableOpacity>
@@ -396,11 +398,11 @@ export class MenuScreen extends Component {
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_WEIGHT_SCALE}
-                                                style={{ height: 55, width: 55 }}
+                                                style={{ height: 45, width: 45 }}
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>Weight Gain chart</Text>
+                                        <Text style={{ marginTop: 0 }}>Weight Gain chart</Text>
 
                                     </View>
                                 </TouchableOpacity>
@@ -411,11 +413,11 @@ export class MenuScreen extends Component {
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_BABY_FOOT}
-                                                style={{ height: 55, width: 55 }}
+                                                style={{ height: 45, width: 45 }}
                                             >
                                             </Image>
                                         </View>
-                                        <Text style={{ marginTop: 5 }}>Kick Counter</Text>
+                                        <Text style={{ marginTop: 0 }}>Kick Counter</Text>
 
                                     </View>
                                 </TouchableOpacity>

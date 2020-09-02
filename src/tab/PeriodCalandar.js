@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { Modal, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, Image, ActivityIndicator } from 'react-native';
 
 import { CustomHeader } from '../index';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -35,14 +35,20 @@ export class PeriodCalandar extends Component {
             _markedDates: this.initialState,
             marked: null,
             pName: '',
-            isLoading: false,
+            //  isLoading: false,
             ovulation_date: '',
             next_period_date: '',
             reacl_next_p_date: '',
-            reacl_next_ov_date: ''
+            reacl_next_ov_date: '',
+            isLoading: true,
+            _deleteDate: ''
         }
     }
     componentDidMount() {
+
+        this.loadData();
+    }
+    loadData() {
         /////////////////////////testing///////////////////
         // var arr = ["2020-08-01", "2020-08-03", "2020-08-05", "2020-08-08", "2020-08-10"];
         // var result = arr.reduce((a, c) => {
@@ -55,90 +61,78 @@ export class PeriodCalandar extends Component {
         // var obj = arr.reduce((c, v) => Object.assign(c, [v]), {});
         // console.log(result);
         /////////////////////////testing///////////////////
-
+        this.setState({
+            isLoading: false,
+        });
         db.loadDB();
         let _ovfdate = "";
         let _ovfLastdate;
         let _next_p_date = "";
         let selected = true;
+        let selected1 = false;
         let markedDates = {}
-        var arr = ["2020-09-01", "2020-09-03"];
+        let updatedMarkedDates = '';
+
         let products = [];
         let period = [];
         let _plastdate;
         let _plastcatId;
+        let _pdate = '';
 
-        db.listLastPeriodDate().then((datat) => {
-            period = datat;
-            for (var i = 0; i < period.length; i++) {
-                _plastdate = period[i].pName
-                _plastcatId = period[i].pCatId
-                _ovfLastdate = moment(_plastdate).add(14, 'day').format('YYYY-MM-DD');
-                _next_pLast_date = moment(_plastdate).add(28, 'day').format('YYYY-MM-DD');
-            }
-            const start = moment(_today, 'YYYY-MM-DD');
-            const end = moment(_next_pLast_date, 'YYYY-MM-DD');
-            const range = moment.range(start, end);
-            const range2 = range.snapTo('day');
-
-            const end2 = moment(_ovfLastdate, 'YYYY-MM-DD');
-            const range3 = moment.range(start, end2);
-            const range4 = range3.snapTo('day');
-            this.setState({
-                ovulation_date: _ovfLastdate,
-                next_period_date: _next_pLast_date,
-                reacl_next_p_date: range2.diff('days'),
-                reacl_next_ov_date: range4.diff('days'),
-            });
-            this.tmpArray = [
-
-                { date: this.state.ovulation_date, age: 10, color: "#008e76" },
-                { date: this.state.next_period_date, age: 10, color: "#f06292" },
-            ];
-            {
-                this.tmpArray.map((item, key) => (
-                    markedDates = { ...markedDates, ...{ selected }, selectedColor: item.color },
-                    updatedMarkedDates = { ...this.state._markedDates, ...{ [item.date]: markedDates } },
-                    this.setState({
-                        _markedDates: updatedMarkedDates,
-                    })
-                ))
-            }
-
-        });
-
-        // .catch((err) => {
-        //     console.log(err);
-        //     this.setState = {
-        //         isLoading: false
-        //     }
-        // })
-
+        // let i=0;
+        let deletedMarkeDates = 0;
         db.listProduct().then((data) => {
+            // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ppp2 : " + this.state.pName);
             products = data;
             for (var i = 0; i < products.length; i++) {
+
                 _pdate = products[i].pName
                 _pcatId = products[i].pCatId
-                if (this.state._markedDates[_pdate]) {
-                    selected = !this.state._markedDates[_pdate].selected;
-                    markedDates = this.state._markedDates[_pdate];
-                }
-                if (_pdate.substring(0, 7) == _today.substring(0, 7)) {
-                    _ovfdate = moment(_pdate).add(14, 'day').format('YYYY-MM-DD');
-                    _next_p_date = moment(_pdate).add(28, 'day').format('YYYY-MM-DD');
-                }
-                markedDates = { ...markedDates, ...{ selected }, selectedColor: "red" };
-                updatedMarkedDates = { ...this.state._markedDates, ...{ [_pdate]: markedDates } }
-                this.setState({
-                    products,
-                    isLoading: false,
+                if (_pcatId == 1) {
+                    deletedMarkeDates = 1;
+                    // if (this.state._deleteDate == '') {
 
-                    _markedDates: updatedMarkedDates,
-                    pName: _pdate,
-                    // ovulation_date: _ovfdate,
-                    // next_period_date: _next_p_date,
-                });
+                    // if (this.state.pName==_pdate) {
+
+                    //         selected = !this.state._markedDates[_pdate].selected;
+                    //         markedDates = this.state._markedDates[_pdate];
+                    // }
+                    // if (_pdate.substring(0, 7) == _today.substring(0, 7)) {
+                    //     _ovfdate = moment(_pdate).add(14, 'day').format('YYYY-MM-DD');
+                    //     _next_p_date = moment(_pdate).add(28, 'day').format('YYYY-MM-DD');
+                    // }
+
+
+                    markedDates = { ...markedDates, ...{ selected }, selectedColor: "red" };
+                    updatedMarkedDates = { ...this.state._markedDates, ...{ [_pdate]: markedDates } }
+                    this.setState({
+                        // products,
+                        isLoading: false,
+
+                        _markedDates: updatedMarkedDates,
+                        pName: _pdate,
+                        // ovulation_date: _ovfdate,
+                        // next_period_date: _next_p_date,
+                    });
+
+                    // }
+                    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> delete mrk : : " + _pdate);
+                }if(_pcatId == 2){
+                    markedDates = { ...markedDates, ...{ selected }, selectedColor: "#03a9f4" };
+                    updatedMarkedDates = { ...this.state._markedDates, ...{ [_pdate]: markedDates } }
+                    this.setState({
+                        // products,
+                        isLoading: false,
+
+                        _markedDates: updatedMarkedDates,
+                        pName: _pdate,
+                        // ovulation_date: _ovfdate,
+                        // next_period_date: _next_p_date,
+                    });
+                }
             }
+
+            // deletedMarkeDates=
             // this.tmpArray = [
 
             //     { date: this.state.ovulation_date, age: 10, color: "green" },
@@ -179,12 +173,86 @@ export class PeriodCalandar extends Component {
                 isLoading: false
             }
         })
+        if (this.state._deleteDate != '') {
+
+            //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  date eka : : " + _pdate);
+            // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  pname eka : : " + this.state._deleteDate);
+            // selected = !this.state._markedDates[_deleteDate].selected;
+            // markedDates = this.state._markedDates[_deleteDate];
+
+            markedDates = { ...markedDates, ...{ selected1 }, selectedColor: "red" };
+            updatedMarkedDates = { ...this.state._markedDates, ...{ [this.state._deleteDate]: markedDates } }
+            this.setState({
+                products,
+                isLoading: false,
+
+                _markedDates: updatedMarkedDates,
+                // pName: _pdate,
+                // ovulation_date: _ovfdate,
+                // next_period_date: _next_p_date,
+            });
+        }
+
+        const start = moment(_today, 'YYYY-MM-DD');
+        let arrayData = 0;
+
+        db.listLastPeriodDate().then((datat) => {
+
+            period = datat;
+            for (var i = 0; i < period.length; i++) {
+                arrayData = 1;
+                _plastdate = period[i].pName
+console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>?????????????????????????????????? : "+_plastdate);
+                _plastcatId = period[i].pCatId
+                _ovfLastdate = moment(_plastdate).add(14, 'day').format('YYYY-MM-DD');
+                _next_pLast_date = moment(_plastdate).add(28, 'day').format('YYYY-MM-DD');
+            }
+            if (arrayData > 0) {
+                const end = moment(_next_pLast_date, 'YYYY-MM-DD');
+                const range = moment.range(start, end);
+                const range2 = range.snapTo('day');
+
+                const end2 = moment(_ovfLastdate, 'YYYY-MM-DD');
+                const range3 = moment.range(start, end2);
+                const range4 = range3.snapTo('day');
+                this.setState({
+                    isLoading: false,
+                    ovulation_date: _ovfLastdate,
+                    next_period_date: _next_pLast_date,
+                    reacl_next_p_date: range2.diff('days'),
+                    reacl_next_ov_date: range4.diff('days'),
+                });
+                this.tmpArray = [
+
+                    { date: this.state.ovulation_date, age: 10, color: "#008e76" },
+                    { date: this.state.next_period_date, age: 10, color: "#f06292" },
+                ];
+                {
+                    this.tmpArray.map((item, key) => (
+
+                        markedDates = { ...markedDates, ...{ selected }, selectedColor: item.color },
+                        updatedMarkedDates = { ...this.state._markedDates, ...{ [item.date]: markedDates } },
+                        this.setState({
+                            isLoading: false,
+                            _markedDates: updatedMarkedDates,
+
+
+
+                        })
+                    ))
+                }
+            }
+
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 2 : ");
+        });
+
+
     }
 
     savePeriod() {
         this.RBSheet.close();
         this.setState({
-            isLoading: true,
+            isLoading: false,
         });
         let data = {
             // pId: this.state.pId,
@@ -194,6 +262,7 @@ export class PeriodCalandar extends Component {
         let pDateandMonth;
         let pDateandMonthId;
         let availabel = 0;
+        db.loadDB();
         db.listGetCurrntMonthPeriod().then((datas) => {
             result = datas;
             for (var i = 0; i < result.length; i++) {
@@ -211,6 +280,18 @@ export class PeriodCalandar extends Component {
                 }
                 db.deletePeriod(pDateandMonthId).then((result) => {
 
+                    console.log("dsdsdsd >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<< :" + this.state.pName);
+                    this.setState({
+                        _deleteDate: this.state.pName,
+                        isLoading: false,
+                        reacl_next_p_date: '',
+                        reacl_next_ov_date: '',
+                        next_period_date: '',
+                        ovulation_date: '',
+                    });
+                    this.loadData();
+
+
 
                 }).catch((err) => {
                 })
@@ -221,10 +302,12 @@ export class PeriodCalandar extends Component {
                     this.setState({
                         isLoading: false,
                     });
+                    this.loadData();
+
                 }).catch((err) => {
-                    console.log(err);
+
                     this.setState({
-                        isLoading: false,
+                        //   isLoading: false,
                     });
                 })
 
@@ -236,41 +319,44 @@ export class PeriodCalandar extends Component {
     }
     addEDD() {
         this.RBSheet.close();
-        // this.setState({
-        //     isLoading: true,
-        // });
-        // let data = {
-        //     pName: this.state.pName,
-        // }
-        // let result = [];
-        // let _eddIdId;
-        // let availabeledd = 0;
+        this.setState({
+            isLoading: false,
+        });
+      const  eddDate = moment(this.state.pName).add(277, 'day').format('YYYY-MM-DD');
+        let data = {
+            pName: eddDate,
+        }
+        let result = [];
+        let _eddIdId;
+        let availabeledd = 0;
 
-        // db.getEddDate().then((datas) => {
-        //     result = datas;
-        //     for (var i = 0; i < result.length; i++) {
-        //         _eddIdId = result[i].pId
-        //         availabeledd = 1;
-        //         console.log("value ekak tiyenava : %%%%%%%%%%%%%%%%%%%%%%%%%%%% : " + _eddIdId);
-        //     }
-        //     if (availabeledd == 1) {
+        
+        db.loadDB();
+        db.getEddDate().then((datas) => {
+            result = datas;
+            for (var i = 0; i < result.length; i++) {
+                _eddIdId = result[i].pId
+                availabeledd = 1;
 
-        //         availabeledd = 0;
-        //     } else {
-        //         db.addEDD(data).then((result) => {
-        //             this.setState({
-        //                 isLoading: false,
-        //             });
-        //         }).catch((err) => {
-        //             console.log(err);
-        //             this.setState({
-        //                 isLoading: false,
-        //             });
-        //         })
+            }
+            if (availabeledd == 1) {
 
-        //     }
-        //     availabeledd = 0;
-        // })
+                availabeledd = 0;
+            } else {
+                db.addEDD(data).then((result) => {
+                    this.setState({
+                        isLoading: false,
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                    this.setState({
+                        isLoading: false,
+                    });
+                })
+
+            }
+            availabeledd = 0;
+        })
 
 
 
@@ -291,6 +377,7 @@ export class PeriodCalandar extends Component {
         // let marked = true;
         // let markedDates = {}
         if (this.state._markedDates[_selectedDay]) {
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<????????? : " + _selectedDay);
             // Already in marked dates, so reverse current marked state
             // marked = !this.state._markedDates[_selectedDay].marked;
             // markedDates = this.state._markedDates[_selectedDay];
@@ -304,218 +391,232 @@ export class PeriodCalandar extends Component {
 
         // Triggers component to render again, picking up the new state
         this.setState({
+
             // _markedDates: updatedMarkedDates,
             pName: _selectedDay
         });
+
+
     }
     // renderContent = () => { }
 
-    renderHeader = () => { }
+
     render() {
-        const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
-        const massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
-        const workout = { key: 'workout', color: 'green' };
 
-        return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#fce4ec' }}>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
-                    <CustomHeader bgcolor='white' title="Home detail" navigation={this.props.navigation} bdcolor='#f2f2f2' />
-                    <View style={{ flex: 1, padding: 10 }}>
-
-                        <Card>
-                            {/* <Card.Title title="Card Title" subtitle="Card Subtitle" /> */}
-                            <Card.Content>
-
-                                {/* <Paragraph>Card content</Paragraph> */}
-                                <Calendar
-                                    theme={{
-                                        dotColor: 'pink',
-                                        // backgroundColor: 'white',
-                                        // selectedDayBackgroundColor: 'white',
-                                        selectedDayTextColor: 'white'
-                                    }}
-
-                                    // we use moment.js to give the minimum and maximum dates.
-                                    minDate={_today}
-                                    // maxDate={_maxDate}
+        if (this.state.isLoading) {
+            return (
+                <View>
+                    <ActivityIndicator />
+                </View>
+            )
 
 
-                                    // hideArrows={true}
+        } else {
+            const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
+            const massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
+            const workout = { key: 'workout', color: 'green' };
 
-                                    // onDayPress={this.onDaySelect}
-                                    // onPress={() => this.RBSheet.open()}
-                                    onDayPress={this.onDaySelect}
+            return (
+                <SafeAreaView style={{ flex: 1, backgroundColor: '#fce4ec' }}>
+                    <ScrollView
+                        contentInsetAdjustmentBehavior="automatic"
+                        style={styles.scrollView}>
+                        <CustomHeader bgcolor='white' title="Home detail" navigation={this.props.navigation} bdcolor='#f2f2f2' />
+                        <View style={{ flex: 1, padding: 10 }}>
 
-                                    // onDaySelect={()=>this.RBSheet.open()}
+                            <Card>
+                                {/* <Card.Title title="Card Title" subtitle="Card Subtitle" /> */}
+                                <Card.Content>
 
-                                    // markedDates={{
-                                    //     '2020-08-25': { selected: true, selectedColor: 'green' },
-                                    //     '2020-08-26': { selected: true, selectedColor: 'red' }
-                                    // }}
+                                    {/* <Paragraph>Card content</Paragraph> */}
+                                    <Calendar
+                                        theme={{
+                                            dotColor: 'pink',
+                                            // backgroundColor: 'white',
+                                            // selectedDayBackgroundColor: 'white',
+                                            selectedDayTextColor: 'white'
+                                        }}
 
-                                    // markingType='multi-period'
-                                    markedDates={this.state._markedDates}
-                                // markingType={'multi-dot'}
+                                        // we use moment.js to give the minimum and maximum dates.
+                                        minDate={_today}
+                                        // maxDate={_maxDate}
 
-                                />
-                            </Card.Content>
 
-                        </Card>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                            <View style={{ flexDirection: 'row', paddingRight: 10 }}>
-                                <View style={[styles.squrecolor, {
-                                    backgroundColor: 'red'
-                                }]} />
-                                <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Period</Text>
+                                        // hideArrows={true}
+
+                                        // onDayPress={this.onDaySelect}
+                                        // onPress={() => this.RBSheet.open()}
+                                        onDayPress={this.onDaySelect}
+
+                                        // onDaySelect={()=>this.RBSheet.open()}
+
+                                        // markedDates={{
+                                        //     '2020-08-25': { selected: true, selectedColor: 'green' },
+                                        //     '2020-08-26': { selected: true, selectedColor: 'red' }
+                                        // }}
+
+                                        // markingType='multi-period'
+                                        markedDates={this.state._markedDates}
+                                    // markingType={'multi-dot'}
+
+                                    />
+                                </Card.Content>
+
+                            </Card>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                                <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                    <View style={[styles.squrecolor, {
+                                        backgroundColor: 'red'
+                                    }]} />
+                                    <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Period</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                    <View style={[styles.squrecolor, {
+                                        backgroundColor: '#008e76'
+
+                                    }]} />
+                                    <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Ovulation</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                    <View style={[styles.squrecolor, {
+                                        backgroundColor: '#f06292'
+                                    }]} />
+                                    <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Next period</Text>
+                                </View>
                             </View>
-                            <View style={{ flexDirection: 'row', paddingRight: 10 }}>
-                                <View style={[styles.squrecolor, {
-                                    backgroundColor: '#008e76'
-
-                                }]} />
-                                <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Ovulation</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', paddingRight: 10 }}>
-                                <View style={[styles.squrecolor, {
-                                    backgroundColor: '#f06292'
-                                }]} />
-                                <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Next period</Text>
-                            </View>
-                        </View>
-                        {/* <Calendar
+                            {/* <Calendar
                             markedDates={this.state.marked}
                         // markingType={'multi-dot'}
                         /> */}
-                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
-                            <Text style={{ color: 'grey' }}>Period</Text>
-                            {
-                                this.state.reacl_next_p_date ?
-                                    <Text style={{ fontSize: 40, }}>{this.state.reacl_next_p_date} Days left</Text>
+                            <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+                                <Text style={{ color: 'grey' }}>Period</Text>
+                                {
+                                    this.state.reacl_next_p_date ?
+                                        <Text style={{ fontSize: 40, }}>{this.state.reacl_next_p_date} Days left</Text>
 
-                                    :
-                                    <Text ></Text>
+                                        :
+                                        <Text ></Text>
 
-                            }
-                            {
-                                this.state.reacl_next_ov_date ?
-                                    <Text style={{ color: 'grey' }}> Ovulation {this.state.reacl_next_ov_date} days left</Text>
-                                    :
-                                    <Text ></Text>
-                            }
-
-
+                                }
+                                {
+                                    this.state.reacl_next_ov_date ?
+                                        <Text style={{ color: 'grey' }}> Ovulation {this.state.reacl_next_ov_date} days left</Text>
+                                        :
+                                        <Text ></Text>
+                                }
 
 
-                            {/* <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('TestScreeen')} >
+
+
+                                {/* <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('TestScreeen')} >
                                 <Text>dsdsdsd</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ marginTop: 30 }} onPress={() => this.props.navigation.navigate('ProductScreen2')} >
                                 <Text>View</Text>
                             </TouchableOpacity> */}
-                        </View>
+                            </View>
 
 
-                        <RBSheet
-                            ref={ref => {
-                                this.RBSheet = ref;
-                            }}
-                            closeOnDragDown={true}
-                            height={300}
-                            openDuration={250}
-                            customStyles={{
-                                container: {
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    borderTopRightRadius: 20,
-                                    borderTopLeftRadius: 20
-                                }
-                            }}>
-                            <View style={{ flex: 1 }}>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: -13 }}>
-                                    <Text style={{ color: 'gray', fontSize: 12 }}>2020-08-26</Text>
-                                    <TouchableOpacity onPress={() => this.savePeriod()} style={styles.button}>
-                                        <Text style={styles.buttonText}>Period Start ?</Text>
-                                    </TouchableOpacity>
-                                </View>
+                            <RBSheet
+                                ref={ref => {
+                                    this.RBSheet = ref;
+                                }}
+                                closeOnDragDown={true}
+                                height={300}
+                                openDuration={250}
+                                customStyles={{
+                                    container: {
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        borderTopRightRadius: 20,
+                                        borderTopLeftRadius: 20
+                                    }
+                                }}>
+                                <View style={{ flex: 1 }}>
+                                    <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: -13 }}>
+                                        <Text style={{ color: 'gray', fontSize: 12 }}>2020-08-26</Text>
+                                        <TouchableOpacity onPress={() => this.savePeriod()} style={styles.button}>
+                                            <Text style={styles.buttonText}>Period Start ?</Text>
+                                        </TouchableOpacity>
+                                    </View>
 
-                                <View style={styles.container}>
-                                    <Card style={styles.card} >
-                                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('EDDCalculator'); this.addEDD(); }}>
-                                            <View style={{ alignItems: "center" }} >
-                                                <View style={{ height: 40, padding: 0 }}>
-                                                    {/* <Icon
+                                    <View style={styles.container}>
+                                        <Card style={styles.card} >
+                                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('EDDCalculator'); this.addEDD(); }}>
+                                                <View style={{ alignItems: "center" }} >
+                                                    <View style={{ height: 40, padding: 0 }}>
+                                                        {/* <Icon
                                                         name='baby'
                                                         type='font-awesome'
                                                         color='gray'
                                                         onPress={() => console.log('hello')} /> */}
-                                                    <Image source={IMAGE.ICON_FETUS}
-                                                        style={{ height: 45, width: 45 }}
-                                                    >
-                                                    </Image>
+                                                        <Image source={IMAGE.ICON_FETUS}
+                                                            style={{ height: 45, width: 45 }}
+                                                        >
+                                                        </Image>
+                                                    </View>
+                                                    <Text style={{ marginTop: 5 }}> EDD</Text>
+
                                                 </View>
-                                                <Text style={{ marginTop: 5 }}> EDD</Text>
+                                            </TouchableOpacity>
 
-                                            </View>
-                                        </TouchableOpacity>
+                                        </Card>
+                                        <Card style={styles.card} >
+                                            <TouchableOpacity onPress={() => this.props.navigation.navigate('BMICalculator')}>
+                                                <View style={{ alignItems: "center" }} >
+                                                    <View style={{ height: 40, padding: 0 }}>
+                                                        <Image source={IMAGE.ICON_MENU_METER}
+                                                            style={{ height: 35, width: 35 }}
+                                                        >
+                                                        </Image>
+                                                    </View>
+                                                    <Text style={{ marginTop: 5 }}> Calc</Text>
 
-                                    </Card>
-                                    <Card style={styles.card} >
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BMICalculator')}>
-                                            <View style={{ alignItems: "center" }} >
-                                                <View style={{ height: 40, padding: 0 }}>
-                                                    <Image source={IMAGE.ICON_MENU_METER}
-                                                        style={{ height: 35, width: 35 }}
-                                                    >
-                                                    </Image>
                                                 </View>
-                                                <Text style={{ marginTop: 5 }}> Calc</Text>
+                                            </TouchableOpacity>
+                                        </Card>
+                                        <Card style={styles.card} >
+                                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('BMICalculator'); this.RBSheet.close() }}>
+                                                <View style={{ alignItems: "center" }} >
+                                                    <View style={{ height: 40, padding: 0 }}>
+                                                        <Image source={IMAGE.ICON_MENU_METER}
+                                                            style={{ height: 35, width: 35 }}
+                                                        >
+                                                        </Image>
+                                                    </View>
+                                                    <Text style={{ marginTop: 5 }}>BMI </Text>
 
-                                            </View>
-                                        </TouchableOpacity>
-                                    </Card>
-                                    <Card style={styles.card} >
-                                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('BMICalculator'); this.RBSheet.close() }}>
-                                            <View style={{ alignItems: "center" }} >
-                                                <View style={{ height: 40, padding: 0 }}>
-                                                    <Image source={IMAGE.ICON_MENU_METER}
-                                                        style={{ height: 35, width: 35 }}
-                                                    >
-                                                    </Image>
                                                 </View>
-                                                <Text style={{ marginTop: 5 }}>BMI </Text>
+                                            </TouchableOpacity>
+                                        </Card>
+                                        <Card style={styles.card} >
+                                            <TouchableOpacity onPress={() => this.props.navigation.navigate('BMICalculator')}>
+                                                <View style={{ alignItems: "center" }} >
+                                                    <View style={{ height: 40, padding: 0 }}>
+                                                        <Image source={IMAGE.ICON_MENU_METER}
+                                                            style={{ height: 35, width: 35 }}
+                                                        >
+                                                        </Image>
+                                                    </View>
+                                                    <Text style={{ marginTop: 5 }}>BMI </Text>
 
-                                            </View>
-                                        </TouchableOpacity>
-                                    </Card>
-                                    <Card style={styles.card} >
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BMICalculator')}>
-                                            <View style={{ alignItems: "center" }} >
-                                                <View style={{ height: 40, padding: 0 }}>
-                                                    <Image source={IMAGE.ICON_MENU_METER}
-                                                        style={{ height: 35, width: 35 }}
-                                                    >
-                                                    </Image>
                                                 </View>
-                                                <Text style={{ marginTop: 5 }}>BMI </Text>
-
-                                            </View>
-                                        </TouchableOpacity>
-                                    </Card>
+                                            </TouchableOpacity>
+                                        </Card>
+                                    </View>
                                 </View>
-                            </View>
 
-                        </RBSheet>
-                    </View>
+                            </RBSheet>
+                        </View>
 
-                    <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1 }}>
 
 
-                    </View>
-                </ScrollView>
-            </SafeAreaView >
-        );
+                        </View>
+                    </ScrollView>
+                </SafeAreaView >
+            );
+        }
     }
 }
 const styles = StyleSheet.create({

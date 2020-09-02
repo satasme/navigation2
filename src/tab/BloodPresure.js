@@ -136,7 +136,7 @@ export class BloodPresure extends Component {
   getData() {
     const self = this;
     db.listBloodPresure().then((data) => {
-      result = data;
+     let result = data;
       if (result == 0) {
         // db.addItemOfBloodPresure().then((result) => {
         // }).catch((err) => {
@@ -196,6 +196,7 @@ export class BloodPresure extends Component {
       this.setState({
         isLoading: false,
       });
+      this.getData();
       //   this.props.navigation.state.params.onNavigateBack;
       //   this.props.navigation.goBack();
     }).catch((err) => {
@@ -204,6 +205,7 @@ export class BloodPresure extends Component {
         isLoading: false,
       });
     })
+
   }
   keyExtractor = (item, index) => index.toString()
   render() {
@@ -296,9 +298,11 @@ export class BloodPresure extends Component {
               >
                 <Left>
                   <Icon
+                 
                     name='heartbeat'
                     type='font-awesome'
-                    color='red'
+                    color='pink'
+
                     onPress={() => console.log('hello')} />
                 </Left>
                 <Body style={{ marginLeft: -150 }}>
@@ -307,11 +311,11 @@ export class BloodPresure extends Component {
                 </Body>
                 <Right>
                   <View style={styles.iconMore}>
-                  <Icon
-                    name='angle-right'
-                    type='font-awesome'
-                    color='gray'
-                    onPress={() => console.log('hello')} />
+                    <Icon
+                      name='angle-right'
+                      type='font-awesome'
+                      color='gray'
+                      onPress={() => console.log('hello')} />
                   </View>
                 </Right>
               </ListItem>
@@ -330,7 +334,7 @@ export class BloodPresure extends Component {
           <ActionButton buttonColor="#f78a2c" onPress={() =>
             this.RBSheet.open()
           }
-          style={{position:'absolute',zIndex:999}}
+            style={{ position: 'absolute', zIndex: 999 }}
           >
             {/* <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
             <Icon name="md-create" style={styles.actionButtonIcon} />

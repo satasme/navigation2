@@ -207,8 +207,8 @@ export default class Database {
                 console.log(err);
             });
         });
-    } 
-     deletePeriod(id) {
+    }
+    deletePeriod(id) {
         return new Promise((resolve) => {
             this.initDB().then((db) => {
                 db.transaction((tx) => {
@@ -216,6 +216,7 @@ export default class Database {
                         console.log(results);
                         resolve(results);
                     });
+                    console.log("value ekak tiyenava delete uno,,,,,  : %%%%%%%%%%%%%%%%%%%%%%%%%%%% : " + id);
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -252,7 +253,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('SELECT p.pId, p.pName,p.pCatId FROM Period p', []).then(([tx, results]) => {
+                    tx.executeSql('SELECT p.pId, p.pName,p.pCatId FROM Period p ORDER BY p.pName ASC ', []).then(([tx, results]) => {
                         // console.log("Query completed");
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
@@ -285,7 +286,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('SELECT * FROM Period p  ORDER BY p.pId DESC LIMIT 1 ').then(([tx, results]) => {
+                    tx.executeSql('SELECT * FROM Period p WHERE p.pCatId=1 ORDER BY p.pId DESC LIMIT 1 ').then(([tx, results]) => {
                         // console.log("Query completed");
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
@@ -526,7 +527,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('SELECT b.bpId, b.bpDate, b.bpValue,b.bpmin,b.bpmax FROM BloodPresure b ORDER BY b.bpId DESC LIMIT 8 ', []).then(([tx, results]) => {
+                    tx.executeSql('SELECT * FROM BloodPresure b ORDER BY b.bpId DESC LIMIT 8 ', []).then(([tx, results]) => {
 
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
@@ -833,7 +834,7 @@ export default class Database {
                 console.log(err);
             });
         });
-    } 
+    }
     getEddDate() {
         return new Promise((resolve) => {
             var edd_date = [];

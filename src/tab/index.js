@@ -26,3 +26,5 @@ export *from './WeightGain';
 export *from './AddWeight';
 export *from './KickCounter';
 export *from './EDDCalculator';
+export *from './CalandarData';
+
