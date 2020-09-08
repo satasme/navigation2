@@ -9,12 +9,12 @@ import { Button } from 'react-native-elements';
 export class LoginScreen extends Component {
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 ,justifyContent: 'center' , alignItems: 'center'}}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           {/* <CustomHeader title="Login" isHome={true} navigation={navigation} /> */}
-          <View style={{ flex:1, justifyContent: 'center' , alignItems: 'center'}}>
+          <View style={{ flex:1, justifyContent: 'space-around' , alignItems: 'center'}}>
             <Text style={{ fontSize: 22, fontWeight: "bold", marginTop:50}}> Welcome To 
             
             <Text  style={{color:'#ff9100',}}>  App</Text>

@@ -424,69 +424,99 @@ export class MenuScreen extends Component {
                             </Card>
 
                         </View>
-                        <View style={{ alignItems: "center", flexDirection: "row", flexWrap: 'wrap', }}>
-                            {/* <CardViewWithIcon
-                                // withBackground={ false }
-                                androidIcon={'logo-github'}
-                                iosIcon={'logo-github'}
-                                iconHeight={30}
-                                iconColor={'#333'}
-                                title={'GITHUB'}
-                                contentFontSize={20}
-                                titleFontSize={12}
+                        {/* <View style={{ borderBottomWidth: 0.4, borderBottomColor: 'gray', margin: 12 }}></View> */}
+                        <Text style={{ fontWeight: "bold", fontSize: 18, paddingLeft: 15, paddingTop: 0 }}>After pregnancy</Text>
+                        <View style={{ borderTopWidth: 6, borderTopColor: "#f78a2c", borderRadius: 3, marginHorizontal: 16, width: 45, marginTop: 8 }}></View>
+                        {/* <View style={{ alignItems: "center", flexDirection: "row", flexWrap: 'wrap', }}> */}
+                        <View style={styles.container}>
+
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('BreastFeeding', {
+                                    data: ''
+                                })}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_GROUTH_CHART_1}
+                                                style={{ height: 45, width: 45 }}
+                                            >
+                                            </Image>
+                                        </View>
+
+                                        <Text style={{ marginTop: 0 }}>Baby Grouth</Text>
+
+                                    </View>
+                                </TouchableOpacity>
+                            </Card>
 
 
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('VerticleYearChart2')}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_BABY_BOTTLE}
+                                                style={{ height: 45, width: 45 }}
+                                            >
+                                            </Image>
+                                        </View>
+                                        <Text style={{ marginTop: 0 }}>BMI cc</Text>
 
-                            />
-                            <CardViewWithIcon
-                                withBackground={false}
-                                androidIcon={'logo-youtube'}
-                                iosIcon={'logo-youtube'}
-                                iconHeight={30}
-                                iconColor={'#ff0000'}
-                                title={'YOUTUBE'}
-                                contentFontSize={10}
-                                titleFontSize={12}
+                                    </View>
+                                </TouchableOpacity>
+                            </Card>
 
-                                style={miniCardStyle}
-                            />
-                            <CardViewWithIcon
-                                withBackground={false}
-                                androidIcon={'logo-youtube'}
-                                iosIcon={'logo-youtube'}
-                                iconHeight={30}
-                                iconColor={'#ff0000'}
-                                title={'YOUTUBE'}
-                                contentFontSize={10}
-                                titleFontSize={12}
-                                style={miniCardStyle}
-                            /> */}
+
 
 
                         </View>
+                        <View style={styles.container}>
+
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('BabyActivities', {
+                                    data: ''
+                                })}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_GROUTH_CHART_1}
+                                                style={{ height: 45, width: 45 }}
+                                            >
+                                            </Image>
+                                        </View>
+
+                                        <Text style={{ marginTop: 0 }}>Baby Grouth</Text>
+
+                                    </View>
+                                </TouchableOpacity>
+                            </Card>
+
+
+                            <Card style={styles.card} >
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('VerticleYearChart2')}>
+                                    <View style={{ alignItems: "center" }} >
+                                        <View style={{ height: 70, padding: 10 }}>
+                                            <Image source={IMAGE.ICON_BABY_BOTTLE}
+                                                style={{ height: 45, width: 45 }}
+                                            >
+                                            </Image>
+                                        </View>
+                                        <Text style={{ marginTop: 0 }}>BMI cc</Text>
+
+                                    </View>
+                                </TouchableOpacity>
+                            </Card>
+
+
+
+
+                        </View>
+
+                        {/* </View> */}
 
 
 
                     </View>
 
 
-                    {/* <View style={{ flex: 1 }}>
-                        <Calendar
-                            theme={{
-                                dotColor: 'pink',
-                            }}
 
-                            // we use moment.js to give the minimum and maximum dates.
-                            minDate={_today}
-                            // maxDate={_maxDate}
-
-                            // hideArrows={true}
-
-                            onDayPress={this.onDaySelect}
-                            markedDates={this.state._markedDates}
-                        />
-                       
-                    </View> */}
                 </ScrollView >
 
 

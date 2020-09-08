@@ -11,6 +11,8 @@ import { TextInput, Card, Title, Paragraph } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import Database from '../Database';
+
+import PushNotification from 'react-native-push-notification';
 // import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 
 
@@ -25,6 +27,9 @@ const moments = extendMoment(moment);
 const db = new Database();
 
 let _next_pLast_date;
+
+
+
 export class PeriodCalandar extends Component {
     initialState = {
         [_today]: { disabled: false }
@@ -47,6 +52,24 @@ export class PeriodCalandar extends Component {
     componentDidMount() {
 
         this.loadData();
+    }
+    testPush() {
+        PushNotification.localNotificationSchedule({
+
+            title: "My Notification Title", // (optional, for iOS this is only used in apple watch, the title will be the app name in other devices)
+            message: "My Notification Message",// (required)
+
+            ticker: "My Notification Ticker", // (optional)
+
+            largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
+            smallIcon: "ic_notification", // (optional) default: "ic_notification" with fallback for "ic_launcher"
+            bigText: "My big text that will be shown when notification is expanded", // (optional) default: "message" prop
+            subText: "This is a subText", // (optional) default: none
+
+
+            date: new Date(Date.now()) // in 60 secs
+
+        });
     }
     loadData() {
         /////////////////////////testing///////////////////
@@ -117,7 +140,12 @@ export class PeriodCalandar extends Component {
 
                     // }
                     // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> delete mrk : : " + _pdate);
-                }if(_pcatId == 2){
+                } if (_pcatId == 2) {
+
+                    if (_today == _pdate) {
+                        this.testPush();
+                      
+                    }
                     markedDates = { ...markedDates, ...{ selected }, selectedColor: "#03a9f4" };
                     updatedMarkedDates = { ...this.state._markedDates, ...{ [_pdate]: markedDates } }
                     this.setState({
@@ -202,7 +230,7 @@ export class PeriodCalandar extends Component {
             for (var i = 0; i < period.length; i++) {
                 arrayData = 1;
                 _plastdate = period[i].pName
-console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>?????????????????????????????????? : "+_plastdate);
+                console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>?????????????????????????????????? : " + _plastdate);
                 _plastcatId = period[i].pCatId
                 _ovfLastdate = moment(_plastdate).add(14, 'day').format('YYYY-MM-DD');
                 _next_pLast_date = moment(_plastdate).add(28, 'day').format('YYYY-MM-DD');
@@ -243,7 +271,7 @@ console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>??????????????????????????????????
                 }
             }
 
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 2 : ");
+
         });
 
 
@@ -280,7 +308,6 @@ console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>??????????????????????????????????
                 }
                 db.deletePeriod(pDateandMonthId).then((result) => {
 
-                    console.log("dsdsdsd >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<< :" + this.state.pName);
                     this.setState({
                         _deleteDate: this.state.pName,
                         isLoading: false,
@@ -322,7 +349,7 @@ console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>??????????????????????????????????
         this.setState({
             isLoading: false,
         });
-      const  eddDate = moment(this.state.pName).add(277, 'day').format('YYYY-MM-DD');
+        const eddDate = moment(this.state.pName).add(277, 'day').format('YYYY-MM-DD');
         let data = {
             pName: eddDate,
         }
@@ -330,7 +357,7 @@ console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>??????????????????????????????????
         let _eddIdId;
         let availabeledd = 0;
 
-        
+
         db.loadDB();
         db.getEddDate().then((datas) => {
             result = datas;

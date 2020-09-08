@@ -10,44 +10,50 @@ const database_size = 2000;
 export default class Database {
 
     initDB() {
-
+     
         let db;
         return new Promise((resolve) => {
-            // console.log("Plugin integrity check ...");
+            console.log("Plugin integrity check ...");
+         
             SQLite.echoTest()
                 .then(() => {
-                    // console.log("Integrity check passed ...");
-                    // console.log("Opening database ...");
+                    console.log("Integrity check passed ...");
+                    console.log("Opening database ...");
                     SQLite.openDatabase(
                         database_name,
                         database_version,
                         database_displayname,
                         database_size
-                    )
-                        .then(DB => {
-                            db = DB;
-                            // console.log("Database OPEN");
-                            db.executeSql('SELECT 1 FROM Period LIMIT 1').then(() => {
-                                //  console.log("Database is ready ... executing query ...");
-                            }).catch((error) => {
-                                //  console.log("Received error: ", error);
-                                //  console.log("Database not yet ready ... populating data");
-                                db.transaction((tx) => {
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL, [pCatId] INTEGER NOT NULL)');
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL, [bpmin] INTEGER NOT NULL, [bpmax] INTEGER NOT NULL)');
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [WeightGain] ([wgId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [wgDate] NVARCHAR(25) NULL, [wgValue] INTEGER NOT NULL, [wgmin] INTEGER NOT NULL, [wgmax] INTEGER NOT NULL)');
-                                    tx.executeSql('CREATE TABLE IF NOT EXISTS [KickCount] ([kcId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [kcDate] NVARCHAR(25) NULL, [kcCount] INTEGER NOT NULL)');
+                    ).then(DB => {
+                        db = DB;
+                        // console.log("Database OPEN");
+                        db.executeSql('SELECT 1 FROM Period LIMIT 1').then(() => {
+                            console.log("Database is ready ... executing query ...");
+                        }).catch((error) => {
 
-                                }).then(() => {
-                                    //console.log("Table created successfully");
-                                }).catch(error => {
-                                    // console.log(error);
-                                });
+                            console.log("Received error: ", error);
+                            console.log("Database not yet ready ... populating data");
+                            db.transaction((tx) => {
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL, [pCatId] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL, [bpmin] INTEGER NOT NULL, [bpmax] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [WeightGain] ([wgId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [wgDate] NVARCHAR(25) NULL, [wgValue] INTEGER NOT NULL, [wgmin] INTEGER NOT NULL, [wgmax] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [KickCount] ([kcId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [kcDate] NVARCHAR(25) NULL, [kcCount] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [BabyActivity] ([baId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [baDate] NVARCHAR(25) NULL, [baText] NVARCHAR(255) NULL, [baStatus] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [FeedingTime] ([fdId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [fdDate] NVARCHAR(25) NULL,[fdTime] NVARCHAR(25) NULL, [fdText] NVARCHAR(255) NULL, [fdValue] INTEGER NOT NULL, [fdStatus] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [Urination] ([uId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [uDate] NVARCHAR(25) NULL,[uTime] NVARCHAR(25) NULL, [uText] NVARCHAR(255) NULL, [uValue] INTEGER NOT NULL, [uStatus] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [Elimination] ([eId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [eDate] NVARCHAR(25) NULL,[eTime] NVARCHAR(25) NULL, [eText] NVARCHAR(255) NULL, [eValue] INTEGER NOT NULL, [eStatus] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [WightvsLength] ([wlId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,[wlSam] REAL NOT NULL,[wlMan] REAL NOT NULL,[wlNw] REAL NOT NULL,[wlOw] REAL NOT NULL, [eStatus] INTEGER NOT NULL)');
+
+                            }).then(() => {
+                                console.log("Table created successfully");
+                            }).catch(error => {
+                                console.log(error);
                             });
-                            resolve(db);
-                        })
+                        });
+                        resolve(db);
+                    })
                         .catch(error => {
                             console.log(error);
                         });
@@ -61,21 +67,25 @@ export default class Database {
 
     closeDatabase(db) {
         if (db) {
-            //  console.log("Closing DB");
+            console.log("Closing DB");
             db.close()
                 .then(status => {
-                    //    console.log("Database CLOSED");
+                    console.log("Database CLOSED");
                 })
                 .catch(error => {
+                //  console.log(error);
                     // this.errorCB(error);
                 });
         } else {
-            // console.log("Database was not OPENED");
+            console.log("Database was not OPENED");
         }
     };
     loadDB() {
         this.initDB();
     }
+
+
+
     // listProduct() {
     //     return new Promise((resolve) => {
     //         const products = [];
@@ -203,6 +213,7 @@ export default class Database {
                 }).catch((err) => {
                     console.log(err);
                 });
+
             }).catch((err) => {
                 console.log(err);
             });
@@ -216,7 +227,7 @@ export default class Database {
                         console.log(results);
                         resolve(results);
                     });
-                    console.log("value ekak tiyenava delete uno,,,,,  : %%%%%%%%%%%%%%%%%%%%%%%%%%%% : " + id);
+
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
@@ -501,25 +512,26 @@ export default class Database {
             });
         });
     }
-    addItemOfBloodPresure() {
-        return new Promise((resolve) => {
+    // addItemOfBloodPresure() {
+    //     return new Promise((resolve) => {
 
-            this.initDB().then((db) => {
-                db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES ("2020-08-13",79,80,120),("2020-08-14",20,80,120),("2020-08-16",40,80,120)').then(([tx, results]) => {
-                        resolve(results);
-                    });
+    //         this.initDB().then((db) => {
+    //             db.transaction((tx) => {
+    //                 tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES ("2020-08-13",79,80,120),("2020-08-14",20,80,120),("2020-08-16",40,80,120)').then(([tx, results]) => {
+    //                     resolve(results);
+    //                 });
 
-                }).then((result) => {
-                    this.closeDatabase(db);
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }).catch((err) => {
-                console.log(err);
-            });
-        });
-    }
+    //             }).then((result) => {
+    //                 this.closeDatabase(db);
+    //             }).catch((err) => {
+    //                 console.log(err);
+    //             });
+    //             // this.closeDatabase(db);
+    //         }).catch((err) => {
+    //             console.log(err);
+    //         });
+    //     });
+    // }
     listBloodPresure() {
         return new Promise((resolve) => {
 
@@ -855,6 +867,336 @@ export default class Database {
                         resolve(edd_date);
                     });
 
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+
+
+    // addItemOfBloodPresure() {
+    //     return new Promise((resolve) => {
+
+    //         this.initDB().then((db) => {
+    //             db.transaction((tx) => {
+    //                 tx.executeSql('INSERT INTO BloodPresure (bpDate,bpValue,bpmin,bpmax) VALUES ("2020-08-13",79,80,120),("2020-08-14",20,80,120),("2020-08-16",40,80,120)').then(([tx, results]) => {
+    //                     resolve(results);
+    //                 });
+
+    //             }).then((result) => {
+    //                 this.closeDatabase(db);
+    //             }).catch((err) => {
+    //                 console.log(err);
+    //             });
+    //             this.closeDatabase(db);
+    //         }).catch((err) => {
+    //             console.log(err);
+    //         });
+    //     });
+    // }
+
+
+    addBabyActivity(ba) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO BabyActivity (baDate,baText,baStatus) VALUES (?,?,?)', [ba.baDate, ba.baText, 1]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+                // this.closeDatabase(db);
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    listAllBabyActivity() {
+        return new Promise((resolve) => {
+            var kick_count = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM BabyActivity ').then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { baId, baDate, baText } = row;
+                            kick_count.push({
+                                baId,
+                                baDate,
+                                baText,
+
+                            });
+                        }
+                        resolve(kick_count);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } addFeedingTime(fd) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO FeedingTime (fdDate,fdTime,fdText,fdValue,fdStatus) VALUES (?,?,?,?,?)', [fd.fdDate, fd.fdTime, fd.fdText, 1, 1]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+                
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } listAllFeedingTime() {
+        return new Promise((resolve) => {
+            var feeding_time = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM FeedingTime ORDER BY fdDate DESC LIMIT 10').then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { fdId, fdDate, fdTime, fdText, fdValue } = row;
+                            feeding_time.push({
+                                fdId,
+                                fdDate,
+                                fdTime,
+                                fdText,
+                                fdValue
+
+                            });
+                        }
+
+                        resolve(feeding_time);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } 
+    listFeedingCountByDate() {
+        return new Promise((resolve) => {
+            const feeding_count = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT fdDate,COUNT(fdValue) AS countfd FROM FeedingTime  GROUP BY fdDate LIMIT 10 ', []).then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { fdDate, countfd } = row;
+                            feeding_count.push({
+                                fdDate,
+                                countfd
+                            });
+                        }
+                        resolve(feeding_count);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                  
+                    console.log(err);
+                
+                });
+               
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } addUrination(u) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO Urination (uDate,uTime,uText,uValue,uStatus) VALUES (?,?,?,?,?)', [u.uDate, u.uTime, u.uText, 1, 1]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } listAllUrination() {
+        return new Promise((resolve) => {
+            var feeding_time = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM Urination ORDER BY uDate DESC LIMIT 10').then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { uId, uDate, uTime, uText, uValue } = row;
+                            feeding_time.push({
+                                uId,
+                                uDate,
+                                uTime,
+                                uText,
+                                uValue
+
+                            });
+                        }
+
+                        resolve(feeding_time);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } listUrinationCountByDate() {
+        return new Promise((resolve) => {
+
+            const urination_count = [];
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT uDate,COUNT(uValue) AS countu FROM Urination  GROUP BY uDate LIMIT 10 ', []).then(([tx, results]) => {
+
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
+                            const { uDate, countu } = row;
+                            urination_count.push({
+
+                                uDate,
+                                countu
+
+
+                            });
+
+                        }
+                        // console.log(mother_bag);
+                        resolve(urination_count);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } addElimination(e) {
+        return new Promise((resolve) => {
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('INSERT INTO Elimination (eDate,eTime,eText,eValue,eStatus) VALUES (?,?,?,?,?)', [e.eDate, e.eTime, e.eText, 1, 1]).then(([tx, results]) => {
+                        resolve(results);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } listAllElimination() {
+        return new Promise((resolve) => {
+            var eliminate_time = [];
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT * FROM Elimination ORDER BY eDate DESC LIMIT 10').then(([tx, results]) => {
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            const { eId, eDate, eTime, eText, eValue } = row;
+                            eliminate_time.push({
+                                eId,
+                                eDate,
+                                eTime,
+                                eText,
+                                eValue
+
+                            });
+                        }
+
+                        resolve(eliminate_time);
+                    });
+
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    } listEliminationCountByDate() {
+        return new Promise((resolve) => {
+
+            const elimination_count = [];
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT eDate,COUNT(eValue) AS counte FROM Elimination  GROUP BY eDate LIMIT 8 ', []).then(([tx, results]) => {
+
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+                            // console.log(`Prr ID: ${row.hId}, Pr Name: ${row.hName}`)
+                            const { eDate, counte } = row;
+                            elimination_count.push({
+
+                                eDate,
+                                counte
+
+
+                            });
+
+                        }
+                        // console.log(mother_bag);
+                        resolve(elimination_count);
+                    });
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {

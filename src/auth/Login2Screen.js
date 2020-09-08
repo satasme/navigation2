@@ -117,7 +117,7 @@ export class Login2Screen extends Component {
                     style={styles.scrollView}>
                    
                     <View style={{
-                        flex: 1, justifyContent: 'center', paddingHorizontal: 15,
+                        flex: 1, justifyContent: 'space-between', paddingHorizontal: 15,
                         paddingVertical: 0,
                     }}>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

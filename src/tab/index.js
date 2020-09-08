@@ -27,4 +27,13 @@ export *from './AddWeight';
 export *from './KickCounter';
 export *from './EDDCalculator';
 export *from './CalandarData';
+export *from './BreastFeeding';
+export *from './VerticleYearChart';
+export *from './VerticleYearChart2';
+export *from './BabyActivities';
+export *from './FeedingTimeChart';
+export *from './UrinationTime';
+export *from './EliminationChart';
+export *from './SleepingTimeChart';
+
 

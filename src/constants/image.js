@@ -66,7 +66,22 @@ const IMAGE = {
     ICON_5MONTH: require('../images/5month.png'),
     ICON_7MONTH: require('../images/7month.png'),
     ICON_9MONTH: require('../images/9month.png'),
-
+    ICON_GROUTH_CHART_1: require('../images/predict.png'),
+    ICON_GROUTH_CHART_2: require('../images/chart.png'),
+    ICON_BRESTPO1: require('../images/brestpo1.png'),
+    ICON_BRESTPO2: require('../images/brestpo2.png'),
+    ICON_BRESTPO3: require('../images/brestpo3.png'),
+    ICON_BRESTPO4: require('../images/brestpo4.png'),
+    ICON_BRESTPO5: require('../images/brestpo5.png'),
+    ICON_BRESTPO6: require('../images/brestpo6.png'),
+    ICON_BRESTPO21: require('../images/brestpo21.png'),
+    ICON_BRESTPO22: require('../images/brestpo22.png'),
+    ICON_BRESTPO23: require('../images/brestpo23.png'),
+    ICON_BRESTPO24: require('../images/brestpo24.png'),
+    ICON_BRESTPO25: require('../images/brestpo25.png'),
+    ICON_BABY: require('../images/baby.jpg'),
+    ICON_BABY_BOTTLE: require('../images/babybottle.png'),
+    ICON_BABY_ACTIVITY: require('../images/babyActivity.png'),
 }
 
 export { IMAGE }

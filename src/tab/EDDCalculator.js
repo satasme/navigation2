@@ -203,7 +203,10 @@ export class EDDCalculator extends Component {
                                     rotation={0}
                                     width={8}
                                     fill={(this.state._eddDateCount / 277) * 100}
+
+                                    
                                     tintColor="#f78a2c"
+                                    
                                     backgroundColor="#cfd8dc">
                                     {
                                         (fill) => (
