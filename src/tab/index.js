@@ -35,5 +35,6 @@ export *from './FeedingTimeChart';
 export *from './UrinationTime';
 export *from './EliminationChart';
 export *from './SleepingTimeChart';
+export *from './TestMail';
 
 

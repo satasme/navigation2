@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, TouchableWithoutFeedback, TouchableNativeFeedback, Alert, FlatList } from 'react-native';
 import { IMAGE } from '../constants/image';
-
 import { CustomHeader } from '../index';
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import { Icon } from 'react-native-elements';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-import { Button } from 'react-native-elements';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Database from '../Database';
 import moment from 'moment' // 2.20.1
 import { List, ListItem, Left, Body, Right } from 'native-base';
-import *as Animatable from 'react-native-animatable';
-import { BarChart, Grid } from 'react-native-svg-charts';
 import { BarIndicator } from 'react-native-indicators';
 
 const db = new Database();
 var j = 0;
-
 const _format = 'YYYY-MM-DD'
-
 const _today = moment().format(_format)
-
 export class KickCounter extends Component {
-
     constructor(props) {
         var today = new Date(),
             date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -32,17 +22,11 @@ export class KickCounter extends Component {
             isLoading: true,
             _current_date: date,
             _list_kcData: [],
-
             _kick_count: 0,
             increment: 0,
-
-
         }
-
-
     }
     componentDidMount() {
-
         this.getData();
         this.getaAllClickData();
     }
@@ -51,11 +35,9 @@ export class KickCounter extends Component {
         j = 1;
         this.setState({
             increment: j,
-            isLoading: false,
+            // isLoading: false,
         });
-
         this.getData();
-
     }
     getaAllClickData() {
 
@@ -79,44 +61,29 @@ export class KickCounter extends Component {
         }
         db.listKickCount(data).then((results) => {
             result = results;
-
             if (result == 0) {
                 db.addKickCount(data).then((results) => {
 
                 }).catch((err) => {
                     console.log(err);
                 })
-
-
             } else {
                 var _clickValue;
                 for (var i = 0; i < result.length; i++) {
                     _clickValue = result[i].kcCount;
                     temp = _clickValue + this.state.increment;
                 }
-
                 this.setState({
-                    isLoading: false,
                     _kick_count: temp,
-
                 });
-
                 let data = {
                     kcDate: this.state._current_date.toString(),
                     kcValue: this.state._kick_count,
                 }
-
                 db.updateClickCount(data).then((result) => {
-                    // console.log(result);
-                    this.setState({
-                        isLoading: false,
-                    });
-
                 }).catch((err) => {
                     console.log(err);
-                    this.setState({
-                        isLoading: false,
-                    });
+
                 })
             }
         }).catch((err) => {
@@ -158,34 +125,9 @@ export class KickCounter extends Component {
                             <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'white' }}>Kick counter</Text>
                             <Text style={{ color: 'white' }}>press on foot after kick</Text>
                         </View>
-                        {/* <View style={styles.backgroundImage} >
 
-                        <ImageBackground
-                            source={IMAGE.ICON_BABY_KICK1}
-                            style={{ width: 420, height: 280, marginLeft: 0, marginTop: -65, alignItems: 'flex-start', resizeMode: 'cover', position: 'absolute' }}>
-                            <View style={{ marginTop: 65, marginLeft: 20 }}>
-                                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Kick counter</Text>
-                                <Text>press on foot after kick</Text>
-                            </View>
-                        </ImageBackground>
-                    </View> */}
                     </View>
                     <View style={styles.footer}>
-                        {/* <View style={{ paddingLeft: 18, paddingTop: 15 }}>
-                        // <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Constraction timer</Text>
-                        // <Text style={{ color: 'gray' }}>press on foot after kick</Text>
-                    </View> */}
-                        {/* <ScrollView
-
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                         */}
-                        {/* <ScrollView
-                        contentInsetAdjustmentBehavior="automatic"
-                        style={styles.scrollView}
-
-                    > */}
                         <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Icon
@@ -197,9 +139,6 @@ export class KickCounter extends Component {
                                     onPress={() => console.log('hello')} />
                                 <Text style={{ paddingLeft: 10 }}>Kicks on {this.state._current_date}</Text>
                             </View>
-
-
-
                             <Text style={{ fontSize: 22, paddingBottom: 10 }}>{this.state._kick_count}</Text>
                             <AnimatedCircularProgress
                                 size={152}
@@ -211,11 +150,7 @@ export class KickCounter extends Component {
                                 {
                                     (fill) => (
                                         <TouchableOpacity style={styles.button5}
-                                            // onPress={() => console.log('hello')}
-
-                                            onPress={() => this.saveData()}
-
-                                        >
+                                            onPress={() => this.saveData()}>
                                             <Image style={{ width: 75, height: 75, marginLeft: 0, marginTop: 0 }}
                                                 source={IMAGE.ICON_BABY_FOOT2}
                                                 resizeMode="contain"
@@ -224,9 +159,6 @@ export class KickCounter extends Component {
                                     )
                                 }
                             </AnimatedCircularProgress>
-                            {/* <Text>sdasd: {this.state._list_kcData}</Text> */}
-
-
                         </View>
                         <View style={{ flex: 1, marginTop: 10, paddingHorizontal: 10, }}>
                             <Text style={{ paddingBottom: 5, fontSize: 18, fontWeight: 'bold' }}>History</Text>
@@ -234,28 +166,20 @@ export class KickCounter extends Component {
 
                                 style={{
                                     backgroundColor: 'white', marginVertical: 0,
-                                    //  borderRadius: 16,
                                     elevation: 2,
                                     shadowColor: '#000',
                                     shadowOffset: { width: 0, height: 3 },
                                     shadowOpacity: 0.7,
                                     shadowRadius: 8,
-
                                 }}
                                 keyExtractor={this.keyExtractor}
                                 data={this.state._list_kcData}
-
-                                // renderItem={this.renderItem}
-
                                 renderItem={({ item }) => <ListItem
                                     style={{
                                         height: 50, paddingTop: 15,
-
-                                    }}
-                                >
+                                    }} >
                                     <Left>
                                         <View style={styles.iconMore}>
-
                                             <Icon
                                                 name='calendar'
                                                 type='font-awesome'
@@ -281,7 +205,6 @@ export class KickCounter extends Component {
                                 }
                             />
                         </View>
-                        {/* </ScrollView> */}
                     </View>
 
                 </SafeAreaView>
@@ -294,9 +217,7 @@ export class KickCounter extends Component {
         backgroundColor: "#6a1b9a",
         padding: 10,
         borderRadius: 25,
-        // width:'200',
         width: 150,
-
         marginTop: 15,
         marginLeft: 18,
         marginVertical: 5
@@ -305,20 +226,12 @@ export class KickCounter extends Component {
         backgroundColor: 'white',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        // paddingVertical: 30,
-        //  paddingHorizontal: 20
     }, header: {
         flex: 1,
         backgroundColor: '#fbb146'
-        // justifyContent: 'center',
-        // alignItems: 'center',
     }, backgroundImage: {
-        // height: height,
         position: "absolute",
-
         resizeMode: 'cover',
-
-        // resizeMode: 'cover', // or 'stretch'
     }, container: {
         flex: 1,
         flexDirection: 'row',
@@ -339,7 +252,5 @@ export class KickCounter extends Component {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        // borderColor: '#ef5d9a',
-        // borderWidth: 4,
     }
 });

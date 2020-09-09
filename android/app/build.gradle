@@ -179,6 +179,10 @@ android {
 
         }
     }
+    packagingOptions {
+		exclude 'META-INF/mimetypes.default'
+		exclude 'META-INF/mailcap.default'
+	}
 }
 
 dependencies {
@@ -213,6 +217,9 @@ dependencies {
 
       compile project(':react-native-push-notification')
       implementation 'com.google.android.gms:play-services-gcm:17.0.0'
+
+  implementation project(':react-native-smtp-mailer')
+
 
     
 }

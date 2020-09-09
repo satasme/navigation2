@@ -10,11 +10,11 @@ const database_size = 2000;
 export default class Database {
 
     initDB() {
-     
+
         let db;
         return new Promise((resolve) => {
             console.log("Plugin integrity check ...");
-         
+
             SQLite.echoTest()
                 .then(() => {
                     console.log("Integrity check passed ...");
@@ -34,7 +34,7 @@ export default class Database {
                             console.log("Received error: ", error);
                             console.log("Database not yet ready ... populating data");
                             db.transaction((tx) => {
-                                tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL, [pCatId] INTEGER NOT NULL)');
+                                tx.executeSql('CREATE TABLE IF NOT EXISTS [Period] ([pId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [pName] NVARCHAR(50) NULL,[pDescription] NVARCHAR(255) NULL, [pCatId] INTEGER NOT NULL)');
                                 tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagmother] ([hId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [hName] NVARCHAR(255) NULL, [hStatus] NVARCHAR(10) NULL, [hDate] NVARCHAR(10) NULL)');
                                 tx.executeSql('CREATE TABLE IF NOT EXISTS [Hospitalbagbaby] ([bId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bName] NVARCHAR(255) NULL, [bStatus] NVARCHAR(10) NULL, [bDate] NVARCHAR(10) NULL)');
                                 tx.executeSql('CREATE TABLE IF NOT EXISTS [BloodPresure] ([bpId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [bpDate] NVARCHAR(25) NULL, [bpValue] INTEGER NOT NULL, [bpmin] INTEGER NOT NULL, [bpmax] INTEGER NOT NULL)');
@@ -45,6 +45,8 @@ export default class Database {
                                 tx.executeSql('CREATE TABLE IF NOT EXISTS [Urination] ([uId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [uDate] NVARCHAR(25) NULL,[uTime] NVARCHAR(25) NULL, [uText] NVARCHAR(255) NULL, [uValue] INTEGER NOT NULL, [uStatus] INTEGER NOT NULL)');
                                 tx.executeSql('CREATE TABLE IF NOT EXISTS [Elimination] ([eId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [eDate] NVARCHAR(25) NULL,[eTime] NVARCHAR(25) NULL, [eText] NVARCHAR(255) NULL, [eValue] INTEGER NOT NULL, [eStatus] INTEGER NOT NULL)');
                                 tx.executeSql('CREATE TABLE IF NOT EXISTS [WightvsLength] ([wlId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,[wlSam] REAL NOT NULL,[wlMan] REAL NOT NULL,[wlNw] REAL NOT NULL,[wlOw] REAL NOT NULL, [eStatus] INTEGER NOT NULL)');
+                                // tx.executeSql('CREATE TABLE IF NOT EXISTS [Vaccination] ([vId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,[vDays] INTEGER NOT NULL,[vDescription] NVARCHAR(500) NULL, [vStatus] INTEGER NOT NULL)');
+
 
                             }).then(() => {
                                 console.log("Table created successfully");
@@ -73,7 +75,7 @@ export default class Database {
                     console.log("Database CLOSED");
                 })
                 .catch(error => {
-                //  console.log(error);
+                    //  console.log(error);
                     // this.errorCB(error);
                 });
         } else {
@@ -205,7 +207,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO Period VALUES (?, ?,?)', [null, pd.pName, 1]).then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO Period VALUES (?, ?,?,?)', [null, pd.pName, pd.pDescription, 1]).then(([tx, results]) => {
                         resolve(results);
                     });
                 }).then((result) => {
@@ -264,18 +266,18 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('SELECT p.pId, p.pName,p.pCatId FROM Period p ORDER BY p.pName ASC ', []).then(([tx, results]) => {
+                    tx.executeSql('SELECT p.pId, p.pName,p.pCatId,p.pDescription FROM Period p ORDER BY p.pName ASC ', []).then(([tx, results]) => {
                         // console.log("Query completed");
                         var len = results.rows.length;
                         for (let i = 0; i < len; i++) {
                             let row = results.rows.item(i);
                             // console.log(`Prr ID: ${row.pId}, Pr Name: ${row.pName}`)
-                            const { pId, pName, pCatId } = row;
+                            const { pId, pName, pCatId,pDescription } = row;
                             products.push({
                                 pId,
                                 pName,
-                                pCatId
-
+                                pCatId,
+                                pDescription
                             });
                         }
                         // console.log(products);
@@ -500,6 +502,10 @@ export default class Database {
                         });
                     tx.executeSql('INSERT INTO Hospitalbagbaby (bName,bStatus) VALUES ("Small Cloths 10-12","false"),'
                         + '("Napkin - 24","false"),("Panel cloths to wrap the baby -03 (length 36 width 36 inch)","false"),("Cotton cloths to wrap the baby -03 (length 36 width 36 inch)","false"),("Umbillical  card clip -01","false"),("Baby mosquito net","false"),("Small wash basin to wash baby 01","false"),("Rubber sheet -01","false"),("Socks, Caps, Jackets to warm baby","false")').then(([tx, results]) => {
+                            resolve(results);
+                        });
+                    tx.executeSql('INSERT INTO Period (pName,pDescription,pCatId) VALUES (14,"BCG",3),'
+                        + '(60,"OPV",3),(120,"OPV & PENTAVALENT",3),(180,"OPV & PENTAVALENT",3),(270,"MMR",3),(360,"live JE",3),(540,"OPV and DTP",3),(1095,"MMR 2 nd dose",3),(1825,"OPV and DT 5th dose",3),(3650,"HPV 1st dose",3),(3830,"HPV 2nd dose",3),(4015,"aTd (adult tetanus diphtheria) 6th dose",3)').then(([tx, results]) => {
                             resolve(results);
                         });
                 }).then((result) => {
@@ -834,7 +840,7 @@ export default class Database {
 
             this.initDB().then((db) => {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO Period VALUES (?, ?,?)', [null, pd.pName, 2]).then(([tx, results]) => {
+                    tx.executeSql('INSERT INTO Period VALUES (?, ?,?,?)', [null, pd.pName,pd.pDescription, 2]).then(([tx, results]) => {
                         resolve(results);
                     });
                 }).then((result) => {
@@ -965,7 +971,7 @@ export default class Database {
                 }).catch((err) => {
                     console.log(err);
                 });
-                
+
             }).catch((err) => {
                 console.log(err);
             });
@@ -1003,7 +1009,7 @@ export default class Database {
                 console.log(err);
             });
         });
-    } 
+    }
     listFeedingCountByDate() {
         return new Promise((resolve) => {
             const feeding_count = [];
@@ -1024,11 +1030,11 @@ export default class Database {
                 }).then((result) => {
                     this.closeDatabase(db);
                 }).catch((err) => {
-                  
+
                     console.log(err);
-                
+
                 });
-               
+
             }).catch((err) => {
                 console.log(err);
             });
@@ -1203,6 +1209,38 @@ export default class Database {
                     console.log(err);
                 });
 
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+    listVaccination() {
+        return new Promise((resolve) => {
+            const vaccination = [];
+
+            this.initDB().then((db) => {
+                db.transaction((tx) => {
+                    tx.executeSql('SELECT v.vId,v.vDays, v.vDescription,v.vStatus FROM Vaccination v', []).then(([tx, results]) => {
+
+                        var len = results.rows.length;
+                        for (let i = 0; i < len; i++) {
+                            let row = results.rows.item(i);
+
+                            const { vId, vDays, vDescription } = row;
+                            vaccination.push({
+                                vId,
+                                vDays,
+                                vDescription
+
+                            });
+                        }
+                        resolve(vaccination);
+                    });
+                }).then((result) => {
+                    this.closeDatabase(db);
+                }).catch((err) => {
+                    console.log(err);
+                });
             }).catch((err) => {
                 console.log(err);
             });

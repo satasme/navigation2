@@ -490,7 +490,7 @@ export class MenuScreen extends Component {
 
 
                             <Card style={styles.card} >
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('VerticleYearChart2')}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('TestMail')}>
                                     <View style={{ alignItems: "center" }} >
                                         <View style={{ height: 70, padding: 10 }}>
                                             <Image source={IMAGE.ICON_BABY_BOTTLE}

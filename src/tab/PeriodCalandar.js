@@ -11,6 +11,8 @@ import { TextInput, Card, Title, Paragraph } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import Database from '../Database';
+// import CustomNotification from './CustomPushNotification';
+
 
 import PushNotification from 'react-native-push-notification';
 // import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
@@ -21,10 +23,13 @@ const _today = moment().format(_format)
 const _maxDate = moment().add(31, 'days').format(_format)
 
 import { extendMoment } from 'moment-range';
+import CustomPushNotification from './CustomPushNotification';
 const moments = extendMoment(moment);
 
 
 const db = new Database();
+
+const cn = new CustomPushNotification();
 
 let _next_pLast_date;
 
@@ -54,24 +59,26 @@ export class PeriodCalandar extends Component {
         this.loadData();
     }
     testPush() {
-        PushNotification.localNotificationSchedule({
+        // PushNotification.localNotificationSchedule({
 
-            title: "My Notification Title", // (optional, for iOS this is only used in apple watch, the title will be the app name in other devices)
-            message: "My Notification Message",// (required)
+        //     title: "My Notification Title", // (optional, for iOS this is only used in apple watch, the title will be the app name in other devices)
+        //     message: "My Notification Message",// (required)
 
-            ticker: "My Notification Ticker", // (optional)
+        //     ticker: "My Notification Ticker", // (optional)
 
-            largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
-            smallIcon: "ic_notification", // (optional) default: "ic_notification" with fallback for "ic_launcher"
-            bigText: "My big text that will be shown when notification is expanded", // (optional) default: "message" prop
-            subText: "This is a subText", // (optional) default: none
+        //     largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
+        //     smallIcon: "ic_notification", // (optional) default: "ic_notification" with fallback for "ic_launcher"
+        //     bigText: "My big text that will be shown when notification is expanded", // (optional) default: "message" prop
+        //     subText: "This is a subText", // (optional) default: none
 
 
-            date: new Date(Date.now()) // in 60 secs
+        //     date: new Date(Date.now()) // in 60 secs
 
-        });
+        // });
     }
     loadData() {
+
+
         /////////////////////////testing///////////////////
         // var arr = ["2020-08-01", "2020-08-03", "2020-08-05", "2020-08-08", "2020-08-10"];
         // var result = arr.reduce((a, c) => {
@@ -111,6 +118,7 @@ export class PeriodCalandar extends Component {
 
                 _pdate = products[i].pName
                 _pcatId = products[i].pCatId
+                _pDescription = products[i].pDescription
                 if (_pcatId == 1) {
                     deletedMarkeDates = 1;
                     // if (this.state._deleteDate == '') {
@@ -141,10 +149,13 @@ export class PeriodCalandar extends Component {
                     // }
                     // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> delete mrk : : " + _pdate);
                 } if (_pcatId == 2) {
-
-                    if (_today == _pdate) {
-                        this.testPush();
-                      
+                    let data = {
+                        _title: "Yor delivary date is " + _pdate,
+                        _bigText: "5 days more to you delivery",
+                    }
+                    let before5Daydelevary = moment(_pdate).subtract(5, 'day').format('YYYY-MM-DD');
+                    if (_today == before5Daydelevary) {
+                        cn.testPush(data);
                     }
                     markedDates = { ...markedDates, ...{ selected }, selectedColor: "#03a9f4" };
                     updatedMarkedDates = { ...this.state._markedDates, ...{ [_pdate]: markedDates } }
@@ -154,6 +165,30 @@ export class PeriodCalandar extends Component {
 
                         _markedDates: updatedMarkedDates,
                         pName: _pdate,
+                        // ovulation_date: _ovfdate,
+                        // next_period_date: _next_p_date,
+                    });
+                } if (_pcatId == 3) {
+                    let nextVaaccination = moment(_today).add(_pdate, 'day').format('YYYY-MM-DD');
+                
+
+                    let data = {
+                        _title: "Yor "+_pDescription+" vacination date is " + nextVaaccination,
+                        _bigText: "2 days more ",
+                    }
+                    let beforeVaccination = moment(nextVaaccination).subtract(2, 'day').format('YYYY-MM-DD');
+             
+                    if (_today == beforeVaccination) {
+                        cn.testPush(data);
+                    }
+                    markedDates = { ...markedDates, ...{ selected }, selectedColor: "#ffd740" };
+                    updatedMarkedDates = { ...this.state._markedDates, ...{ [nextVaaccination]: markedDates } }
+                    this.setState({
+                        // products,
+                        isLoading: false,
+
+                        _markedDates: updatedMarkedDates,
+                        pName: nextVaaccination,
                         // ovulation_date: _ovfdate,
                         // next_period_date: _next_p_date,
                     });
@@ -285,6 +320,7 @@ export class PeriodCalandar extends Component {
         let data = {
             // pId: this.state.pId,
             pName: this.state.pName,
+            pDescription: "Period start",
         }
         let result = [];
         let pDateandMonth;
@@ -305,6 +341,7 @@ export class PeriodCalandar extends Component {
                 let dataCmonth = {
                     pId: pDateandMonthId,
                     pName: this.state.pName,
+
                 }
                 db.deletePeriod(pDateandMonthId).then((result) => {
 
@@ -352,6 +389,7 @@ export class PeriodCalandar extends Component {
         const eddDate = moment(this.state.pName).add(277, 'day').format('YYYY-MM-DD');
         let data = {
             pName: eddDate,
+            pDescription: 'Delevary Date',
         }
         let result = [];
         let _eddIdId;
@@ -490,7 +528,7 @@ export class PeriodCalandar extends Component {
                                 </Card.Content>
 
                             </Card>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
                                 <View style={{ flexDirection: 'row', paddingRight: 10 }}>
                                     <View style={[styles.squrecolor, {
                                         backgroundColor: 'red'
@@ -509,6 +547,22 @@ export class PeriodCalandar extends Component {
                                         backgroundColor: '#f06292'
                                     }]} />
                                     <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Next period</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                    <View style={[styles.squrecolor, {
+                                        backgroundColor: '#ffd740'
+                                    }]} />
+                                    <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Vaccination</Text>
+                                </View>
+                             
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
+                           
+                                <View style={{ flexDirection: 'row', paddingRight: 10 }}>
+                                    <View style={[styles.squrecolor, {
+                                        backgroundColor: '#03a9f4'
+                                    }]} />
+                                    <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Delivary date</Text>
                                 </View>
                             </View>
                             {/* <Calendar
