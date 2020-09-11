@@ -82,6 +82,8 @@ const IMAGE = {
     ICON_BABY: require('../images/baby.jpg'),
     ICON_BABY_BOTTLE: require('../images/babybottle.png'),
     ICON_BABY_ACTIVITY: require('../images/babyActivity.png'),
+    ICON_MENU_ICON: require('../images/menuwhite.png'),
+    ICON_MENU_PROFILE: require('../images/profiled.png'),
 }
 
 export { IMAGE }

@@ -45,13 +45,13 @@ export class PeriodCalandar extends Component {
             _markedDates: this.initialState,
             marked: null,
             pName: '',
-            //  isLoading: false,
             ovulation_date: '',
             next_period_date: '',
             reacl_next_p_date: '',
             reacl_next_ov_date: '',
             isLoading: true,
-            _deleteDate: ''
+            _deleteDate: '',
+            _babybDate: ''
         }
     }
     componentDidMount() {
@@ -77,7 +77,22 @@ export class PeriodCalandar extends Component {
         // });
     }
     loadData() {
-
+        db.listBabyDetails().then((data) => {
+            let result = data;
+            if (result == 0) {
+            } else {
+                let { babybDate } = this.props
+                for (var i = 0; i < result.length; i++) {
+                    babybDate = result[i].bbDate;
+                }
+                this.setState({
+                    isLoading: false,
+                    _babybDate: babybDate,
+                });
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
 
         /////////////////////////testing///////////////////
         // var arr = ["2020-08-01", "2020-08-03", "2020-08-05", "2020-08-08", "2020-08-10"];
@@ -165,33 +180,35 @@ export class PeriodCalandar extends Component {
 
                         _markedDates: updatedMarkedDates,
                         pName: _pdate,
-                        // ovulation_date: _ovfdate,
-                        // next_period_date: _next_p_date,
+
                     });
                 } if (_pcatId == 3) {
-                    let nextVaaccination = moment(_today).add(_pdate, 'day').format('YYYY-MM-DD');
-                
+                    var babayBirgDay = this.state._babybDate;
+                    if (babayBirgDay != "") {
+                        let nextVaaccination = moment(babayBirgDay).add(_pdate, 'day').format('YYYY-MM-DD');
+                        let data = {
+                            _title: "Yor " + _pDescription + " vacination date is " + nextVaaccination,
+                            _bigText: "2 days more ",
+                        }
+                        let beforeVaccination = moment(nextVaaccination).subtract(2, 'day').format('YYYY-MM-DD');
 
-                    let data = {
-                        _title: "Yor "+_pDescription+" vacination date is " + nextVaaccination,
-                        _bigText: "2 days more ",
-                    }
-                    let beforeVaccination = moment(nextVaaccination).subtract(2, 'day').format('YYYY-MM-DD');
-             
-                    if (_today == beforeVaccination) {
-                        cn.testPush(data);
-                    }
-                    markedDates = { ...markedDates, ...{ selected }, selectedColor: "#ffd740" };
-                    updatedMarkedDates = { ...this.state._markedDates, ...{ [nextVaaccination]: markedDates } }
-                    this.setState({
-                        // products,
-                        isLoading: false,
+                        if (_today == beforeVaccination) {
 
-                        _markedDates: updatedMarkedDates,
-                        pName: nextVaaccination,
-                        // ovulation_date: _ovfdate,
-                        // next_period_date: _next_p_date,
-                    });
+                            cn.testPush(data);
+                        }
+
+                        markedDates = { ...markedDates, ...{ selected }, selectedColor: "#ffd740" };
+                        updatedMarkedDates = { ...this.state._markedDates, ...{ [nextVaaccination]: markedDates } }
+                        this.setState({
+                            // products,
+                            isLoading: false,
+
+                            _markedDates: updatedMarkedDates,
+                            pName: nextVaaccination,
+                            // ovulation_date: _ovfdate,
+                            // next_period_date: _next_p_date,
+                        });
+                    }
                 }
             }
 
@@ -486,8 +503,11 @@ export class PeriodCalandar extends Component {
                     <ScrollView
                         contentInsetAdjustmentBehavior="automatic"
                         style={styles.scrollView}>
-                        <CustomHeader bgcolor='white' title="Home detail" navigation={this.props.navigation} bdcolor='#f2f2f2' />
-                        <View style={{ flex: 1, padding: 10 }}>
+                        <CustomHeader bgcolor='#fbb146' title="Home detail" navigation={this.props.navigation} bdcolor='#fbb146' />
+                        <View style={{ backgroundColor: '#fbb146', height: 100, zIndex: -1, }}>
+                          
+                        </View>
+                        <View style={{ flex: 1, padding: 15,bottom:80 }}>
 
                             <Card>
                                 {/* <Card.Title title="Card Title" subtitle="Card Subtitle" /> */}
@@ -554,10 +574,10 @@ export class PeriodCalandar extends Component {
                                     }]} />
                                     <Text style={{ fontSize: 12, color: 'gray', paddingLeft: 10 }}>Vaccination</Text>
                                 </View>
-                             
+
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 10 }}>
-                           
+
                                 <View style={{ flexDirection: 'row', paddingRight: 10 }}>
                                     <View style={[styles.squrecolor, {
                                         backgroundColor: '#03a9f4'

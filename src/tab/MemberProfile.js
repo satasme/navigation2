@@ -196,17 +196,12 @@ export class MemberProfile extends Component {
     } else {
       return (
         <SafeAreaView style={{ flex: 1 }}>
-          {/* <CustomHeader bgcolor='#ff9100' title="Profile" navigation={this.props.navigation} bdcolor='#f2f2f2' /> */}
-          <View style={styles.header}>
+          <CustomHeader bgcolor='#fbb146' title="Home detail" isHome={true} navigation={this.props.navigation} bdcolor='#fbb146' />
+          {/* <View style={styles.header}>
 
             <View style={styles.userInfoSection}>
               <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 0 }}>
-                {/* <Avatar.Image
-                  source={{
-                    uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'
-                  }}
-                  size={70}
-                /> */}
+
                 <Avatar
 
                   rounded
@@ -215,8 +210,6 @@ export class MemberProfile extends Component {
 
                   source={this.state.imageSource != null ? this.state.imageSource : require('../images/person.png')}
 
-                  // https://cdn.pixabay.com/photo/2018/10/30/16/06/water-lily-3784022__340.jpg
-                  // title='Grace'
                   containerStyle={{ margin: 10 }}
                   onEditPress={() => console.log('edit button pressed')}
                   onLongPress={() => console.log('component long pressed')}
@@ -228,17 +221,6 @@ export class MemberProfile extends Component {
                 />
 
 
-                {/* <Avatar.Image size={24} source={require('../images/bell.png')} />
-
-
-              <Image style={{ width: 130, height: 150, }}
-                // source={IMAGE.ICON_PROFILE}
-                resizeMode="contain"
-                source={this.state.imageSource != null ? this.state.imageSource : require('../images/bell.png')}
-                onPress={() => this.selectPhoto}
-                showEditButton
-
-              /> */}
                 <View style={{ marginLeft: 0, flexDirection: 'column', marginTop: -30 }}>
                   <Title style={styles.title} >
 
@@ -250,12 +232,54 @@ export class MemberProfile extends Component {
               </View>
             </View>
 
-          </View>
+          </View> */}
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}
           >
+            <View style={{ backgroundColor: '#fbb146', height: 100, zIndex: -1 }}>
+              <View style={{ marginTop: 0, marginLeft: 20 }}>
+                {/* <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>Baby activity</Text> */}
+                {/* <Text style={{ color: 'white' }}>Pregnancy Due Date Calculator</Text> */}
+              </View>
+            </View>
+
+            <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', bottom: 90 }}>
+
+              <Avatar
+
+                rounded
+                showEditButton
+                size={150}
+
+                source={this.state.imageSource != null ? this.state.imageSource : require('../images/profiled.png')}
+
+                containerStyle={{
+                  margin: 10, shadowColor: 'rgba(0,0,0, .4)', // IOS
+                  shadowOffset: { height: 3, width: 8 }, borderWidth: 10, borderColor: 'white', // IOS
+                  shadowOpacity: 3, // IOS
+                  shadowRadius: 5, elevation: 8
+                }}
+                onEditPress={() => console.log('edit button pressed')}
+                onLongPress={() => console.log('component long pressed')}
+                onPress={() => this.selectPhoto()}
+                editButton={{
+                  name: 'edit'
+                }}
+
+              />
+
+
+              <View style={{ marginLeft: 0, flexDirection: 'column', marginBottom: -150 }}>
+                <Title style={styles.title} >
+
+                </Title>
+                <Caption style={styles.caption}>
+                  {this.state.TextInputEmail}
+                </Caption>
+              </View>
+            </View>
             <View style={{
               flex: 1, justifyContent: 'center', paddingHorizontal: 15,
               paddingVertical: 0,
@@ -302,7 +326,7 @@ export class MemberProfile extends Component {
 
               </TouchableOpacity>
 
-              <TouchableOpacity style={{ marginTop: 30 }} onPress={this.uploadPhoto()} >
+              {/* <TouchableOpacity style={{ marginTop: 30 }} onPress={this.uploadPhoto()} >
                 <LinearGradient colors={['#fbb146', '#f78a2c']}
                   // '#ffd600',
                   // locations={[1,0.3,0.5]}
@@ -315,7 +339,7 @@ export class MemberProfile extends Component {
     </Text>
                 </LinearGradient>
 
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
             </View>
           </ScrollView>

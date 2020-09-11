@@ -343,7 +343,7 @@ export class BloodPresure extends Component {
             closeOnDragDown={true}
             // closeOnPressMask={false}
             height={300}
-            openDuration={250}
+            openDuration={400}
             customStyles={{
               container: {
                 justifyContent: "center",
@@ -442,6 +442,8 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     marginHorizontal: 10
   }, button: {
+    alignItems:'center',
+        justifyContent:'center',
     backgroundColor: "red",
     padding: 12,
     borderRadius: 25,

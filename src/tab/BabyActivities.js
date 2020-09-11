@@ -151,14 +151,7 @@ export class BabyActivities extends Component {
             return (
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
                     <CustomHeader bgcolor='#fbb146' title="Home detail" navigation={this.props.navigation} bdcolor='#fbb146' />
-                    <ActionButton buttonColor="#f78a2c" onPress={() =>
-                        this.RBSheet.open()
-                    }
-                        style={{ position: 'absolute', zIndex: 999 }}
-                    >
-
-
-                    </ActionButton>
+                 
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         contentInsetAdjustmentBehavior="automatic"
@@ -305,7 +298,14 @@ export class BabyActivities extends Component {
 
                         </View>
                     </ScrollView>
+                    <ActionButton buttonColor="#f78a2c" onPress={() =>
+                        this.RBSheet.open()
+                    }
+                        style={{ position: 'absolute', zIndex: 999 }}
+                    >
 
+
+                    </ActionButton>
 
                     <RBSheet
                         ref={ref => {
