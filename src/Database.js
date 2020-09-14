@@ -3,9 +3,9 @@ SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
 const database_name = "Reactoffline.db";
-const database_version = "1.0";
+const database_version = "3.0";
 const database_displayname = "SQLite React Offline Database";
-const database_size = 2000;
+const database_size = 200000;
 
 export default class Database {
 
@@ -19,14 +19,17 @@ export default class Database {
                 .then(() => {
                     console.log("Integrity check passed ...");
                     console.log("Opening database ...");
+                    // this.closeDatabase(db);
                     SQLite.openDatabase(
                         database_name,
                         database_version,
                         database_displayname,
                         database_size
                     ).then(DB => {
+                        
                         db = DB;
-                        // console.log("Database OPEN");
+                        
+                        console.log("Database OPEN");
                         db.executeSql('SELECT 1 FROM Period LIMIT 1').then(() => {
                             console.log("Database is ready ... executing query ...");
                         }).catch((error) => {
@@ -58,7 +61,7 @@ export default class Database {
                         resolve(db);
                     })
                         .catch(error => {
-                            console.log(error);
+                            console.log(">>>>>>>>>>>>>>>>>>> : "+error);
                         });
                 })
                 .catch(error => {
